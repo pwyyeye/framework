@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:sec="http://www.springframework.org/schema/security"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+        http://www.springframework.org/schema/security  
+        http://www.springframework.org/schema/security/spring-security-4.0.xsd">  
+  
+  	<!-- 测试时用，正式可以删除 -->
+  	
+    <!-- 配置不过滤的资源（静态资源及登录相关） -->  
+    <sec:http pattern="/**/*.css" security="none"></sec:http>  
+    <sec:http pattern="/**/*.jpg" security="none"></sec:http>  
+    <sec:http pattern="/**/*.jpeg" security="none"></sec:http>  
+    <sec:http pattern="/**/*.gif" security="none"></sec:http>  
+    <sec:http pattern="/**/*.png" security="none"></sec:http>  
+    <sec:http pattern="/js/*.js" security="none"></sec:http>  
+    
+    <sec:http pattern="/login.jsp" security="none"></sec:http>
+    <sec:http pattern="/getCode" security="none" /><!-- 不过滤验证码 -->  
+    <sec:http pattern="/test/**" security="none"></sec:http><!-- 不过滤测试内容 -->  
+    
+    <sec:http auto-config="true">  
+           
+        <sec:intercept-url pattern="/app.jsp" access="hasRole('ROLE_SERVICE')"/>  
+        <sec:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>  
+        
+        <sec:form-login login-page="/login.jsp" authentication-failure-url="/login.jsp"  
+        	default-target-url="/index.jsp"/>
+        	
+        <sec:csrf disabled="true"></sec:csrf> <!-- 防止跨站请求伪造攻击 true关闭 false开启 -->
+              
+    </sec:http>  
+      
+    <sec:authentication-manager>  
+        <sec:authentication-provider>  
+            <sec:user-service >  
+                <sec:user name="admin" password="admin" authorities="hasRole('ROLE_ADMIN')"/>  
+            </sec:user-service>  
+        </sec:authentication-provider>  
+    </sec:authentication-manager>  
+      
+</beans>
