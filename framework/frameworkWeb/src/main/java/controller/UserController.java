@@ -78,8 +78,8 @@ public class UserController extends BaseController {
 			 * map.put("total", pageList.getResults());
 			 */
 			List b1 = new ArrayList();
-			b1.add("com.cn.hnust.vo.UserVo#password");
-			b1.add("com.cn.hnust.vo.UserVo#age");
+			b1.add("com.xxl.hnust.vo.UserVo#password");
+			b1.add("com.xxl.hnust.vo.UserVo#age");
 			String json = SemAppUtils.getJsonFromBean(new BaseResponseVO("1",
 					"获取用户列表成功", pageList), b1, "yyyy-MM-dd HH:mm:ss");
 			response.getWriter().write(json);
