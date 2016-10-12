@@ -30,7 +30,7 @@
 				<div id="login" class="animate form">
 					<!--  <form name='loginForm' action="<c:url value='j_spring_security_check' />" method='POST'> -->
 					<h1>用户登录</h1>
-					<form id='loginForm' action="/BaseProject/securityUser/toLogin" method="POST">
+					<form id='loginForm' action="/frameworkWeb/securityUser/toLogin" method="POST">
 						<p>
 							<label for="" data-icon="u">用户名</label> 
 							<input id="username"

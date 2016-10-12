@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	登录成功！ <br>
     	当前登录的用户为：<sec:authentication property="name"/> <br>
     	由于没加token这个链接会发生CRSF拦截<a href="logout"> Logout </a>
-    	<form id='logoutForm' action="/BaseProject/logout" method="POST">
+    	<form id='logoutForm' action="/frameworkWeb/logout" method="POST">
     		<sec:csrfInput/>
     		<input type="submit" value="退出"/>
     	</form>
