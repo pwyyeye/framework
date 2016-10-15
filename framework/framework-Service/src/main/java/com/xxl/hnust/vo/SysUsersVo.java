@@ -3,12 +3,9 @@ package com.xxl.hnust.vo;
 import java.util.Calendar;
 import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.common.value.BaseVO;
 
-public class SysUsersVo extends BaseVO implements UserDetails {
+public class SysUsersVo extends BaseVO{
 	
 	private static final long serialVersionUID = -6016261688962890417L;
 
@@ -44,7 +41,6 @@ public class SysUsersVo extends BaseVO implements UserDetails {
 
     private Integer credentialsNonExpired;
     
-    private Collection<GrantedAuthority> authorities;
 
 	public Integer getUserId() {
 		return userId;
@@ -174,42 +170,5 @@ public class SysUsersVo extends BaseVO implements UserDetails {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
-	}
-	
-	public void setAuthorities(Collection<GrantedAuthority> authorities) {
-		this.authorities = authorities;
-	}
-
-	@Override
-	public String getUsername() {
-		return userName;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		if(this.accountNonExpired!=null && this.accountNonExpired.intValue()==0) return false;
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		if(this.accountNonLock!=null && this.accountNonLock.intValue()==0) return false;
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		if(this.credentialsNonExpired!=null && this.credentialsNonExpired.intValue()==0) return false;
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		if(this.enable!=null && this.enable.intValue()==0) return false;
-		return true;
-	}
     
 }

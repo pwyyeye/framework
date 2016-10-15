@@ -1,86 +1,142 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
-%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="/WEB-INF/controls.tld" prefix="controls"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-<base href="<%=basePath%>">
-
-<title>My JSP 'index.jsp' starting page</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/md5.js"></script>
-</head>
-
-<body>
-	<div>
-		<header> </header>
-		<div id="container_demo">
-			<div id="wrapper">
-				<div id="login" class="animate form">
-					<!--  <form name='loginForm' action="<c:url value='j_spring_security_check' />" method='POST'> -->
-					<h1>用户登录</h1>
-					<form id='loginForm' action="/frameworkWeb/securityUser/toLogin" method="POST">
-						<p>
-							<label for="" data-icon="u">用户名</label> 
-							<input id="username"
-								name="username" required="required" type="text"
-								placeholder="myusername or mymail@mail.com">
-						</p>
-						<p>
-							<label for="" data-icon="p">密码&nbsp;</label> 
-							<input id="password"
-								name="password" required="required" type="password"
-								placeholder="eg. X8df!90EO">
-						</p>
-						<!-- <input name="_csrf" type="hidden" value="6829blae-0a14-4920-aac4-5abbd7eeb9ee" />
-						<input name="${_csrf.parameterName}" type="hidden" value="${_crsf.token}" /> -->
-						<sec:csrfInput/>
-						<input id="remember_me" name="remember_me" type="checkbox">
-						<label for="remember_me">30天免登录(没有效果)</label>
-						<p class="login button">
-							<input type="submit" id="submitId" value="登录" onclick="javascript:consume();">
-						</p>
-					</form>
-					
-					<br/>
-					MD5密码：<input id="passwordMd5" name="passwordMd5" type="text" size="50"><br/><br/>
-					<input type="button" id="getHash" value="获取MD5加密后的密码" onclick="getHash();" />
-					
-					<br/><br/>
-					<span style="font-family:华文中宋; color:red;">
-						${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
-					</span>
-					
-				</div>
-			</div>
-		</div>
-</body>
-</html>
-<script>
-    // 密码经MD5加密后，再传到后台
-	function encryptionPassword() { 
-    	var hash = MD5(document.getElementById("password").value);  
-    	document.getElementById("password").value = hash;
-   	}
-    // 表单验证
-	function consume() {
-    	// 如果spring security配置MD5密码转换，则传到后台密码不加密
-		//encryptionPassword();
+	<%@ include file="common.jsp"%>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script>
+	function checkIE() {
+	var ver = navigator.appVersion;
+	var idx = ver.indexOf("MSIE ") + 5;
+	var idx1 = ver.indexOf(";", idx);
+	var sVer = ver.substring(idx, idx1);
+	var iVer = parseFloat(sVer);
+	if (!isNaN(iVer)) {
+		if (iVer < 7) {
+			alert("系统提示：您的浏览器版本为IE" + iVer + "必须是IE8及其以上版本\n请升级您的浏览器，然后重新登录系统");
+		}
 	}
-    // 获取MD5加密后的密码
-    function getHash() { 
-    	var hash = MD5(document.getElementById("passwordMd5").value);  
-    	document.getElementById("passwordMd5").value = hash;
-   	}
+}
+	window.defaultStatus = "猎娱网";
+checkIE();
+Ext.Loader.setConfig( {
+	enabled : true
+});
+Ext.require( [ 'Ext.form.*', 'Ext.window.*', 'Ext.tab.Panel']);
+Ext.onReady(function(){
+Ext.form.Field.prototype.msgTarget = 'qtip';
+Ext.QuickTips.init(); 
+    var loginForm =Ext.create('Ext.FormPanel',{
+                   // el: 'hello-tabs',
+                    id: 'logonForm', 
+                    name: 'logonForm',                   
+                    autoTabs:true,
+                    activeTab:0,                    
+                    deferredRender:false,
+                    border:false,                  
+                    items: {
+                       xtype:'tabpanel',
+                       activeTab: 0,
+                       defaults:{autoHeight:true, bodyStyle:'padding:10px'}, 
+                    items:[{
+                     title:'用户登录',
+                    // contentEl: 'loginInfo',
+                     layout:'form',                     
+                      defaults: {width: 230},
+                       defaultType: 'textfield',
+                       labelPad:10,
+                      items: [{
+                      fieldLabel: '用户名',
+                      name: 'username',
+                      style: 'font-size: 15px',
+                      allowBlank:false,
+                      width:300
+                    },{
+                      fieldLabel: '密    码',
+                      name: 'password',
+                      style: 'font-size: 15px',
+                      inputType: 'password',
+                      allowBlank:false,
+                      width:300
+                }
+               //     <logic:present name="SELECT_MODULE">,{xtype:'systemcombo'}</logic:present>
+                //,{xtype:'panel',  border:false, 
+              //  html:'<p>&nbsp;</p><p>&nbsp;</p>'
+              //  }
+              //   ,{xtype:'panel',  border:false, 
+             //   html:'<li><font color="red"><logic:present name="TEST_FLAG">测试环境，登录名为工号</logic:present>	<logic:notPresent name="TEST_FLAG">请使用OA的用户名与密码登录</logic:notPresent></font></li>'
+             //   }
+              ]
+            },{
+                title:'信息公告栏',
+                layout:'',
+                html: '',
+                defaults: {width: 230}
+            },{
+                title:'帮助',
+                layout:'',
+                html: '1.内部系统使用<p>2.若正式环境，使用OA的用户名与密码登录<p>3.测试环境，使用工号登录，密码为任意<p>4.若使用过程中有异常，请与猎娱网管理员联系',
+                defaults: {width: 230}
+            }]
+            }
+                });    
+    var win =Ext.create('Ext.window.Window',{
+                el:'hello-win',
+                layout:'fit',
+                width:400,
+                height:280,
+                closeAction:'hide',
+                plain: true,
+                modal:true,
+                collapsible: true,
+                maximizable:false,
+                draggable: true,
+                closable: false,
+                resizable:false,
+                animateTarget:document.body,
+                items: 
+                loginForm,
+                buttons: [{
+                    text:'登录',
+                    handler: function(){
+                        if(win.getComponent('logonForm').form.isValid()){
+                        win.getComponent('logonForm').form.submit({
+                            url:'logonAction.do?action=list', 
+                            waitTitle:'提示',
+                            method: 'POST',
+                            waitMsg:'正在验证您的身份,请稍候.....',
+                            success:function(form,action){
+                            var loginResult = action.result.success;
+                            var errmsg = action.result.msg;
+                            window.location.href='logonAction.do';
+                         
+                            } ,
+                            failure: function(form,action) {
+                            var errmsg = action.result.msg;
+                            Ext.Msg.alert('提示',errmsg);
+                            win.getComponent('logonForm').form.reset();
+                               }                            
+                            });
+                            }
+                     }
+                },{
+                    text: '取消',
+                    handler: function(){
+                        win.hide();
+                    }
+                }]
+            }
+           
+            );           
+        win.show();
+});
+
 </script>
+
+	<body>
+		<div id='hello-win'></div>
+	</body>
+
+
+
+</html>

@@ -11,8 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;  
 
 import com.common.utils.SemAppUtils;
@@ -45,17 +45,17 @@ public class SysUserServiceImpl implements ISysUserService {
     	return sysUsers;
     }
 
-	@Override
-	public Collection<GrantedAuthority> loadUserAuthorities(String userName) 
-			throws UserBusinessException, UserException {
-		List<SysAuthoritiesVo> list = sysUserDao.getSysAuthoritiesByUsername(userName);  
-        List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();  
-        for (SysAuthoritiesVo authority : list) {  
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getAuthorityMark());  
-            auths.add(grantedAuthority);  
-        }  
-        return auths;  
-	}
+//	@Override
+//	public Collection<GrantedAuthority> loadUserAuthorities(String userName) 
+//			throws UserBusinessException, UserException {
+//		List<SysAuthoritiesVo> list = sysUserDao.getSysAuthoritiesByUsername(userName);  
+//        List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();  
+//        for (SysAuthoritiesVo authority : list) {  
+//            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getAuthorityMark());  
+//            auths.add(grantedAuthority);  
+//        }  
+//        return auths;  
+//	}
     
 	public void saveSysUsers(SysUsersVo vo) throws UserBusinessException, UserException {
 		SysUsers bo = (SysUsers) sysUserDao.findById(vo.getUserId(), SysUsers.class);

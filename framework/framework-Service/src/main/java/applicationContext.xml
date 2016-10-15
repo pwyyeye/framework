@@ -16,7 +16,7 @@
 	<!-- 自动扫描 -->  
     <context:component-scan base-package="com.xxl.hnust.service" />  
     <context:component-scan base-package="com.xxl.hnust.dao" />
-    <context:component-scan base-package="com.xxl.springsecurity" />
+   <!-- <context:component-scan base-package="com.xxl.springsecurity" /> -->  
     <!-- 引入配置文件 -->  
     <bean id="propertyConfigurer"  
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
@@ -71,7 +71,7 @@
                 <prop key="current_session_context_class">${hibernate.current_session_context_class}</prop>
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>-->
             </props>
         </property>
     </bean>
