@@ -20,6 +20,19 @@
       </plugin>
     </plugins>
   </build>
+   <repositories>  
+    <repository>    
+       <id>oschinaRepository</id>    
+       <name>local private nexus</name>    
+       <url>http://mvnrepository.com/</url>    
+       <releases>    
+           <enabled>true</enabled>    
+       </releases>    
+        <snapshots>    
+            <enabled>true</enabled>    
+        </snapshots>    
+    </repository>    
+</repositories>  
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- spring版本号 -->

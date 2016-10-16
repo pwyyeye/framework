@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.xxl.hnust.bo.ScheduleJob;
+import com.xxl.baseService.bo.ScheduleJob;
 
 /**
  * 计划任务测试数据，后面改为从数据库中读取

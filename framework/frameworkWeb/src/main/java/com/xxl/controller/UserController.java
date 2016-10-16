@@ -20,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xxl.hnust.service.IUserService;
-import com.xxl.hnust.vo.UserVo;
+import com.xxl.baseService.service.IUserService;
+import com.xxl.baseService.vo.UserVo;
+
 import common.controller.BaseController;
 import common.utils.SemAppUtils;
 import common.value.PageList;

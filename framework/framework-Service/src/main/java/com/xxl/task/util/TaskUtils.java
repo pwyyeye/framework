@@ -6,8 +6,9 @@ import java.util.Calendar;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.xxl.hnust.service.ITaskService;
-import com.xxl.hnust.vo.ScheduleJobVo;
+import com.xxl.baseService.service.ITaskService;
+import com.xxl.baseService.vo.ScheduleJobVo;
+
 import common.utils.SemAppUtils;
 import common.utils.SpringUtils;
 

@@ -7,7 +7,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.xxl.hnust.vo.ScheduleJobVo;
+import com.xxl.baseService.vo.ScheduleJobVo;
 import com.xxl.task.util.TaskUtils;
 
 /** 
