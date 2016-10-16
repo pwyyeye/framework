@@ -9,12 +9,12 @@ import java.util.Map;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import com.common.dao.impl.BaseDAOImpl;
 import com.xxl.exception.UserBusinessException;
 import com.xxl.exception.UserException;
 import com.xxl.hnust.bo.SysUsers;
 import com.xxl.hnust.dao.ISysUserDao;
 import com.xxl.hnust.vo.SysAuthoritiesVo;
+import common.dao.impl.BaseDAOImpl;
 
 @Repository
 public class SysUserDao extends BaseDAOImpl<SysUsers, java.lang.String> implements ISysUserDao {

@@ -3,12 +3,12 @@ package com.xxl.hnust.dao.impl;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import com.common.dao.impl.BaseDAOImpl;
 import com.xxl.exception.UserBusinessException;
 import com.xxl.exception.UserException;
 import com.xxl.hnust.bo.User;
 import com.xxl.hnust.dao.IUserDao;
 import com.xxl.hnust.vo.UserVo;
+import common.dao.impl.BaseDAOImpl;
 
 @Repository
 public class UserDao extends BaseDAOImpl<User, java.lang.String> implements IUserDao {

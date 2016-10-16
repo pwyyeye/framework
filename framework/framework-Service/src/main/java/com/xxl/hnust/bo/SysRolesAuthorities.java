@@ -7,9 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
-import com.common.businessObject.BaseBusinessObject;
-import com.common.utils.SemAppUtils;
 import com.xxl.hnust.vo.SysRolesAuthoritiesVo;
+import common.businessObject.BaseBusinessObject;
+import common.utils.SemAppUtils;
 
 /**
  * 系统角色权限中间表

@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.common.utils.SpringUtils;
 import com.xxl.hnust.service.ITaskService;
+import common.utils.SpringUtils;
 
 /**
  * 定时任务初始化

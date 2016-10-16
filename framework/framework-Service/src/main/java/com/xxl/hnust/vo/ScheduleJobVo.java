@@ -2,7 +2,7 @@ package com.xxl.hnust.vo;
 
 import java.util.Calendar;
 
-import com.common.value.BaseVO;
+import common.value.BaseVO;
 
 public class ScheduleJobVo extends BaseVO {
 

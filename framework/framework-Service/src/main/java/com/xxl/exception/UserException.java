@@ -1,6 +1,6 @@
 package com.xxl.exception;
 
-import com.common.exception.BaseException;
+import common.exception.BaseException;
 
 public class UserException extends BaseException {
 	public UserException(String errMsg) {

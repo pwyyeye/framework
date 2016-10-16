@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.quartz.SchedulerException;
 
-import com.common.value.PageList;
 import com.xxl.hnust.vo.ScheduleJobVo;
+import common.value.PageList;
   
 public interface ITaskService {  
     

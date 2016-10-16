@@ -3,7 +3,7 @@ package com.xxl.hnust.vo;
 import java.util.Calendar;
 import java.util.Collection;
 
-import com.common.value.BaseVO;
+import common.value.BaseVO;
 
 public class SysUsersVo extends BaseVO{
 	

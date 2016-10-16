@@ -10,14 +10,14 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Service;  
 
-import com.common.value.PageList;
-import com.common.utils.SemAppUtils;
 import com.xxl.exception.UserBusinessException;
 import com.xxl.exception.UserException;
 import com.xxl.hnust.bo.User;
 import com.xxl.hnust.dao.IUserDao;
 import com.xxl.hnust.service.IUserService;
 import com.xxl.hnust.vo.UserVo;
+import common.utils.SemAppUtils;
+import common.value.PageList;
   
 @Service("userService")  
 public class UserServiceImpl implements IUserService {

@@ -1,0 +1,1422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+ <tlib-version>1.0</tlib-version>
+ <jsp-version>1.2</jsp-version>
+ <short-name>controls</short-name>
+ <description>SEM内部应用系统展示层所用的TAG包</description>
+ <tag>
+  <name>tree</name>
+  <tag-class>common.web.tag.TreeControlTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common tree tag</description>
+  <attribute>
+   <name>nodeAction</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>节点链接地址</description>
+  </attribute>
+  <attribute>
+   <name>target</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>链接打开窗口的target</description>
+  </attribute>
+  <attribute>
+   <name>owenFrame</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>调用该Tag的父页面，通过为action</description>
+  </attribute>
+  <attribute>
+   <name>images</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>Name of a directory containing the images for our icons,
+        relative to the page including this tag.  If not specified,
+        defaults to "images".</description>
+  </attribute>
+  <attribute>
+   <name>scope</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>The JSP scope within which the "tree" attribute is to be found
+        (page, request, session, or application).  If not specified, the
+        "tree" attribute will be searched for in any scope.</description>
+  </attribute>
+  <attribute>
+   <name>style</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>The CSS style class to be applied to the entire rendered output
+        of the tree control.  If not specified, no overall style class
+        is applied.</description>
+  </attribute>
+  <attribute>
+   <name>styleSelected</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>The CSS style class to be applied to the text of any node that
+        is currently selected.  If not specified, no style class will be
+        applied to the text of the selected node.</description>
+  </attribute>
+  <attribute>
+   <name>styleUnselected</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>The CSS style class to be applied to the text of any node that
+        is *not* currently selected.  If not specified, no style class will
+         be applied to the text of non-selected nodes.</description>
+  </attribute>
+  <attribute>
+   <name>tree</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>Name of the attribute (in the scope specified by the "scope"
+        attribute, if any) under which an object of type
+        org.apache.webapp.admin.TreeControl is stored.  This object
+        represents the entire current state of the tree, including
+        a representation of the hierarchical representation of the
+        nodes, plus the current expanded/ or contracted state of
+        non-leaf nodes.</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>dataGrid</name>
+  <tag-class>common.web.tag.SemGridTag</tag-class>
+  <body-content>empty</body-content>
+  <description>基本档案维护画面</description>
+  <attribute>
+   <name>recordLabel</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>记录的中文名称(如线别、车系信息等)</description>
+  </attribute>
+  <attribute>
+   <name>action</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>后台ACTION的地址，如lineAction.do</description>
+  </attribute>
+  <attribute>
+   <name>gridBody</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义表格中要显示的表头及内容：eg：id:,name:角色名称,module:模块名,moduleID,empID:姓名</description>
+  </attribute>
+  <attribute>
+   <name>formString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义Form的内容,eg:{
+					xtype:'textfield',
+					width : 200,
+					name : 'name',
+					fieldLabel:'角色'
+				},{xtype:'combo',width : 200,
+					allowBlank : false,
+					blankText : '必须选择所属模块',
+					hiddenName : 'moduleID',
+					name : 'module',					
+				    store:new Ext.data.JsonStore({data:moduleData,fields:["id","name"]}),
+					editable : false,
+					mode: 'local',    
+					triggerAction: 'all',
+					displayField:'name',
+					valueField : 'id',
+					emptyText :'请选择所属模块',
+					fieldLabel:'模块'				   
+				}}</description>
+  </attribute>
+  <attribute>
+   <name>searchFormString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义Form的内容,eg:{
+					xtype:'textfield',
+					width : 200,
+					name : 'name',
+					fieldLabel:'角色'
+				},{xtype:'combo',width : 200,
+					allowBlank : false,
+					blankText : '必须选择所属模块',
+					hiddenName : 'moduleID',
+					name : 'module',					
+				    store:new Ext.data.JsonStore({data:moduleData,fields:["id","name"]}),
+					editable : false,
+					mode: 'local',    
+					triggerAction: 'all',
+					displayField:'name',
+					valueField : 'id',
+					emptyText :'请选择所属模块',
+					fieldLabel:'模块'				   
+				}}</description>
+  </attribute>
+  <attribute>
+   <name>searchFieldsString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>需要进行查找的字段,以,分开eg:  moduleID,name,roleID,必须与searForm定义的输入框的name或hiddenName对应。</description>
+  </attribute>
+  <attribute>
+   <name>customButtonImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义按钮的实现方法,可以做在标签内部，也可做在标签外部。</description>
+  </attribute>
+  <attribute>
+   <name>fileUpload</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>Form里是否包含附件上传的控件</description>
+  </attribute>
+  <attribute>
+   <name>formWidth</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出FORM窗口的宽度</description>
+  </attribute>
+  <attribute>
+   <name>formHeight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出FORM窗口的高度</description>
+  </attribute>
+  <attribute>
+   <name>searchFormWidth</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出查找FORM窗口的宽度</description>
+  </attribute>
+  <attribute>
+   <name>searchFormHeight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出查找FORM窗口的高度</description>
+  </attribute>
+  <attribute>
+   <name>userFiledsString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>OA人员选择框</description>
+  </attribute>
+  <attribute>
+   <name>customButton</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义工具栏上按钮，格式：{text : '导入Excel',iconCls:'exportExcel',handler:importExcel}</description>
+  </attribute>
+  <attribute>
+   <name>customAddImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增方法附加执行的javascript语句: 如"alert('该功能重要，请谨慎使用');"</description>
+  </attribute>
+  <attribute>
+   <name>customModifyImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>修改方法附加执行的javascript语句: 如"alert('该功能重要，请谨慎使用');"</description>
+  </attribute>
+  <attribute>
+   <name>rightString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>权限字符串 "YYNNYY",Y表示有权限，N表示无权限。第一位为List,第二位表示新增，第三位表示修改，第四位表示删除，第五位表示自定义的按钮</description>
+  </attribute>
+  <attribute>
+   <name>listRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>List权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>addRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>add权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>deleteRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>delete权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>updateRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>updateRight权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>importRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>importRight权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>complexHead</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>complexHead是整流器需要复合表头，Y表示需要，N表示不需要,默认不需要</description>
+  </attribute>
+  <attribute>
+   <name>gridTitle</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>grid标题</description>
+  </attribute>
+  <attribute>
+   <name>needRightCheck</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>表示是否需要按钮权限控制，Y表示是，N表示否</description>
+  </attribute>
+  <attribute>
+   <name>customRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>otherButton权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>columnAutoFillStr</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否由EXT自动设定列的宽度，如果为N，可自己设定每个列的宽度</description>
+  </attribute>
+  <attribute>
+   <name>pageSize</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>每页的记录数</description>
+  </attribute>
+  <attribute>
+   <name>customGridHead</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>用户自定义表头</description>
+  </attribute>
+  <attribute>
+   <name>needUpdate</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>修改后是否重新载入数据</description>
+  </attribute>
+  <attribute>
+   <name>needUpdateAfterAdd</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增后是否重新载入数据</description>
+  </attribute>
+  <attribute>
+   <name>addForInitial</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增在打开就弹出新增窗口</description>
+  </attribute>
+  <attribute>
+   <name>renameAdd</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定新增按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>renameUpdate</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定修改按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>renameDelete</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定删除按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>extContent</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义一些javascript的类或方法</description>
+  </attribute>
+  <attribute>
+   <name>submitContent</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义一些提交前处理数据的方法</description>
+  </attribute>
+  <attribute>
+   <name>continuous</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增记录时，是否是连续新增（不关闭新增窗口）</description>
+  </attribute>
+  <attribute>
+   <name>scriptBeforeDelete</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>删除前执行的脚本</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>grid</name>
+  <tag-class>common.web.tag.GridTag</tag-class>
+  <body-content>empty</body-content>
+  <description>基本档案维护画面</description>
+  <attribute>
+   <name>recordLabel</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>记录的中文名称(如线别、车系信息等)</description>
+  </attribute>
+  <attribute>
+   <name>action</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>后台ACTION的地址，如lineAction.do</description>
+  </attribute>
+  <attribute>
+   <name>gridBody</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义表格中要显示的表头及内容：eg：id:,name:角色名称,module:模块名,moduleID,empID:姓名</description>
+  </attribute>
+  <attribute>
+   <name>formString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义Form的内容,eg:{
+					xtype:'textfield',
+					width : 200,
+					name : 'name',
+					fieldLabel:'角色'
+				},{xtype:'combo',width : 200,
+					allowBlank : false,
+					blankText : '必须选择所属模块',
+					hiddenName : 'moduleID',
+					name : 'module',					
+				    store:new Ext.data.JsonStore({data:moduleData,fields:["id","name"]}),
+					editable : false,
+					mode: 'local',    
+					triggerAction: 'all',
+					displayField:'name',
+					valueField : 'id',
+					emptyText :'请选择所属模块',
+					fieldLabel:'模块'				   
+				}}</description>
+  </attribute>
+  <attribute>
+   <name>searchFormString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义Form的内容,eg:{
+					xtype:'textfield',
+					width : 200,
+					name : 'name',
+					fieldLabel:'角色'
+				},{xtype:'combo',width : 200,
+					allowBlank : false,
+					blankText : '必须选择所属模块',
+					hiddenName : 'moduleID',
+					name : 'module',					
+				    store:new Ext.data.JsonStore({data:moduleData,fields:["id","name"]}),
+					editable : false,
+					mode: 'local',    
+					triggerAction: 'all',
+					displayField:'name',
+					valueField : 'id',
+					emptyText :'请选择所属模块',
+					fieldLabel:'模块'				   
+				}}</description>
+  </attribute>
+  <attribute>
+   <name>searchFieldsString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>需要进行查找的字段,以,分开eg:  moduleID,name,roleID,必须与searForm定义的输入框的name或hiddenName对应。</description>
+  </attribute>
+  <attribute>
+   <name>customButtonImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义按钮的实现方法,可以做在标签内部，也可做在标签外部。</description>
+  </attribute>
+  <attribute>
+   <name>fileUpload</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>Form里是否包含附件上传的控件</description>
+  </attribute>
+  <attribute>
+   <name>formWidth</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出FORM窗口的宽度</description>
+  </attribute>
+  <attribute>
+   <name>formHeight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出FORM窗口的高度</description>
+  </attribute>
+  <attribute>
+   <name>searchFormWidth</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出查找FORM窗口的宽度</description>
+  </attribute>
+  <attribute>
+   <name>searchFormHeight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出查找FORM窗口的高度</description>
+  </attribute>
+  <attribute>
+   <name>userFiledsString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>OA人员选择框</description>
+  </attribute>
+  <attribute>
+   <name>customButton</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义工具栏上按钮，格式：{text : '导入Excel',iconCls:'exportExcel',handler:importExcel}</description>
+  </attribute>
+  <attribute>
+   <name>customAddImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增方法附加执行的javascript语句: 如"alert('该功能重要，请谨慎使用');"</description>
+  </attribute>
+  <attribute>
+   <name>customModifyImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>修改方法附加执行的javascript语句: 如"alert('该功能重要，请谨慎使用');"</description>
+  </attribute>
+  <attribute>
+   <name>rightString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>权限字符串 "YYNNYY",Y表示有权限，N表示无权限。第一位为List,第二位表示新增，第三位表示修改，第四位表示删除，第五位表示自定义的按钮</description>
+  </attribute>
+  <attribute>
+   <name>listRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>List权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>addRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>add权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>deleteRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>delete权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>updateRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>updateRight权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>importRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>importRight权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>complexHead</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>complexHead是整流器需要复合表头，Y表示需要，N表示不需要,默认不需要</description>
+  </attribute>
+  <attribute>
+   <name>gridTitle</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>grid标题</description>
+  </attribute>
+  <attribute>
+   <name>needRightCheck</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>表示是否需要按钮权限控制，Y表示是，N表示否</description>
+  </attribute>
+  <attribute>
+   <name>customRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>otherButton权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>columnAutoFillStr</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否由EXT自动设定列的宽度，如果为N，可自己设定每个列的宽度</description>
+  </attribute>
+  <attribute>
+   <name>pageSize</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>每页的记录数</description>
+  </attribute>
+  <attribute>
+   <name>customGridHead</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>用户自定义表头</description>
+  </attribute>
+  <attribute>
+   <name>needUpdate</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>修改后是否重新载入数据</description>
+  </attribute>
+  <attribute>
+   <name>needUpdateAfterAdd</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增后是否重新载入数据</description>
+  </attribute>
+  <attribute>
+   <name>addForInitial</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增在打开就弹出新增窗口</description>
+  </attribute>
+  <attribute>
+   <name>renameAdd</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定新增按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>renameUpdate</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定修改按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>renameDelete</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定删除按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>extContent</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义一些javascript的类或方法</description>
+  </attribute>
+  <attribute>
+   <name>submitContent</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义一些提交前处理数据的方法</description>
+  </attribute>
+  <attribute>
+   <name>continuous</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增记录时，是否是连续新增（不关闭新增窗口）</description>
+  </attribute>
+  <attribute>
+   <name>treeGrid</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否为树状表格，“Y” OR "TRUE"表示是树状表格</description>
+  </attribute>
+  <attribute>
+   <name>scriptBeforeDelete</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>删除前执行的脚本</description>
+  </attribute>
+  <attribute>
+   <name>viewConfig</name>
+   <rtexprvalue>false</rtexprvalue>
+   <description>Grid表格中设置的viewConfig,eg:
+   trackOver : false,
+				stripeRows : false,
+				plugins : [ {
+					ptype : 'preview',
+					bodyField : 'topic',
+					expanded : true,
+					pluginId : 'preview'
+				} ]</description>
+  </attribute>
+  <attribute>
+   <name>fileField</name>
+   <rtexprvalue>false</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>lineSeletor</name>
+  <tag-class>common.web.tag.LineSeletorTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>线别输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>workshopSeletor</name>
+  <tag-class>common.web.tag.WorkshopSeletorTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车间输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>colorSeletor</name>
+  <tag-class>common.web.tag.ColorSeletorTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>颜色输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>seriesSeletor</name>
+  <tag-class>common.web.tag.SeriesSeletorTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车系输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>modelSeletor</name>
+  <tag-class>common.web.tag.ModelSeletorTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车型输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+  <attribute>
+   <name>noEndFlag</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否包含结束车型</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>controlPointSeletor</name>
+  <tag-class>common.web.tag.ControlPointSeletorTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common control point seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车型输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>lineCombo</name>
+  <tag-class>common.web.tag.LineCombo</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>线别输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>workshopCombo</name>
+  <tag-class>common.web.tag.WorkshopCombo</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车间输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>colorCombo</name>
+  <tag-class>common.web.tag.ColorCombo</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>颜色输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>seriesCombo</name>
+  <tag-class>common.web.tag.SeriesCombo</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车系输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>modelCombo</name>
+  <tag-class>common.web.tag.ModelCombo</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common line seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车型输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+  <attribute>
+   <name>noEndFlag</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否包含结束车型</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>controlPointCombo</name>
+  <tag-class>common.web.tag.ControlPointCombo</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common control point seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车型输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>PlmseriesSeletor</name>
+  <tag-class>com.sem.pdm.util.PlmSeriesTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem plm series seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>车系输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+  <attribute>
+   <name>otherOption</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框的其它选项，如blankText :请选择,....</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>OglBaseModelSeletor</name>
+  <tag-class>com.sem.pdm.util.OglBaseModelTag</tag-class>
+  <body-content>empty</body-content>
+  <description>sem plm series seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>seriesID</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>对应的车系</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+  <attribute>
+   <name>otherOption</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框的其它选项，如blankText :请选择,....</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>semForm</name>
+  <tag-class>common.web.tag.SemFormTag</tag-class>
+  <body-content>empty</body-content>
+  <description>一对多表单维护TAG</description>
+  <attribute>
+   <name>recordLabel</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>记录的中文名称(如线别、车系信息等)</description>
+  </attribute>
+  <attribute>
+   <name>action</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>后台ACTION的地址，如lineAction.do</description>
+  </attribute>
+  <attribute>
+   <name>gridBody</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义表格中要显示的表头及内容：eg：id:,name:角色名称,module:模块名,moduleID,empID:姓名</description>
+  </attribute>
+  <attribute>
+   <name>formString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义Form的内容,eg:{
+					xtype:'textfield',
+					width : 200,
+					name : 'name',
+					fieldLabel:'角色'
+				},{xtype:'combo',width : 200,
+					allowBlank : false,
+					blankText : '必须选择所属模块',
+					hiddenName : 'moduleID',
+					name : 'module',					
+				    store:new Ext.data.JsonStore({data:moduleData,fields:["id","name"]}),
+					editable : false,
+					mode: 'local',    
+					triggerAction: 'all',
+					displayField:'name',
+					valueField : 'id',
+					emptyText :'请选择所属模块',
+					fieldLabel:'模块'				   
+				}}</description>
+  </attribute>
+  <attribute>
+   <name>searchFormString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>定义Form的内容,eg:{
+					xtype:'textfield',
+					width : 200,
+					name : 'name',
+					fieldLabel:'角色'
+				},{xtype:'combo',width : 200,
+					allowBlank : false,
+					blankText : '必须选择所属模块',
+					hiddenName : 'moduleID',
+					name : 'module',					
+				    store:new Ext.data.JsonStore({data:moduleData,fields:["id","name"]}),
+					editable : false,
+					mode: 'local',    
+					triggerAction: 'all',
+					displayField:'name',
+					valueField : 'id',
+					emptyText :'请选择所属模块',
+					fieldLabel:'模块'				   
+				}}</description>
+  </attribute>
+  <attribute>
+   <name>searchFieldsString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>需要进行查找的字段,以,分开eg:  moduleID,name,roleID,必须与searForm定义的输入框的name或hiddenName对应。</description>
+  </attribute>
+  <attribute>
+   <name>customButtonImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义按钮的实现方法,可以做在标签内部，也可做在标签外部。</description>
+  </attribute>
+  <attribute>
+   <name>fileUpload</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>Form里是否包含附件上传的控件</description>
+  </attribute>
+  <attribute>
+   <name>formWidth</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出FORM窗口的宽度</description>
+  </attribute>
+  <attribute>
+   <name>formHeight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出FORM窗口的高度</description>
+  </attribute>
+  <attribute>
+   <name>searchFormWidth</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出查找FORM窗口的宽度</description>
+  </attribute>
+  <attribute>
+   <name>searchFormHeight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>弹出查找FORM窗口的高度</description>
+  </attribute>
+  <attribute>
+   <name>userFiledsString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>OA人员选择框</description>
+  </attribute>
+  <attribute>
+   <name>customButton</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义工具栏上按钮，格式：{text : '导入Excel',iconCls:'exportExcel',handler:importExcel}</description>
+  </attribute>
+  <attribute>
+   <name>customAddImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增方法附加执行的javascript语句: 如"alert('该功能重要，请谨慎使用');"</description>
+  </attribute>
+  <attribute>
+   <name>customModifyImpl</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>修改方法附加执行的javascript语句: 如"alert('该功能重要，请谨慎使用');"</description>
+  </attribute>
+  <attribute>
+   <name>rightString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>权限字符串 "YYNNYY",Y表示有权限，N表示无权限。第一位为List,第二位表示新增，第三位表示修改，第四位表示删除，第五位表示自定义的按钮</description>
+  </attribute>
+  <attribute>
+   <name>listRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>List权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>addRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>add权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>deleteRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>delete权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>updateRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>updateRight权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>importRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>importRight权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>complexHead</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>complexHead是整流器需要复合表头，Y表示需要，N表示不需要,默认不需要</description>
+  </attribute>
+  <attribute>
+   <name>gridTitle</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>grid标题</description>
+  </attribute>
+  <attribute>
+   <name>needRightCheck</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>表示是否需要按钮权限控制，Y表示是，N表示否</description>
+  </attribute>
+  <attribute>
+   <name>customRight</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>otherButton权限，Y表示有权限，N表示无权限</description>
+  </attribute>
+  <attribute>
+   <name>columnAutoFillStr</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否由EXT自动设定列的宽度，如果为N，可自己设定每个列的宽度</description>
+  </attribute>
+  <attribute>
+   <name>pageSize</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>每页的记录数</description>
+  </attribute>
+  <attribute>
+   <name>customGridHead</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>用户自定义表头</description>
+  </attribute>
+  <attribute>
+   <name>needUpdate</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>修改后是否重新载入数据</description>
+  </attribute>
+  <attribute>
+   <name>needUpdateAfterAdd</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增后是否重新载入数据</description>
+  </attribute>
+  <attribute>
+   <name>addForInitial</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>新增在打开就弹出新增窗口</description>
+  </attribute>
+  <attribute>
+   <name>renameAdd</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定新增按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>renameUpdate</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定修改按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>renameDelete</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>指定删除按钮的名称</description>
+  </attribute>
+  <attribute>
+   <name>extContent</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义一些javascript的类或方法</description>
+  </attribute>
+  <attribute>
+   <name>submitContent</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>自定义一些提交前处理数据的方法</description>
+  </attribute>
+  <attribute>
+   <name>headAction</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+   <description>head表中所对应的action，其中加载数据时，对应其load方法;保存数据时，对应其save方法</description>
+  </attribute>
+  <attribute>
+   <name>headFormString</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>head部分，form的内容</description>
+  </attribute>
+  <attribute>
+   <name>headField</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>head中包含的字段名，和VO中对应</description>
+  </attribute>
+  <attribute>
+   <name>headCustonButton</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>head部份自定义的按钮</description>
+  </attribute>
+  <attribute>
+   <name>headTitle</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>head部份的title</description>
+  </attribute>
+  <attribute>
+   <name>headIdParamName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>head中的ID号对应的名称，用于head和detail表中数据传输</description>
+  </attribute>
+  <attribute>
+   <name>continuous</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否新增时，可连续新记录</description>
+  </attribute>
+  <attribute>
+   <name>hideHeadSaveButton</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否隐藏HEAD FORM中的保存按钮</description>
+  </attribute>
+  <attribute>
+   <name>headSubmitContent</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>Head Form前执行的javascript代码</description>
+  </attribute>
+ </tag>
+ <tag>
+  <name>materialSeletor</name>
+  <tag-class>common.web.tag.MaterialCombo</tag-class>
+  <body-content>empty</body-content>
+  <description>sem common material seletor tag</description>
+  <attribute>
+   <name>fieldName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>件号输入框的名称</description>
+  </attribute>
+  <attribute>
+   <name>hiddenName</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>件号选择框对应的值ID</description>
+  </attribute>
+  <attribute>
+   <name>name</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>选择框对应显示的名称</description>
+  </attribute>
+  <attribute>
+   <name>initValueObject</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>初始化值对象</description>
+  </attribute>
+  <attribute>
+   <name>width</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>宽度，默认值80</description>
+  </attribute>
+  <attribute>
+   <name>allowBlank</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>是否可以为空，也可理解为全选，默认为N</description>
+  </attribute>
+  <attribute>
+   <name>count</name>
+   <rtexprvalue>true</rtexprvalue>
+   <description>每次查询的条数，默认为20</description>
+  </attribute>
+ </tag>
+</taglib>

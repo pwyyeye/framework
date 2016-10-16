@@ -15,8 +15,6 @@ import org.hibernate.criterion.Expression;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;  
 
-import com.common.utils.SemAppUtils;
-import com.common.value.PageList;
 import com.xxl.exception.UserBusinessException;
 import com.xxl.exception.UserException;
 import com.xxl.hnust.bo.SysUsers;
@@ -24,6 +22,8 @@ import com.xxl.hnust.dao.ISysUserDao;
 import com.xxl.hnust.service.ISysUserService;
 import com.xxl.hnust.vo.SysAuthoritiesVo;
 import com.xxl.hnust.vo.SysUsersVo;
+import common.utils.SemAppUtils;
+import common.value.PageList;
   
 @Service("sysUserService")  
 public class SysUserServiceImpl implements ISysUserService {

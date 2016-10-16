@@ -1,6 +1,6 @@
 package com.xxl.hnust.vo;
 
-import com.common.value.BaseVO;
+import common.value.BaseVO;
 
 public class SysModulesVo extends BaseVO {
 

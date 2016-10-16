@@ -1,9 +1,9 @@
 package com.xxl.hnust.service;  
   
-import com.common.value.PageList;
 import com.xxl.exception.UserBusinessException;
 import com.xxl.exception.UserException;
 import com.xxl.hnust.vo.UserVo;
+import common.value.PageList;
   
 public interface IUserService {  
     

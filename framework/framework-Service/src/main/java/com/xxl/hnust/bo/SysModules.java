@@ -14,9 +14,9 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
-import com.common.businessObject.BaseBusinessObject;
-import com.common.utils.SemAppUtils;
 import com.xxl.hnust.vo.SysModulesVo;
+import common.businessObject.BaseBusinessObject;
+import common.utils.SemAppUtils;
 
 /**
  * 系统模块表

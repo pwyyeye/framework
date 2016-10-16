@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.common.controller.BaseController;
-import com.common.utils.SemAppUtils;
-import com.common.value.PageList;
-import com.common.vo.BaseResponseVO;
 import com.xxl.hnust.service.ITaskService;
 import com.xxl.hnust.vo.ScheduleJobVo;
+import common.controller.BaseController;
+import common.utils.SemAppUtils;
+import common.value.PageList;
+import common.vo.BaseResponseVO;
 
 @Controller
 @RequestMapping("/task")

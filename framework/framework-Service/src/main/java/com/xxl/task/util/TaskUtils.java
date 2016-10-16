@@ -6,10 +6,10 @@ import java.util.Calendar;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.common.utils.SemAppUtils;
-import com.common.utils.SpringUtils;
 import com.xxl.hnust.service.ITaskService;
 import com.xxl.hnust.vo.ScheduleJobVo;
+import common.utils.SemAppUtils;
+import common.utils.SpringUtils;
 
 public class TaskUtils {  
 	public static Log logger = LogFactory.getLog(TaskUtils.class);  

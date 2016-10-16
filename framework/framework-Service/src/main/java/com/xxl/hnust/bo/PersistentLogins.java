@@ -9,9 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.common.businessObject.BaseBusinessObject;
-import com.common.utils.SemAppUtils;
 import com.xxl.hnust.vo.PersistentLoginsVo;
+import common.businessObject.BaseBusinessObject;
+import common.utils.SemAppUtils;
 
 /**
  * Spring Remember me 持久化

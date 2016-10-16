@@ -1,0 +1,14 @@
+.x-tree-view .x-tree-node-text{cursor:pointer;}
+
+#collapseBtn {
+	position:absolute;
+	top:0;
+	left:49%;
+	width:45px;
+	height:5px;
+	background:url(../images/collapse.gif) no-repeat 0 0;
+	border: 0px;
+	cursor:pointer;
+	z-index:100;
+}
+.lb-layout-olbar #collapseBtn, .lb-layout-tree #collapseBtn{ background:none;}
