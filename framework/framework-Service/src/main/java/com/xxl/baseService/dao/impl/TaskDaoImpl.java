@@ -8,6 +8,6 @@ import com.xxl.baseService.dao.ITaskDao;
 import common.dao.impl.BaseDAOImpl;
 
 @Repository
-public class TaskDao extends BaseDAOImpl<ScheduleJob, java.lang.String> implements ITaskDao {
+public class TaskDaoImpl extends BaseDAOImpl<ScheduleJob, java.lang.String> implements ITaskDao {
 
 }

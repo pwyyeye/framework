@@ -18,7 +18,7 @@ import com.xxl.exception.UserException;
 import common.dao.impl.BaseDAOImpl;
 
 @Repository
-public class SysUserDao extends BaseDAOImpl<SysUsers, java.lang.String> implements ISysUserDao {
+public class SysUserDaoImpl extends BaseDAOImpl<SysUsers, java.lang.String> implements ISysUserDao {
 	
 	/** 
      * 先根据用户名获取到SysAuthorities集合 

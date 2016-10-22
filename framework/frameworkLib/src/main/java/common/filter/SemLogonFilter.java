@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.xxl.facade.user.UserFacade;
+
 import common.exception.BaseException;
 import common.os.vo.UsersVO;
 import common.utils.SemAppConstants;
@@ -57,6 +59,9 @@ public class SemLogonFilter implements Filter {
 
 	private String system;
 
+	private UserFacade  common;
+	
+	
 	public void destroy() {
 		this.proxy_login = false;
 		this.filterConfig = null;
@@ -149,10 +154,11 @@ public class SemLogonFilter implements Filter {
 				// token = token.replaceAll("-", "+");
 				try {
 					InitialContext context = new InitialContext();
-					CommonHome home = (CommonHome) javax.rmi.PortableRemoteObject
-							.narrow(context.lookup("ejb/CommonEJB"),
-									CommonHome.class);
-					CommonRemote common = home.create();
+//					CommonHome home = (CommonHome) javax.rmi.PortableRemoteObject
+//							.narrow(context.lookup("ejb/CommonEJB"),
+//									CommonHome.class);
+//					CommonRemote common = home.create();
+					
 					logger
 							.debug("start sso token[" + token + "]ip[" + ip
 									+ "]");
@@ -203,7 +209,7 @@ public class SemLogonFilter implements Filter {
 									+ userBean.getRole().getId());
 							hSession.setAttribute(login_name, userBean);
 							hasLogin = true;
-							RedisUtil.sessionUser2Redis(userBean);
+//							RedisUtil.sessionUser2Redis(userBean);
 						}
 					} else {
 						SemLogonInterface semLogon = null;

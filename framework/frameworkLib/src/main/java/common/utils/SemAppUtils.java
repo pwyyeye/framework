@@ -349,5 +349,11 @@ public class SemAppUtils {
 		}
 		return str;
 	}
-	
+	/**
+	 * 字符串转Integer
+	 * @return
+	 */
+	public static Integer getInteger(String str) {
+		return SemAppUtils.isEmpty(str) ? null : new Integer(str);
+	}
 }

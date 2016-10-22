@@ -12,7 +12,7 @@ import com.xxl.exception.UserException;
 import common.dao.impl.BaseDAOImpl;
 
 @Repository
-public class UserDao extends BaseDAOImpl<User, java.lang.String> implements IUserDao {
+public class UserDaoImpl extends BaseDAOImpl<User, java.lang.String> implements IUserDao {
 
 	public UserVo findUserById(Integer userId) {
 		Query query = getCurrentSession().createSQLQuery("select u.id, u.user_name, u.password, u.age, u.roles from user_t u where u.id=?");
