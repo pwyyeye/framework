@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+        "hibernate-mapping-3.0.dtd">
+
+  <hibernate-mapping>
+     <class name="com.xxl.baseService.bo.MenuRole" table="RB_PABINDING">
+        <id name="id" type="int" >
+        <column name="BINDINGID" sql-type="int" not-null="true"/>
+         <generator class="identity"/>
+        </id>
+        <property name="rightCode">
+        <column name="RIGHTCODE" sql-type="varchar(16)" />
+        </property>
+        <many-to-one name="menu" class="common.businessObject.Menu" column="ACTIONID"/>
+        <many-to-one name="role" class="common.businessObject.Role" column="ROLEID"/>
+        <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+        <many-to-one name="organise" class="common.os.bo.SyOrganise" column="OR_ID"/>
+     </class>
+  </hibernate-mapping>

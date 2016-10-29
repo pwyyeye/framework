@@ -537,4 +537,8 @@ public class SemAppUtils {
 		vo.setLevel(SemAppUtils.getInteger(user.getLevel()));
 		return vo;
 	}
+	
+	public static Log getDBLog(Class theClass) {
+		return LogFactory.getLog("db." + theClass.getName());
+	}
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+        "hibernate-mapping-3.0.dtd">
+
+  <hibernate-mapping>
+     <class name="common.businessObject.MessageEvent" table="EIA_SUBSCIBE_EVENT" dynamic-update="true">
+        <id name="id" type="int" >
+         <column name="SE_ID" sql-type="int" not-null="true"/>
+        <generator class="identity"/>
+        </id>
+        <many-to-one name="module" class="common.businessObject.ItModule" column="IS_ID"/>
+
+        <property name="name">
+        <column name="SE_NAME" sql-type="varchar(20)"/>
+        </property>
+        <property name="type">
+        <column name="SE_TYPE" sql-type="int" />
+        </property>
+         <property name="status">
+        <column name="SE_STATUS" sql-type="int" />
+        </property>
+        <bag
+            name="subscibes"
+            inverse="true"
+            lazy="false"
+            cascade="none">
+            <key column="SE_ID"/>
+            <one-to-many class="common.businessObject.MessageSubscibe" />
+        </bag>
+     </class>
+  </hibernate-mapping>
+

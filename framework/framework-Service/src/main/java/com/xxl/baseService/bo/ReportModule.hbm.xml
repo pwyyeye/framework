@@ -3,7 +3,7 @@
         "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
         "hibernate-mapping-3.0.dtd">
   <hibernate-mapping>
-     <class name="common.report.businessObject.ReportModule" table="RP_REPORT_MODULE">
+     <class name="com.xxl.baseService.bo.ReportModule" table="RP_REPORT_MODULE">
         <id name="id" column="MODULEID">
         <generator class="increment"/>
         </id>

@@ -32,6 +32,7 @@ import com.xxl.baseService.bo.SystemProperties;
 import com.xxl.baseService.bo.UABinding;
 import com.xxl.baseService.bo.UserLogin;
 import com.xxl.baseService.dao.IFrameworkDao;
+import com.xxl.baseService.service.BaseFrameWorkService;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
 import com.xxl.facade.ReportRemote;
@@ -70,7 +71,7 @@ import common.web.bean.SessionUserBean;
 import common.web.utils.SemWebAppConstants;
 import common.web.utils.SemWebAppUtils;
 
-public class FramworkServiceImpl{
+public class FramworkServiceImpl extends BaseFrameWorkService{
 	public Log logger = LogFactory.getLog(this.getClass());
 	private IFrameworkDao frameworkDAO;
 	Session hibernateSession;

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+        "hibernate-mapping-3.0.dtd">
+  <hibernate-mapping>
+     <class name="com.xxl.baseService.bo.Notice" table="EIA_SYSTEM_MESSAGE">
+        <id name="id" column="ID">
+         <generator class="identity"/>
+        </id>
+        <property name="subject">
+        <column name="SUBJECT" sql-type="varchar(100)" />
+        </property>
+        <property name="content">
+        <column name="CONTENT" sql-type="varchar(100)" />
+        </property>
+         <property name="valid">
+        <column name="STATUS" sql-type="int" />
+        </property>
+        
+        <property name="attach">
+        <column name="ATTACH" sql-type="int" />
+        </property>
+        <property name="attachName">
+        <column name="ATTACH_NAME" sql-type="varchar(64)" />
+        </property>
+        <property name="startDate">
+        <column name="START_DATE" sql-type="date" />
+        </property>
+         <property name="endDate">
+        <column name="END_DATE" sql-type="date" />
+        </property>
+       <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+
+
+     </class>
+  </hibernate-mapping>

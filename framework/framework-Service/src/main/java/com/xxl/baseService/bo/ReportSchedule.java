@@ -1,4 +1,4 @@
-package common.report.businessObject;
+package com.xxl.baseService.bo;
 
 import java.util.Calendar;
 

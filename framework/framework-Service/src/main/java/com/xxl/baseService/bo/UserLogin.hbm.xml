@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+        "hibernate-mapping-3.0.dtd">
+
+
+
+  <hibernate-mapping>
+     <class name="com.xxl.baseService.bo.UserLogin"  table="RB_USERLOGIN">
+        <id name="id" type="java.lang.Integer" >
+        <column name="LOGINID" sql-type="int" not-null="true"/>
+         <generator class="identity"/>
+        </id>
+        <property name="empID">
+        <column name="USERID" sql-type="varchar(20)" />
+        </property>
+        <property name="lastLoginDate">
+        <column name="LASTLOGINDATE" sql-type="Date" />
+        </property>
+         <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+         <many-to-one name="lastRole" class="common.businessObject.Role" column="LASTROLEID"/>
+     </class>
+  </hibernate-mapping>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+        "hibernate-mapping-3.0.dtd">
+
+
+
+  <hibernate-mapping>
+     <class name="com.xxl.baseService.bo.Menu"  table="RB_ACTIONS">
+        <id name="id" column="ACTIONID">
+         <generator class="identity"/>
+        </id>
+
+        <property name="name">
+        <column name="ACTIONNAME" sql-type="varchar(20)" />
+        </property>
+        <property name="parent">
+        <column name="FATHERID" sql-type="int" />
+        </property>
+        <property name="link">
+          <column name="WEBLINK" sql-type="varchar(50)" />
+        </property>
+        <property name="frame">
+          <column name="FRAME" sql-type="varchar(50)" />
+        </property>
+        
+       <property name="singleMode">
+          <column name="SINGLEMODE" sql-type="int" />
+        </property>
+       <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+         <property name="sortID">
+        <column name="SORTID" sql-type="int" />
+        </property> 
+         <bag
+            name="roleList"
+            inverse="true"
+            lazy="false">
+            <key column="ACTIONID"/>
+            <one-to-many class="common.businessObject.MenuRole" />
+        </bag>
+     </class>
+  </hibernate-mapping>

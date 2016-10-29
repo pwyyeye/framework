@@ -3,7 +3,7 @@
         "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
         "hibernate-mapping-3.0.dtd">
   <hibernate-mapping>
-     <class name="common.report.businessObject.ReportSchedule" table="RP_REPORT_SCHEDULE">
+     <class name="com.xxl.baseService.bo.ReportSchedule" table="RP_REPORT_SCHEDULE">
         <id name="id" column="ID">
         <generator class="increment"/>
         </id>
