@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.xxl.facade.CommonRemote;
+import com.xxl.facade.HelperRemote;
 
 import common.bussiness.Department;
 import common.bussiness.User;
@@ -540,5 +541,30 @@ public class SemAppUtils {
 	
 	public static Log getDBLog(Class theClass) {
 		return LogFactory.getLog("db." + theClass.getName());
+	}
+	
+	public static String getLogonToken(Integer empID) {
+		try {
+			CommonRemote common =null;
+			return common.getUserToken(empID);
+			// home.remove(common);
+		}  catch (Exception ex2) {
+			ex2.printStackTrace();
+			return null;
+
+		}
+	}
+	
+	public static String getProperty(String name) throws Exception {
+		String property = null;
+		try {
+			HelperRemote helperRemote =null;
+
+			property = helperRemote.getProperty(name);
+
+		} catch (Exception e) {
+			throw e;
+		}
+		return property;
 	}
 }

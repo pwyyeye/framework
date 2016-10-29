@@ -20,8 +20,8 @@ import com.xxl.baseService.dao.ISysUserDao;
 import com.xxl.baseService.service.ISysUserService;
 import com.xxl.baseService.vo.SysAuthoritiesVo;
 import com.xxl.baseService.vo.SysUsersVo;
-import com.xxl.exception.UserBusinessException;
-import com.xxl.exception.UserException;
+import com.xxl.exception.FrameworkBusinessException;
+import com.xxl.exception.FrameworkException;
 
 import common.utils.SemAppUtils;
 import common.value.PageList;
@@ -35,7 +35,7 @@ public class SysUserServiceImpl implements ISysUserService {
     private ISysUserDao sysUserDao;
     
     public SysUsersVo getByUserName(String userName) 
-			throws UserBusinessException, UserException {
+			throws FrameworkBusinessException, FrameworkException {
     	DetachedCriteria criteria = DetachedCriteria.forClass(SysUsers.class);
     	criteria.add(Expression.eq("userName", userName));
     	PageList pageList = sysUserDao.findByCriteriaByPage(criteria, 0, 0);
@@ -58,7 +58,7 @@ public class SysUserServiceImpl implements ISysUserService {
 //        return auths;  
 //	}
     
-	public void saveSysUsers(SysUsersVo vo) throws UserBusinessException, UserException {
+	public void saveSysUsers(SysUsersVo vo) throws FrameworkBusinessException, FrameworkException {
 		SysUsers bo = (SysUsers) sysUserDao.findById(vo.getUserId(), SysUsers.class);
     	SemAppUtils.beanCopy(vo, bo);
     	sysUserDao.saveOrUpdate(bo);

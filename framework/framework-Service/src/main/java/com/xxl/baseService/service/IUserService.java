@@ -1,8 +1,8 @@
 package com.xxl.baseService.service;  
   
 import com.xxl.baseService.vo.UserVo;
-import com.xxl.exception.UserBusinessException;
-import com.xxl.exception.UserException;
+import com.xxl.exception.FrameworkBusinessException;
+import com.xxl.exception.FrameworkException;
 
 import common.value.PageList;
   
@@ -16,13 +16,13 @@ public interface IUserService {
     
     public void updateUser(UserVo vo);
     
-    public void deleteUser(Integer id) throws UserBusinessException, UserException;
+    public void deleteUser(Integer id) throws FrameworkBusinessException, FrameworkException;
     
     public UserVo findUser(Integer userId);
     
-    public UserVo findUser(String userName) throws UserBusinessException, UserException;
+    public UserVo findUser(String userName) throws FrameworkBusinessException, FrameworkException;
     
-    public void testTaskJob0() throws UserException;
+    public void testTaskJob0() throws FrameworkException;
     
     public void testTaskJob1();
     

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 import com.xxl.baseService.bo.SysUsers;
 import com.xxl.baseService.dao.ISysUserDao;
 import com.xxl.baseService.vo.SysAuthoritiesVo;
-import com.xxl.exception.UserBusinessException;
-import com.xxl.exception.UserException;
+import com.xxl.exception.FrameworkBusinessException;
+import com.xxl.exception.FrameworkException;
 
 import common.dao.impl.BaseDAOImpl;
 
@@ -27,7 +27,7 @@ public class SysUserDaoImpl extends BaseDAOImpl<SysUsers, java.lang.String> impl
      */  
     @SuppressWarnings("unchecked")  
     public List<SysAuthoritiesVo> getSysAuthoritiesByUsername(String userName)
-    		throws UserBusinessException, UserException {
+    		throws FrameworkBusinessException, FrameworkException {
     	String sql = "SELECT AUTHORITY_ID, AUTHORITY_MARK, AUTHORITY_NAME, AUTHORITY_DESC, MESSAGE, ENABLE, ISSYS, MODULE_ID "+
     			"FROM SYS_AUTHORITIES WHERE AUTHORITY_ID IN( "+  
                 "SELECT DISTINCT AUTHORITY_ID FROM SYS_ROLES_AUTHORITIES  S1 "+  

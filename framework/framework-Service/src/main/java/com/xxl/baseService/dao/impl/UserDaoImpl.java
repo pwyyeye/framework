@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.xxl.baseService.bo.User;
 import com.xxl.baseService.dao.IUserDao;
 import com.xxl.baseService.vo.UserVo;
-import com.xxl.exception.UserBusinessException;
-import com.xxl.exception.UserException;
+import com.xxl.exception.FrameworkBusinessException;
+import com.xxl.exception.FrameworkException;
 
 import common.dao.impl.BaseDAOImpl;
 
@@ -27,7 +27,7 @@ public class UserDaoImpl extends BaseDAOImpl<User, java.lang.String> implements 
 		return vo;
 	}
 	
-	public UserVo findUserByName(String userName) throws UserBusinessException, UserException {
+	public UserVo findUserByName(String userName) throws FrameworkBusinessException, FrameworkException {
 		Query query = getCurrentSession().createSQLQuery("select u.id, u.user_name, u.password, u.age, u.roles from user_t u where u.user_name=?");
 		query.setParameter(0, userName);
 		Object[] object = (Object[]) query.list().get(0);

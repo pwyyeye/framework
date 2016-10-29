@@ -14,8 +14,8 @@ import com.xxl.baseService.bo.User;
 import com.xxl.baseService.dao.IUserDao;
 import com.xxl.baseService.service.IUserService;
 import com.xxl.baseService.vo.UserVo;
-import com.xxl.exception.UserBusinessException;
-import com.xxl.exception.UserException;
+import com.xxl.exception.FrameworkBusinessException;
+import com.xxl.exception.FrameworkException;
 
 import common.utils.SemAppUtils;
 import common.value.PageList;
@@ -58,7 +58,7 @@ public class UserServiceImpl implements IUserService {
     	userDao.saveOrUpdate(bo);
     }
     
-    public void deleteUser(Integer id) throws UserBusinessException, UserException {
+    public void deleteUser(Integer id) throws FrameworkBusinessException, FrameworkException {
     	//try {
     		userDao.deleteById(id, User.class);
     		
@@ -77,14 +77,14 @@ public class UserServiceImpl implements IUserService {
     	return vo;
     }
     
-    public UserVo findUser(String userName) throws UserBusinessException, UserException {
+    public UserVo findUser(String userName) throws FrameworkBusinessException, FrameworkException {
     	UserVo vo = userDao.findUserByName(userName);
     	return vo;
     }
 
-	public void testTaskJob0() throws UserException {
+	public void testTaskJob0() throws FrameworkException {
 		System.out.println("测试是否能调用到service里的方法000");
-		throw new UserException("定时任务执行失败！！！！！！"+SemAppUtils.getFullTime(Calendar.getInstance()));
+		throw new FrameworkException("定时任务执行失败！！！！！！"+SemAppUtils.getFullTime(Calendar.getInstance()));
 	}
 	
 	public void testTaskJob1() {

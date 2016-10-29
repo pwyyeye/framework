@@ -8,18 +8,18 @@ import java.util.Map;
 
 
 import com.xxl.baseService.vo.SysUsersVo;
-import com.xxl.exception.UserBusinessException;
-import com.xxl.exception.UserException;
+import com.xxl.exception.FrameworkBusinessException;
+import com.xxl.exception.FrameworkException;
   
 public interface ISysUserService {  
     
 	public SysUsersVo getByUserName(String userName) 
-			throws UserBusinessException, UserException;  
+			throws FrameworkBusinessException, FrameworkException;  
 //    
 //    public Collection<GrantedAuthority> loadUserAuthorities(String userName) 
 //			throws UserBusinessException, UserException;  
     
-    public void saveSysUsers(SysUsersVo vo) throws UserBusinessException, UserException;
+    public void saveSysUsers(SysUsersVo vo) throws FrameworkBusinessException, FrameworkException;
     
     public List<Map<String,String>> getURLResourceMapping();
     
