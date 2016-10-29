@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+        "hibernate-mapping-3.0.dtd">
+  <hibernate-mapping>
+     <class name="common.report.businessObject.ReportSchedule" table="RP_REPORT_SCHEDULE">
+        <id name="id" column="ID">
+        <generator class="increment"/>
+        </id>
+        <property name="circleType">
+        <column name="CIRCLE_TYPE" sql-type="int" />
+        </property>
+        <property name="firstExcuteDate">
+        <column name="FIRST_EXCUTE_DATE" sql-type="date" />
+        </property>
+        <property name="nextExcuteDate">
+        <column name="NEXT_EXCUTE_DATE" sql-type="date" />
+        </property>
+         <property name="parameter">
+        <column name="PARAMETER" sql-type="varchar(64)" />
+        </property>
+        <property name="recipientsType">
+        <column name="RECIPIENTS_TYPE" sql-type="int" />
+        </property>
+        <property name="recipients">
+        <column name="RECIPIENTS" sql-type="varchar(512)" />
+        </property>
+        <property name="recipientsDpno">
+        <column name="RECIPIENTS_DPNO" sql-type="varchar(512)" />
+        </property>
+        <property name="recipientsEmpID">
+        <column name="RECIPIENTS_EMPID" sql-type="varchar(512)" />
+        </property>
+         <property name="subject">
+        <column name="MAIL_SUBJECT" sql-type="varchar(512)" />
+        </property>
+         <property name="content">
+        <column name="MAIL_CONTENT" sql-type="varchar(512)" />
+        </property>
+        <property name="reportName">
+        <column name="REPORT_NAME" sql-type="varchar(64)" />
+        </property>
+        <property name="recipientsSources">
+        <column name="RECIPIENTS_SOURCES" sql-type="int" />
+        </property>
+        
+        <property name="recipientsImplementMethod">
+        <column name="RECIPIENTS_IMPLEMENT_METHOD" sql-type="varchar(128)" />
+        </property>
+         <property name="valid">
+        <column name="VALID" sql-type="int" />
+        </property>
+        <property name="remark">
+        <column name="REMARK" sql-type="varchar(512)" />
+        </property>
+           <property name="lastExcuteResult">
+        <column name="LAST_EXCUTE_RESULT" sql-type="int" />
+        </property>
+        <property name="lastExcuteResultRemark">
+        <column name="LAST_EXCUTE_RESULT_REMARK" sql-type="varchar(512)" />
+        </property>  
+                <property name="lastExcuteDate">
+        <column name="LAST_EXCUTE_DATE" sql-type="date" />
+        </property>   
+       <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+       <many-to-one name="reportModule" class="common.report.businessObject.ReportModule" column="MODULEID"/>
+
+
+     </class>
+  </hibernate-mapping>

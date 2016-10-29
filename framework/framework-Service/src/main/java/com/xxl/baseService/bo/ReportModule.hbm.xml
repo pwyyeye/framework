@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
+        "hibernate-mapping-3.0.dtd">
+  <hibernate-mapping>
+     <class name="common.report.businessObject.ReportModule" table="RP_REPORT_MODULE">
+        <id name="id" column="MODULEID">
+        <generator class="increment"/>
+        </id>
+        <property name="name">
+        <column name="NAME" sql-type="varchar(64)" />
+        </property>
+        <property name="report">
+        <column name="MODULE" sql-type="varchar(64)" />
+        </property>
+         <property name="needDatekey">
+        <column name="NEED_DATE_KEY" sql-type="int" />
+        </property>
+         <property name="needLine">
+        <column name="NEED_LINE_KEY" sql-type="int" />
+        </property>
+        <property name="needSeries">
+        <column name="NEED_SERIES_KEY" sql-type="int" />
+        </property>
+        <property name="needModel">
+        <column name="NEED_MODEL_KEY" sql-type="int" />
+        </property>
+         <property name="needWorkshop">
+        <column name="NEED_WORKSHOP" sql-type="int" />
+        </property>
+         <property name="needColor">
+        <column name="NEED_COLOR_KEY" sql-type="int" />
+        </property>
+        <property name="needControlPoint">
+        <column name="NEED_CONTROLPOINT" sql-type="int" />
+        </property>
+               <property name="needDepartment">
+        <column name="NEED_DEPT_KEY" sql-type="int" />
+        </property>
+        
+        <property name="needLog">
+        <column name="NEED_LOG" sql-type="int" />
+        </property>
+         <property name="dateKeyType">
+        <column name="DATE_KEY_TYPE" sql-type="int" />
+        </property>
+                 <property name="parent">
+        <column name="PARENT" sql-type="int" />
+        </property>
+         <property name="needTimekey">
+        <column name="NEED_TIME_KEY" sql-type="int" />
+        </property>
+         <property name="sortID">
+        <column name="SORT_ID" sql-type="int" />
+        </property>
+        <property name="valid">
+        <column name="VALID" sql-type="int" />
+        </property>       
+        <property name="oldVersion">
+        <column name="old_version" sql-type="int" />
+        </property>
+        
+                <property name="parameterModule">
+        <column name="PARAM_MODULE" sql-type="int" />
+        </property>
+      <property name="exportType">
+        <column name="EXPORT_TYPE" sql-type="int" />
+        </property>
+        
+          <property name="otherDatekeyMode">
+        <column name="OTHER_DATAKEY_MODE" sql-type="varchar(64)" />
+        </property>
+            <property name="javascript">
+        <column name="JAVASCRIPT" sql-type="varchar(2056)" />
+        </property>
+            <property name="submitScript">
+        <column name="SUBMIT_SCRIPT" sql-type="varchar(2056)" />
+        </property>
+        
+        
+          <property name="timekeyMode">
+        <column name="TIMEKEY_MODE" sql-type="varchar(64)" />
+        </property>
+          <property name="customKey">
+        <column name="CUSTOM_KEY" sql-type="varchar(512)" />
+        </property>
+          <property name="remark">
+        <column name="REMARK" sql-type="varchar(64)" />
+        </property>
+        
+        
+        
+        
+       <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+
+
+     </class>
+  </hibernate-mapping>

@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -21,6 +23,13 @@ import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.xxl.facade.CommonRemote;
+
+import common.bussiness.Department;
+import common.bussiness.User;
+import common.exception.BaseBusinessException;
+import common.exception.BaseException;
+import common.os.vo.UsersVO;
 import common.utils.JsonValueProcessorImpl;
 import common.utils.SemAppUtils;
 
@@ -86,28 +95,6 @@ public class SemAppUtils {
 		return new String(sb);
 	}
 
-	public static String getFullTime(Calendar cal) {
-		String result = "";
-		if (cal == null)
-			return "";
-		int year = cal.get(Calendar.YEAR);
-		int month = cal.get(Calendar.MONTH);
-		int day = cal.get(Calendar.DATE);
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		int min = cal.get(Calendar.MINUTE);
-		int second = cal.get(Calendar.SECOND);
-		DecimalFormat nf = new DecimalFormat("00");
-		String dayStr = nf.format(day);
-		String monthStr = nf.format(month + 1);
-		String yearStr = String.valueOf(year);
-		String hourStr = nf.format(hour);
-		String minStr = nf.format(min);
-		String secondStr = nf.format(second);
-		result = yearStr + "-" + monthStr + "-" + dayStr + " " + hourStr + ":"
-				+ minStr + ":" + secondStr;
-		return result;
-	}
-
 	/**
 	 * 取得“getter”函數的函數名
 	 * 
@@ -159,8 +146,9 @@ public class SemAppUtils {
 	 */
 	public static Object BO2VO(Object pojo, Object vo) {
 		try {
-			ConvertUtils.register(new DateConverter(null), java.util.Calendar.class);   
-			BeanUtils.copyProperties(vo, pojo); 
+			ConvertUtils.register(new DateConverter(null),
+					java.util.Calendar.class);
+			BeanUtils.copyProperties(vo, pojo);
 		} catch (IllegalAccessException e) {
 			logger.error("创建VO类" + vo + "VO失败", e);
 			throw new RuntimeException(e);
@@ -325,7 +313,7 @@ public class SemAppUtils {
 	public static boolean isNotEmpty(String str) {
 		return str != null && str.trim().length() > 0;
 	}
-	
+
 	/**
 	 * <p>
 	 * String null check.
@@ -336,9 +324,10 @@ public class SemAppUtils {
 	public static boolean isEmpty(String str) {
 		return !(isNotEmpty(str));
 	}
-	
+
 	/**
 	 * 转换字符串编码
+	 * 
 	 * @return
 	 */
 	public static String convertCharacterEncoding(String str) {
@@ -349,11 +338,203 @@ public class SemAppUtils {
 		}
 		return str;
 	}
+
 	/**
 	 * 字符串转Integer
+	 * 
 	 * @return
 	 */
 	public static Integer getInteger(String str) {
 		return SemAppUtils.isEmpty(str) ? null : new Integer(str);
+	}
+
+	public static String getStdDate(Calendar cal) {
+		if (cal != null) {
+			int day = cal.get(Calendar.DATE);
+			int month = cal.get(Calendar.MONTH);
+			int year = cal.get(Calendar.YEAR);
+			DecimalFormat nf = new DecimalFormat("00");
+			String dayStr = nf.format(day);
+			String monthStr = nf.format(month + 1);
+			String yearStr = String.valueOf(year);
+			return yearStr + "-" + monthStr + "-" + dayStr;
+		} else {
+			return "";
+		}
+	}
+
+	public static String getStdDateInt(Calendar cal) {
+		int day = cal.get(Calendar.DATE);
+		int month = cal.get(Calendar.MONTH);
+		int year = cal.get(Calendar.YEAR);
+		DecimalFormat nf = new DecimalFormat("00");
+		String dayStr = nf.format(day);
+		String monthStr = nf.format(month + 1);
+		String yearStr = String.valueOf(year);
+		return yearStr + monthStr + dayStr;
+	}
+
+	public static String getStdTime(Calendar cal) {
+		int year = cal.get(Calendar.HOUR_OF_DAY);
+		int month = cal.get(Calendar.MINUTE);
+		int day = cal.get(Calendar.SECOND);
+		DecimalFormat nf = new DecimalFormat("00");
+		String dayStr = nf.format(day);
+		String monthStr = nf.format(month);
+		String yearStr = String.valueOf(year);
+		return yearStr + ":" + monthStr + ":" + dayStr;
+	}
+
+	public static String[] objectToString(Object[] obj) {
+		String[] result = new String[obj.length];
+		for (int i = 0; i < obj.length; i++) {
+			result[i] = (String) obj[i];
+		}
+		return result;
+	}
+
+	public static String getFullTime(Calendar cal) {
+		String result = "";
+		if (cal == null)
+			return "";
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DATE);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int min = cal.get(Calendar.MINUTE);
+		int second = cal.get(Calendar.SECOND);
+		DecimalFormat nf = new DecimalFormat("00");
+		String dayStr = nf.format(day);
+		String monthStr = nf.format(month + 1);
+		String yearStr = String.valueOf(year);
+		String hourStr = nf.format(hour);
+		String minStr = nf.format(min);
+		String secondStr = nf.format(second);
+		result = yearStr + "-" + monthStr + "-" + dayStr + " " + hourStr + ":"
+				+ minStr + ":" + secondStr;
+		return result;
+	}
+
+	public static String getFullTimeInt(Calendar cal) {
+		String result = "";
+		if (cal == null)
+			return "";
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int day = cal.get(Calendar.DATE);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int min = cal.get(Calendar.MINUTE);
+		int second = cal.get(Calendar.SECOND);
+		DecimalFormat nf = new DecimalFormat("00");
+		String dayStr = nf.format(day);
+		String monthStr = nf.format(month + 1);
+		String yearStr = String.valueOf(year);
+		String hourStr = nf.format(hour);
+		String minStr = nf.format(min);
+		String secondStr = nf.format(second);
+		result = yearStr + monthStr + dayStr + hourStr + minStr + secondStr;
+		return result;
+	}
+
+	public static Calendar getCalendar(String date) {
+		if (date == null)
+			return null;
+		String[] strs = date.split("-");
+		if (strs.length != 3)
+			return null;
+		Calendar cale = Calendar.getInstance();
+		cale.set(Integer.parseInt(strs[0]), Integer.parseInt(strs[1]) - 1,
+				Integer.parseInt(strs[2]));
+		return cale;
+	}
+
+	public static Calendar getFullCalendar(String dateStr) {
+		if (dateStr == null)
+			return null;
+		SimpleDateFormat sdf = null;
+		if (dateStr.indexOf(":") != -1) {
+			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		} else {
+			sdf = new SimpleDateFormat("yyyy-MM-dd");
+		}
+		Calendar result = null;
+		try {
+			Date date = sdf.parse(dateStr);
+			result = Calendar.getInstance();
+			result.setTime(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+
+	public static UsersVO getUserInfo(Integer empID) {
+		UsersVO user = null;
+		try {
+			CommonRemote common = null;
+			user = common.getUserInfo(empID);
+		} catch (Exception ee) {
+			logger.error("访问业务逻辑层失败", ee);
+		}
+		return user;
+	}
+
+	public static Department getDeptInfo(Integer deptID) {
+		Department deptment = null;
+		try {
+			CommonRemote common = null;
+			deptment = common.getDepartmentInfo(deptID);
+		} catch (Exception ee) {
+			logger.error("访问业务逻辑层失败", ee);
+		}
+		return deptment;
+	}
+
+	public static List getSubOrganises(int organise) throws BaseException,
+			BaseBusinessException {
+		try {
+			CommonRemote common = null;
+			return common.getSubOrganises(organise);
+		} catch (Exception ex3) {
+			handleException(ex3);
+			return null;
+		}
+	}
+
+	public static void handleException(Exception ee) throws BaseException,
+			BaseBusinessException {
+		if (ee instanceof BaseException) {
+			throw (BaseException) ee;
+		} else if (ee instanceof BaseBusinessException) {
+			throw (BaseBusinessException) ee;
+		} else {
+			logger.error("服务器异常", ee);
+			throw new BaseException("服务器异常", ee);
+		}
+	}
+
+	public static Calendar convertCalendar(Calendar sou, boolean before) {
+		if (sou == null)
+			return null;
+		sou.set(Calendar.HOUR_OF_DAY, before ? 0 : 23);
+		sou.set(Calendar.MINUTE, before ? 0 : 59);
+		sou.set(Calendar.SECOND, before ? 0 : 59);
+		return sou;
+	}
+
+	public static UsersVO user2VO(User user) {
+		if (user == null)
+			return null;
+		UsersVO vo = new UsersVO();
+		beanCopy(vo, user);
+		vo.setId(new Integer(user.getId()));
+		vo.setName(user.getName());
+		vo.setDepartmentName(user.getAbbr());
+		vo.setDepartment(user.getDeptid());
+		vo.setDepartmentCode(user.getDeptnum());
+		vo.setLevel(SemAppUtils.getInteger(user.getLevel()));
+		return vo;
 	}
 }

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.xxl.facade.user.UserFacade;
+import com.xxl.facade.CommonRemote;
 
 import common.exception.BaseException;
 import common.os.vo.UsersVO;
@@ -59,7 +59,7 @@ public class SemLogonFilter implements Filter {
 
 	private String system;
 
-	private UserFacade  common;
+	private CommonRemote  common;
 	
 	
 	public void destroy() {

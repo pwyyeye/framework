@@ -1,9 +1,11 @@
-package com.xxl.facade.user;
+package com.xxl.facade;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.List;
 
+import common.bussiness.Department;
 import common.bussiness.User;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
@@ -11,20 +13,20 @@ import common.os.vo.OrganiseVO;
 import common.os.vo.UsersVO;
 import common.web.bean.SessionUserBean;
 
-public interface  UserFacade {
+public interface  CommonRemote {
 
 	public User verifyUser(String loginid, String password)
 			throws BaseException;
 	
 //
-//	public User getDeptTopDirector(String deptID) throws Exception,
-//			RemoteException;
-//
-//	public Department getDeptOfLevel(String deptID, String level)
-//			throws Exception;
-//
-//	public Department getDepartmentInfo(Integer deptID) throws Exception,
-//			RemoteException;
+	public User getDeptTopDirector(String deptID) throws Exception,
+			RemoteException;
+
+	public Department getDeptOfLevel(String deptID, String level)
+			throws Exception;
+
+	public Department getDepartmentInfo(Integer deptID) throws Exception,
+			RemoteException;
 
 	public UsersVO getUserInfo(Integer empID) throws Exception;
 

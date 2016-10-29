@@ -22,7 +22,7 @@ public class RaBinding extends BaseBusinessObject {
 		this.organise = organise;
 	}
 
-//	private ReportModule report;
+	private ReportModule report;
 
 	private String rightCode;
 
@@ -50,12 +50,10 @@ public class RaBinding extends BaseBusinessObject {
 
 
 	public Object toVO() {
-//		RaBindingVO vo = new RaBindingVO((Integer)getId(),module.getName(),
-//				module.getId(), role.getRolename(), (Integer)role.getId(),
-//				report.getName(), (Integer)report.getId(), rightCode);
 		RaBindingVO vo = new RaBindingVO((Integer)getId(),module.getName(),
 				module.getId(), role.getRolename(), (Integer)role.getId(),
-				null, null, rightCode);
+				report.getName(), (Integer)report.getId(), rightCode);
+
 		return vo;
 	}
 
@@ -67,12 +65,12 @@ public class RaBinding extends BaseBusinessObject {
 		this.module = module;
 	}
 
-//	public ReportModule getReport() {
-//		return report;
-//	}
-//
-//	public void setReport(ReportModule report) {
-//		this.report = report;
-//	}
+	public ReportModule getReport() {
+		return report;
+	}
+
+	public void setReport(ReportModule report) {
+		this.report = report;
+	}
 
 }

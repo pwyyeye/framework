@@ -11,21 +11,21 @@ public class BaseStringVO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	String id;
+	Serializable id;
 	
 
 	public BaseStringVO() {
 	}
 
-	public BaseStringVO(String id) {
+	public BaseStringVO(Serializable id) {
 		this.id = id;
 	}
 
-	public String getId() {
+	public Serializable getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(Serializable id) {
 		this.id = id;
 	}
 
