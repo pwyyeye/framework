@@ -1,11 +1,10 @@
-package com.xxl.baseService.service;  
+package com.xxl.facade;  
 
 import java.util.List;
 
 import org.quartz.SchedulerException;
 
-import com.xxl.baseService.vo.ScheduleJobVo;
-
+import common.task.vo.ScheduleJobVo;
 import common.value.PageList;
   
 public interface ITaskService {  

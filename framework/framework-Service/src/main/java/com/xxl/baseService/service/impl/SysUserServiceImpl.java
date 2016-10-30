@@ -1,11 +1,9 @@
 package com.xxl.baseService.service.impl;  
   
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;  
+import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,16 +11,14 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Service;  
+import org.springframework.stereotype.Service;
 
 import com.xxl.baseService.bo.SysUsers;
 import com.xxl.baseService.dao.ISysUserDao;
 import com.xxl.baseService.service.ISysUserService;
-import com.xxl.baseService.vo.SysAuthoritiesVo;
 import com.xxl.baseService.vo.SysUsersVo;
 import com.xxl.exception.FrameworkBusinessException;
 import com.xxl.exception.FrameworkException;
-
 import common.utils.SemAppUtils;
 import common.value.PageList;
   

@@ -6,9 +6,8 @@ import java.util.Calendar;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.xxl.baseService.service.ITaskService;
-import com.xxl.baseService.vo.ScheduleJobVo;
-
+import com.xxl.facade.ITaskService;
+import common.task.vo.ScheduleJobVo;
 import common.utils.SemAppUtils;
 import common.utils.SpringUtils;
 

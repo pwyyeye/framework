@@ -28,11 +28,10 @@ import org.springframework.stereotype.Service;
 
 import com.xxl.baseService.bo.ScheduleJob;
 import com.xxl.baseService.dao.ITaskDao;
-import com.xxl.baseService.service.ITaskService;
-import com.xxl.baseService.vo.ScheduleJobVo;
+import com.xxl.facade.ITaskService;
 import com.xxl.task.factory.QuartzJobFactory;
 import com.xxl.task.factory.QuartzJobFactoryDisallowConcurrentExecution;
-
+import common.task.vo.ScheduleJobVo;
 import common.utils.SemAppUtils;
 import common.value.PageList;
 

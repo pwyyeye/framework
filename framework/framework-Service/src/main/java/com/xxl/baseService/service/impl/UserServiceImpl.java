@@ -2,13 +2,13 @@ package com.xxl.baseService.service.impl;
   
 import java.util.Calendar;
 
-import javax.annotation.Resource;  
+import javax.annotation.Resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
-import org.springframework.stereotype.Service;  
+import org.springframework.stereotype.Service;
 
 import com.xxl.baseService.bo.User;
 import com.xxl.baseService.dao.IUserDao;
@@ -16,7 +16,6 @@ import com.xxl.baseService.service.IUserService;
 import com.xxl.baseService.vo.UserVo;
 import com.xxl.exception.FrameworkBusinessException;
 import com.xxl.exception.FrameworkException;
-
 import common.utils.SemAppUtils;
 import common.value.PageList;
   

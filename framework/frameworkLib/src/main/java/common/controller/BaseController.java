@@ -2,6 +2,7 @@ package common.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,6 +10,8 @@ import org.apache.commons.logging.LogFactory;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.value.JsonResult;
+import common.web.bean.SessionUserBean;
+import common.web.utils.SemWebAppConstants;
 
 public class BaseController {
 	
@@ -74,5 +77,28 @@ public class BaseController {
 				+ ",系统:" + module.getName(), content);
 	}*/
 	
+	protected Object getSessionAttribute(HttpServletRequest req, String name) {
+		logger.debug("Getting " + name + " from session.");
+		Object obj = null;
+		HttpSession session = req.getSession(false);
+		if (session != null)
+			obj = session.getAttribute(name);
+		return obj;
+	}
 	
+	protected SessionUserBean getSessionUser(HttpServletRequest request) {
+		return (SessionUserBean) request.getSession().getAttribute(
+				SemWebAppConstants.USER_KEY);
+
+	}
+	
+	protected void setSessionAttribute(HttpServletRequest req, String name,
+			Object obj) {
+		logger.debug("Setting " + name + " of type " + obj.getClass().getName()
+				+ " on session.");
+		HttpSession session = req.getSession(false);
+		if (session != null)
+			session.setAttribute(name, obj);
+	}
+
 }

@@ -84,7 +84,7 @@ public class AdminService extends BaseService implements AdminRemote{
 	private HelperRemote helperRemote;
 	
 	@Autowired
-	private CommonRemote commonRemote;
+	private CommonRemote commonRemote; 
 	
 	@Autowired
 	private StructureRemote structureRemote;

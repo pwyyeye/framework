@@ -112,17 +112,6 @@ public class CommonService implements CommonRemote {
 	InitialContext context;
 
 
-
-	public void ejbRemove() {
-
-	}
-
-	public void ejbActivate() {
-	}
-
-	public void ejbPassivate() {
-	}
-
 	public void setSessionContext(SessionContext sessionContext) {
 		this.sessionContext = sessionContext;
 	}
@@ -208,12 +197,13 @@ public class CommonService implements CommonRemote {
 	}
 
 	public String getUserToken(Integer empID) throws Exception {
-		if (userExternalOS) {
-			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-			return eofficeDB.getUserToken("" + empID);
-		} else {
-			return structureRemote.getUserToken(empID);
-		}
+		return "test OK!";
+//		if (userExternalOS) {
+//			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
+//			return eofficeDB.getUserToken("" + empID);
+//		} else {
+//			return structureRemote.getUserToken(empID);
+//		}
 	}
 
 	public String getUserToken(String empID) throws Exception, RemoteException {

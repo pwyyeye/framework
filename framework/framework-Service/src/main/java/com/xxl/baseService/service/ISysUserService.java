@@ -1,25 +1,22 @@
 package com.xxl.baseService.service;  
   
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-//import org.springframework.security.core.GrantedAuthority;
-
-
 import com.xxl.baseService.vo.SysUsersVo;
-import com.xxl.exception.FrameworkBusinessException;
-import com.xxl.exception.FrameworkException;
+import common.exception.BaseBusinessException;
+//import org.springframework.security.core.GrantedAuthority;
+import common.exception.BaseException;
   
 public interface ISysUserService {  
     
 	public SysUsersVo getByUserName(String userName) 
-			throws FrameworkBusinessException, FrameworkException;  
+			throws BaseBusinessException, BaseException;  
 //    
 //    public Collection<GrantedAuthority> loadUserAuthorities(String userName) 
 //			throws UserBusinessException, UserException;  
     
-    public void saveSysUsers(SysUsersVo vo) throws FrameworkBusinessException, FrameworkException;
+    public void saveSysUsers(SysUsersVo vo) throws BaseBusinessException, BaseException;
     
     public List<Map<String,String>> getURLResourceMapping();
     

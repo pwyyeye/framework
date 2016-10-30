@@ -8,8 +8,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.xxl.baseService.vo.ScheduleJobVo;
 import com.xxl.task.util.TaskUtils;
+import common.task.vo.ScheduleJobVo;
 
 /** 
  *  

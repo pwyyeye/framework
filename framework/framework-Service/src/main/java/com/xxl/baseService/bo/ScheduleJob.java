@@ -11,9 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.xxl.baseService.vo.ScheduleJobVo;
-
 import common.businessObject.BaseBusinessObject;
+import common.task.vo.ScheduleJobVo;
 import common.utils.SemAppUtils;
 
 /**

@@ -1,4 +1,4 @@
-package com.xxl.baseService.vo;
+package common.task.vo;
 
 import java.util.Calendar;
 

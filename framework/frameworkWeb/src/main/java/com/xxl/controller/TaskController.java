@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xxl.baseService.service.ITaskService;
-import com.xxl.baseService.vo.ScheduleJobVo;
-
+import com.xxl.facade.ITaskService;
 import common.controller.BaseController;
+import common.task.vo.ScheduleJobVo;
 import common.utils.SemAppUtils;
 import common.value.PageList;
 import common.vo.BaseResponseVO;

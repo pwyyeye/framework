@@ -57,5 +57,7 @@
 	
 	<!-- 解决css，js文件找不到问题 -->
 	<mvc:default-servlet-handler/>
+
+	<import resource="dubbo-consumer.xml" />
 	
 </beans>

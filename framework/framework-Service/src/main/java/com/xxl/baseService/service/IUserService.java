@@ -3,7 +3,6 @@ package com.xxl.baseService.service;
 import com.xxl.baseService.vo.UserVo;
 import com.xxl.exception.FrameworkBusinessException;
 import com.xxl.exception.FrameworkException;
-
 import common.value.PageList;
   
 public interface IUserService {  

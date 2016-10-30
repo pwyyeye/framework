@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.xxl.baseService.service.ITaskService;
+import com.xxl.facade.ITaskService;
 
 import common.utils.SpringUtils;
 
