@@ -50,7 +50,7 @@ public class LoginController extends BaseController {
 	private CommonRemote commonRemote;
 	
 	@Autowired
-	public AdminRemote adminRemote = null;
+	public AdminRemote adminRemote;
 
 	private String ip;
 

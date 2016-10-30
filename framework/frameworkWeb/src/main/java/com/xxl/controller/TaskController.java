@@ -33,7 +33,7 @@ public class TaskController extends BaseController {
 
 	public static Log logger = LogFactory.getLog(UserController.class);
 
-	@Resource
+//	@Resource
 	private ITaskService taskService;
 	
 	@InitBinder("scheduleJobVo")

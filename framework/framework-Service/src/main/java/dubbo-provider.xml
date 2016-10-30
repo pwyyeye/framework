@@ -18,4 +18,5 @@
 	<!-- 用户服务接口 -->
 	<dubbo:service interface="com.xxl.facade.CommonRemote" ref="commonRemote" />
 
+	<dubbo:service interface="com.xxl.facade.AdminRemote" ref="adminRemote" />
 </beans>  

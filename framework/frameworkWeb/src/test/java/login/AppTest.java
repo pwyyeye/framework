@@ -24,7 +24,7 @@ import junit.framework.TestSuite;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration(value = "src/main/webapp") 
-@ContextConfiguration("classpath:spring/spring-mvc.xml")
+@ContextConfiguration("classpath:spring/applicationContext.xml")
 public class AppTest 
     extends TestCase
 {
