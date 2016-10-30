@@ -43,7 +43,7 @@ public interface  CommonRemote {
 			throws Exception;
 	
 	public UsersVO getEofficeLoginUserVO(String openId)
-	 throws BaseException, BaseBusinessException;;
+	 throws BaseException, BaseBusinessException, RemoteException;
 
 	public UsersVO getEofficeLoginUserByEmpID(Integer empID, String ip)
 			throws Exception;
@@ -137,22 +137,22 @@ public interface  CommonRemote {
 //	public Integer addFriend(FriendsVO vo) throws BaseException,
 //			BaseBusinessException;
 
-	public void sendAppPushMessage(Integer type, String users, String title,
-			String message,Integer bzId) throws BaseException ;
+//	public void sendAppPushMessage(Integer type, String users, String title,
+//			String message,Integer bzId) throws BaseException ;
 
 //	public void sendAppPushMessage(PushMessage message) throws BaseException,
 //			RemoteException;
 
-	public void sendAppMessage(Integer type, String users, String title,
-			String message,Integer bzId) throws Exception;
+//	public void sendAppMessage(Integer type, String users, String title,
+//			String message,Integer bzId) throws Exception;
 
 	public List getSubOrganises(int organise) throws BaseException,
 			Exception;
 	
-	public void sendAppBroadcast(String title, String message)
-	throws BaseException;
-	
-	public Boolean isFriend(Integer userId,Integer friendId) throws BaseException,
-	BaseBusinessException ;
+//	public void sendAppBroadcast(String title, String message)
+//	throws BaseException;
+//	
+//	public Boolean isFriend(Integer userId,Integer friendId) throws BaseException,
+//	BaseBusinessException ;
 
 }

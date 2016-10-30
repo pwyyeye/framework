@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class name="common.os.bo.SyDuty" table="SY_DUTY">
+        <id name="id" column="DU_ID" type="integer">
+          <generator class="identity"/>  
+        </id>
+ 
+        <property name="name" column="DU_NAME" type="string"  not-null="true" />
+        <property name="parentId" column="DU_PARENTID" type="integer" />
+        <property name="level" column="DU_LEVEL" type="integer"  not-null="true" />
+        <property name="note" column="DU_NOTE" type="string" />
+        <property name="mark" column="DU_MARK" type="string"  not-null="true" />
+        <property name="isDirector" column="DU_ISDIRECTOR" type="integer"  not-null="true" />
+        <property name="dutyNum" column="DU_DUTYNUM" type="string" />
+ 
+        <set name="syUserdutySet" inverse="true">
+            <key column="DU_ID"/>
+            <one-to-many class="common.os.bo.SyUserduty"/>
+        </set>
+    </class>
+    
+</hibernate-mapping>

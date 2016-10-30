@@ -28,17 +28,16 @@ import com.xxl.baseService.bo.Notice;
 import com.xxl.baseService.bo.RaBinding;
 import com.xxl.baseService.bo.ReportModule;
 import com.xxl.baseService.bo.Role;
-import com.xxl.baseService.bo.SyOrganise;
-import com.xxl.baseService.bo.SysUsers;
 import com.xxl.baseService.bo.SystemProperties;
 import com.xxl.baseService.bo.UABinding;
 import com.xxl.baseService.bo.UserLogin;
 import com.xxl.baseService.dao.IFrameworkDao;
+import com.xxl.facade.AdminRemote;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
 import com.xxl.facade.ReportRemote;
 import com.xxl.facade.StructureRemote;
-
+import com.xxl.os.bo.SyOrganise;
 import common.HibernateUtil;
 import common.businessObject.ItModule;
 import common.businessObject.MessageEvent;
@@ -73,8 +72,8 @@ import common.web.bean.SessionUserBean;
 import common.web.utils.SemWebAppConstants;
 import common.web.utils.SemWebAppUtils;
 
-@Service("frameworkService")
-public class FrameworkServiceImpl extends BaseService{
+@Service("adminRemote")
+public class AdminService extends BaseService implements AdminRemote{
 	public Log logger = LogFactory.getLog(this.getClass());
 	@Autowired
 	private IFrameworkDao frameworkDAO;

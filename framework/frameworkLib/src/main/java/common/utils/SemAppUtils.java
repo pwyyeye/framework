@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import net.sf.cglib.beans.BeanCopier;
 import net.sf.json.JSONObject;
@@ -30,6 +32,7 @@ import common.bussiness.Department;
 import common.bussiness.User;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
+import common.os.vo.DepartmentVO;
 import common.os.vo.UsersVO;
 import common.utils.JsonValueProcessorImpl;
 import common.utils.SemAppUtils;
@@ -567,4 +570,132 @@ public class SemAppUtils {
 		}
 		return property;
 	}
+	
+	public static User vo2User(UsersVO vo) {
+		if (vo == null)
+			return null;
+		User user = new User();
+		beanCopy(vo, user);
+		user.setId(vo.getId().intValue());
+		user.setName(vo.getName());
+		user.setAbbr(vo.getDepartmentName());
+		// user.setDeptid(、vo.getDepartment().intValue());
+		user.setDeptnum(vo.getDepartmentCode());
+		user.setLevel("" + vo.getLevel());
+		// user.setAddr(vo.getAddr());
+		user.setArchaddr(vo.getArchAddr());
+		user.setBirthday(SemAppUtils.getFullTime(vo.getBirthday()));
+		return user;
+
+	}
+	
+	public static Department vo2Dept(DepartmentVO vo) {
+		if (vo == null)
+			return null;
+		Department dept = new Department();
+		dept.setId("" + vo.getId());
+		dept.setLeadID("" + vo.getLeaderId());
+		dept.setLevel("" + vo.getDeptLevel());
+		dept.setName(vo.getName());
+		dept.setParentID(vo.getParentId());
+		return dept;
+	}
+	
+	public static String getReqPage(String filename) {
+		if (filename == null)
+			return null;
+		int i = filename.lastIndexOf("/");
+		// int j = filename.indexOf("?");
+		if (i < 0) {
+			return filename;
+		} else {
+			return filename.substring(i + 1);
+		}
+		// return j < i ? filename.substring(i + 1) : filename.substring(i + 1,
+		// j);
+	}
+
+	public static String getFullPath(String filename) {
+		try {
+			String newFilename = getReqPage(filename);
+			newFilename = URLEncoder.encode(newFilename, "UTF-8");
+			if (!filename.startsWith("http")) {
+				return getProperty("FILESERVER_URL") + newFilename;
+
+			} else {
+				return filename.substring(0, filename.lastIndexOf("/") + 1)
+						+ newFilename;
+			}
+
+		} catch (Exception ee) {
+			System.out.println("convert filename fail");
+			return filename;
+		}
+	}
+	
+	
+	// encrytor & decrytor Data
+		public static String encrytor(String data) throws BaseException,
+				BaseBusinessException {
+			try {
+				CommonRemote common = null;
+				return common.encrytor(data);
+			} catch (Exception ex3) {
+				handleException(ex3);
+				return null;
+			}
+
+		}
+
+		public static String decrytor(String data) throws BaseException,
+				BaseBusinessException {
+			try {
+				CommonRemote common = null;
+				return common.decrytor(data);
+			} catch (Exception ex3) {
+				handleException(ex3);
+				return null;
+			}
+		}
+
+		public static String encrytor(String data, String key)
+				throws BaseException, BaseBusinessException {
+			try {
+				CommonRemote common = null;
+				return common.encrytor(data, key);
+			} catch (Exception ex3) {
+				handleException(ex3);
+				return null;
+			}
+
+		}
+
+		public static String decrytor(String data, String key)
+				throws BaseException, BaseBusinessException {
+			try {
+				CommonRemote common = null;
+				return common.decrytor(data, key);
+			} catch (Exception ex3) {
+				handleException(ex3);
+				return null;
+			}
+		}
+		
+		/**
+		 * 随机产生字符串
+		 * 
+		 * @param length
+		 *            长度
+		 * @return 随机字符串
+		 */
+		public static String getRandomString(int length) { // length表示生成字符串的长度
+			String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+			Random random = new Random();
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < length; i++) {
+				int number = random.nextInt(base.length());
+				sb.append(base.charAt(number));
+			}
+			return sb.toString();
+		}
 }

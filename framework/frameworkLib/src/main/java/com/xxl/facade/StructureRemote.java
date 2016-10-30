@@ -145,21 +145,21 @@ public interface StructureRemote {
 //	public String publishMessage(String fromUserId, List toUserIds, Message msg)
 //			throws BaseBusinessException, BaseException, RemoteException;
 	
-	public String createChatroom(String chatroomId, String chatroomName) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String destroyChatroom(String chatroomId) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String queryChatroomUser(List<String> chatroomIds) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String chatroomUserBLockAdd(String userId, String chatroomId, String minute) throws BaseBusinessException,
-			BaseException, RemoteException;
+//	public String createChatroom(String chatroomId, String chatroomName) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String destroyChatroom(String chatroomId) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String queryChatroomUser(List<String> chatroomIds) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String chatroomUserBLockAdd(String userId, String chatroomId, String minute) throws BaseBusinessException,
+//			BaseException, RemoteException;
 
-	public PageList getFriends(Integer empId, Integer firstResult,
-			Integer fetchSize) throws OSException, OSBussinessException,
-			RemoteException;
+//	public PageList getFriends(Integer empId, Integer firstResult,
+//			Integer fetchSize) throws OSException, OSBussinessException,
+//			RemoteException;
 
 
 	public String getCaptchas(String mobile, final SessionUserBean user)
@@ -204,35 +204,35 @@ public interface StructureRemote {
 
 	public List getSubOrganises(final int organise) throws OSException,
 			RemoteException;
-
-	public String syncGroup(String userId, String[] groupIds, String[] groupNames) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String createGroup(List<String> userIds, String groupId, String groupName) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String joinGroup(String userId, String groupId, String groupName) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String quitGroup(String userId, String groupId) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String dismissGroup(String userId, String groupId) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String refreshGroupInfo(String groupId, String groupName) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String queryGroupUserList(String groupId) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String groupUserGagAdd(String userId, String groupId, String minute) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String groupUserGagRollback(String userId, String groupId) throws BaseBusinessException,
-			BaseException, RemoteException;
-	
-	public String groupUserGagList(String groupId) throws BaseBusinessException,
-			BaseException, RemoteException;
+//
+//	public String syncGroup(String userId, String[] groupIds, String[] groupNames) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String createGroup(List<String> userIds, String groupId, String groupName) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String joinGroup(String userId, String groupId, String groupName) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String quitGroup(String userId, String groupId) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String dismissGroup(String userId, String groupId) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String refreshGroupInfo(String groupId, String groupName) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String queryGroupUserList(String groupId) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String groupUserGagAdd(String userId, String groupId, String minute) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String groupUserGagRollback(String userId, String groupId) throws BaseBusinessException,
+//			BaseException, RemoteException;
+//	
+//	public String groupUserGagList(String groupId) throws BaseBusinessException,
+//			BaseException, RemoteException;
 	
 }

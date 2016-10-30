@@ -1,9 +1,8 @@
 package com.xxl.baseService.bo;
 
+import com.xxl.os.bo.SyOrganise;
 import common.businessObject.BaseBusinessObject;
 import common.businessObject.ItModule;
-import common.os.vo.UsersVO;
-import common.utils.SemAppUtils;
 import common.value.UABindingVO;
 
 public class UABinding extends BaseBusinessObject {

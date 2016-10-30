@@ -29,5 +29,8 @@ public abstract class BaseAbstractBo implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getUrl(String filename){
+		return  SemAppUtils.getFullPath(filename);
+	}
 
 }

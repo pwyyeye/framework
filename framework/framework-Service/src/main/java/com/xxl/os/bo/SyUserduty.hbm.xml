@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class name="common.os.bo.SyUserduty" table="SY_USERDUTY">
+        <composite-id name="id" class="common.os.bo.SyUserdutyKey">
+            <key-many-to-one name="department" column="DE_ID" class="common.os.bo.SyDepartment"/>
+            <key-many-to-one name="duty" column="DU_ID" class="common.os.bo.SyDuty"/>
+            <key-many-to-one name="users" column="US_ID" class="common.os.bo.SyUsers"/>
+        </composite-id>
+ 
+    </class>
+    
+</hibernate-mapping>

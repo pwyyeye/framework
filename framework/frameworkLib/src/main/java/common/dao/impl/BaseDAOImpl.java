@@ -60,7 +60,7 @@ import common.value.PageList;
 @Repository
 public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 
-	private static final Log log = LogFactory.getLog(BaseDAOImpl.class);
+	private static final Log logger = LogFactory.getLog(BaseDAOImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -73,14 +73,14 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 * 注意该方法只能对父表以及子表进行条件查询，对子表的关联设置没有作用
 	 */
 	public List findByExample(final T instance) {
-		log.debug("finding" + instance.getClass() + " instance by example");
+		logger.debug("finding" + instance.getClass() + " instance by example");
 		Criteria criteria = getCurrentSession().createCriteria(
 				instance.getClass()).add(Example.create(instance));
 		handleReferenceExample(criteria, instance);
 		criteria.setResultTransformer(Criteria.ROOT_ENTITY);
 
 		List results = criteria.list();
-		log.debug("find by example successful, result size: " + results.size());
+		logger.debug("find by example successful, result size: " + results.size());
 		return results;
 	}
 
@@ -114,7 +114,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 		criteria.setResultTransformer(Criteria.ROOT_ENTITY);
 
 		List tempResult = criteria.list();
-		log.debug("find by example successful, result size: "
+		logger.debug("find by example successful, result size: "
 				+ tempResult.size());
 		try {
 			Iterator iter = tempResult.iterator();
@@ -122,7 +122,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 				Object s = iter.next();
 				Class classe = s.getClass();
 				for (int i = 0; i < prefetchDelayedFields.length; i++) {
-					log.debug("变量" + prefetchDelayedFields[i] + "被预取");
+					logger.debug("变量" + prefetchDelayedFields[i] + "被预取");
 					Method method = classe.getMethod(SemAppUtils
 							.getGetMethodName(prefetchDelayedFields[i]), null);
 					Object o = method.invoke(s, null);
@@ -130,16 +130,16 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 				}
 			}
 		} catch (NoSuchMethodException re) {
-			log.error("指定的字段不存在", re);
+			logger.error("指定的字段不存在", re);
 			throw new RuntimeException(re);
 		} catch (IllegalArgumentException e) {
-			log.error("IllegalArgumentException", e);
+			logger.error("IllegalArgumentException", e);
 			throw new RuntimeException(e);
 		} catch (IllegalAccessException e) {
-			log.error("IllegalAccessException", e);
+			logger.error("IllegalAccessException", e);
 			throw new RuntimeException(e);
 		} catch (InvocationTargetException e) {
-			log.error("IllegalAccessException", e);
+			logger.error("IllegalAccessException", e);
 			throw new RuntimeException(e);
 		}
 		return tempResult;
@@ -179,14 +179,14 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 * 如果instance中所有字段均为空则不会删除任何记录，如果pojo类中存在基本类型的数据则会抛出异常.
 	 */
 	public void deleteByExample(T instance) {
-		log.debug("start to delete " + instance.getClass() + "by example");
+		logger.debug("start to delete " + instance.getClass() + "by example");
 		if (SemAppUtils.isAllFieldsNull(instance)) {
-			log.debug("all fields of instance " + instance.getClass()
+			logger.debug("all fields of instance " + instance.getClass()
 					+ "is null");
 			return;
 		}
 		getCurrentSession().delete(findByExample(instance));
-		log.debug("delete by Example success");
+		logger.debug("delete by Example success");
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 */
 	public PageList findByExample(final T instance,
 			final Integer firstResult, final Integer fetchSize) {
-		log.debug("finding" + instance.getClass() + " instance by example");
+		logger.debug("finding" + instance.getClass() + " instance by example");
 		try {
 			Criteria criteria = getCurrentSession().createCriteria(
 					instance.getClass()).add(Example.create(instance));
@@ -211,7 +211,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 			handleReferenceExample(criteria, instance);
 
 			List results = criteria.list();
-			log.debug("find by example successful, result size: "
+			logger.debug("find by example successful, result size: "
 					+ results.size());
 			List voResults = new ArrayList(results.size());
 			for (int i = 0; i < results.size(); i++) {
@@ -224,7 +224,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 			pageList.setItems(voResults);
 			return pageList;
 		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
+			logger.error("find by example failed", re);
 			throw re;
 		}
 	}
@@ -234,7 +234,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	}
 
 	public void deleteById(Serializable id, Class pojoClass) {
-		log.debug("delete" + pojoClass + " by id" + id);
+		logger.debug("delete" + pojoClass + " by id" + id);
 		try {
 			/*BaseAbstractBo o = (BaseAbstractBo) pojoClass.newInstance();
 			// String setMethod="setId";
@@ -272,11 +272,11 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 			log.error("initialize " + pojoClass + "failed", e);
 			throw new RuntimeException(e);
 		}*/ catch (IllegalArgumentException e) {
-			log.error("initialize " + pojoClass + "failed", e);
+			logger.error("initialize " + pojoClass + "failed", e);
 			throw new RuntimeException(e);
 		}
 
-		log.debug("delete by id success");
+		logger.debug("delete by id success");
 	}
 
 	/**
@@ -286,7 +286,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	public PageList findByExample(final T instance,
 			final List childTableMap, final Integer firstResult,
 			final Integer fetchSize) {
-		log.debug("finding" + instance.getClass() + " instance by example");
+		logger.debug("finding" + instance.getClass() + " instance by example");
 		try {
 			Criteria criteria = getCurrentSession().createCriteria(
 					instance.getClass()).add(Example.create(instance));
@@ -309,7 +309,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 			}
 			criteria.setResultTransformer(Criteria.ROOT_ENTITY);
 			List results = criteria.list();
-			log.debug("find by example successful, result size: "
+			logger.debug("find by example successful, result size: "
 					+ results.size());
 			List voResults = new ArrayList(results.size());
 			for (int i = 0; i < results.size(); i++) {
@@ -322,7 +322,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 			pageList.setItems(voResults);
 			return pageList;
 		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
+			logger.error("find by example failed", re);
 			throw re;
 		}
 	}
@@ -341,7 +341,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 		}
 		criteria.setResultTransformer(Criteria.ROOT_ENTITY);
 		List results = criteria.list();
-		log.debug("find by example successful, result size: " + results.size());
+		logger.debug("find by example successful, result size: " + results.size());
 		List voResults = new ArrayList(results.size());
 		for (int i = 0; i < results.size(); i++) {
 			BaseAbstractBo bbo = (BaseAbstractBo) results.get(i);
@@ -373,18 +373,18 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	}
 
 	public T findById(Integer id, Class tableClass) {
-		log.debug("getting" + tableClass.getName() + " instance with id: " + id);
+		logger.debug("getting" + tableClass.getName() + " instance with id: " + id);
 		try {
 			T instance = (T) getCurrentSession().get(tableClass, id);
 			return instance;
 		} catch (RuntimeException re) {
-			log.error("getting instance error id[" + id + "]", re);
+			logger.error("getting instance error id[" + id + "]", re);
 			throw re;
 		}
 	}
 
 	public T loadById(Integer id, Class tableClass) {
-		log.debug("loading" + tableClass.getName() + " instance with id: " + id);
+		logger.debug("loading" + tableClass.getName() + " instance with id: " + id);
 		try {
 			T instance = (T) getCurrentSession().load(tableClass, id);
 			return instance;
@@ -394,20 +394,20 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	}
 
 	public BaseVO loadVoById(final Integer id, final Class tableClass) {
-		log.debug("loading" + tableClass.getName() + " instance with id: " + id);
+		logger.debug("loading" + tableClass.getName() + " instance with id: " + id);
 		try {
 			BaseBusinessObject instance = (BaseBusinessObject) getCurrentSession()
 					.load(tableClass, id);
 			return (BaseVO) instance.toVO();
 		} catch (RuntimeException re) {
-			log.error("find by example failed", re);
+			logger.error("find by example failed", re);
 			throw re;
 		}
 
 	}
 
 	public T findBoById(Serializable id, Class tableClass) {
-		log.debug("getting" + tableClass.getName() + " instance with id: " + id);
+		logger.debug("getting" + tableClass.getName() + " instance with id: " + id);
 		try {
 			T instance = (T) getCurrentSession().get(tableClass, id);
 			return instance;
@@ -417,7 +417,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	}
 
 	public T loadBoById(Serializable id, Class tableClass) {
-		log.debug("loading" + tableClass.getName() + " instance with id: " + id);
+		logger.debug("loading" + tableClass.getName() + " instance with id: " + id);
 		try {
 			T instance = (T) getCurrentSession().load(tableClass, id);
 			return instance;
@@ -427,31 +427,42 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	}
 
 	public void delete(T persistentInstance) {
-		log.debug("deleting" + persistentInstance.getClass() + " instance");
+		logger.debug("deleting" + persistentInstance.getClass() + " instance");
 		try {
 			getCurrentSession().delete(persistentInstance);
-			log.debug("delete successful");
+			logger.debug("delete successful");
 		} catch (RuntimeException re) {
 			throw re;
 		}
 	}
 
 	public String save(T transientInstance) {
-		log.debug("saving " + transientInstance.getClass() + " instance");
+		logger.debug("saving " + transientInstance.getClass() + " instance");
 		try {
 			String id = String.valueOf(getCurrentSession().save(transientInstance));
-			log.debug("save successful");
+			logger.debug("save successful");
 			return id;
 		} catch (RuntimeException re) {
 			throw re;
 		}
 	}
 	
+	public Integer save(BaseBusinessObject transientInstance) {
+		logger.debug("saving " + transientInstance.getClass() + " instance");
+		try {
+			getCurrentSession().save(transientInstance);
+			logger.debug("save successful");
+			return transientInstance.getId();
+		} catch (RuntimeException re) {
+			throw re;
+		}
+	}
+	
 	public void saveOrUpdate(T transientInstance) {
-		log.debug("saving " + transientInstance.getClass() + " instance");
+		logger.debug("saving " + transientInstance.getClass() + " instance");
 		try {
 			getCurrentSession().saveOrUpdate(transientInstance);
-			log.debug("save successful");
+			logger.debug("save successful");
 		} catch (RuntimeException re) {
 			throw re;
 		}
@@ -479,7 +490,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 * @see org.hibernate.Session#createQuery
 	 */
 	public List findByHql(String hql) {
-		log.debug("find by Hql, hql is " + hql);
+		logger.debug("find by Hql, hql is " + hql);
 		Query query = getCurrentSession().createQuery(hql);
 		return query.list();
 	}
@@ -498,7 +509,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 * @see org.hibernate.Session#createQuery
 	 */
 	public List findByHql(String hql, Object value) {
-		log.debug("find by Hql, hql is " + hql + ", value is " + value);
+		logger.debug("find by Hql, hql is " + hql + ", value is " + value);
 		Query query = getCurrentSession().createQuery(hql);
 		query.setParameter(0, value);
 		return query.list();
@@ -518,7 +529,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 * @see org.hibernate.Session#createQuery
 	 */
 	public List findByHql(String hql, Object[] value) {
-		log.debug("find by Hql, hql is " + hql + ", value is " + value);
+		logger.debug("find by Hql, hql is " + hql + ", value is " + value);
 		Query query = getCurrentSession().createQuery(hql);
 		for (int i = 0; i < value.length; i++) {
 			query.setParameter(i + 1, value[i]);
@@ -684,7 +695,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 *            sql to be execute.
 	 */
 	public Integer updateOrDeleteBySql(final String sql) {
-		log.debug("updateOrDeleteBySql sql is " + sql);
+		logger.debug("updateOrDeleteBySql sql is " + sql);
 		if (sql == null || sql.indexOf("select") != -1)
 			throw new RuntimeException(
 					"method updateOrDeleteBySql could not accept a query sql");
@@ -700,7 +711,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 *            sql to be execute.
 	 */
 	public void bulkUpdateOrDeleteBySql(final String[] sql) {
-		log.debug("buldUpdateOrDeleteBySql sql is " + sql);
+		logger.debug("buldUpdateOrDeleteBySql sql is " + sql);
 		for (int i = 0; i < sql.length; i++) {
 			if (sql[i] == null || sql[i].indexOf("select") != -1)
 				throw new RuntimeException(
@@ -721,7 +732,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 *            named param of the sql.
 	 */
 	public Integer updateOrDeleteBySql(final String sql, final Object[] params) {
-		log.debug("updateOrDeleteBySql sql is " + sql + "params is " + params);
+		logger.debug("updateOrDeleteBySql sql is " + sql + "params is " + params);
 		if (sql == null || sql.indexOf("select") != -1)
 			throw new RuntimeException(
 					"method updateOrDeleteBySql could not accept a query sql param");
@@ -743,7 +754,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 */
 	public void bulkUpdateOrDeleteBySql(final String[] sql,
 			final Object[][] params) {
-		log.debug("bulkUpdateOrDeleteBySql sql is " + sql + "params is "
+		logger.debug("bulkUpdateOrDeleteBySql sql is " + sql + "params is "
 				+ params);
 		for (int i = 0; i < sql.length; i++) {
 			if (sql[i] == null || sql[i].indexOf("select") != -1)
@@ -769,7 +780,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 */
 	public int[] batchUpdateOrDeleteBySql(final String sql,
 			final Object[][] params) {
-		log.debug("batchUpdateOrDeleteBySql, sql is " + sql + ", params is "
+		logger.debug("batchUpdateOrDeleteBySql, sql is " + sql + ", params is "
 				+ params);
 		if (sql == null || sql.indexOf("select") != -1)
 			throw new RuntimeException(
@@ -786,23 +797,23 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	}
 
 	public Integer callUpdateProcedure(final String sql, final Object[] params) {
-		log.debug("start to call procedure" + sql + ", params is " + params);
+		logger.debug("start to call procedure" + sql + ", params is " + params);
 		final ArrayList<Integer> returnHitCount = new ArrayList<Integer>();
 		getCurrentSession().doWork(new Work() {
 			public void execute(Connection conn) throws SQLException {
 				try {
 					CallableStatement cs = conn.prepareCall(sql);
 					if (params != null) {
-						log.debug("params is not null it's members is "
+						logger.debug("params is not null it's members is "
 								+ Arrays.asList(params));
 						for (int i = 0; i < params.length; i++) {
 							cs.setObject(i + 1, params[i]);
 						}
 					} else
-						log.debug("params is null");
+						logger.debug("params is null");
 					int hitCount = cs.executeUpdate();
 					cs.close();
-					log.debug("call procedure ended, hitted record counts is "
+					logger.debug("call procedure ended, hitted record counts is "
 							+ hitCount);
 					returnHitCount.add(new Integer(hitCount));
 				} catch (Exception e) {
@@ -815,19 +826,19 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 
 	public List<Map<String, Object>> callQueryProcedure(final String sql,
 			final Object[] params) {
-		log.debug("start to call procedure" + sql + ", params is " + params);
+		logger.debug("start to call procedure" + sql + ", params is " + params);
 		final List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		getCurrentSession().doWork(new Work() {
 			public void execute(Connection conn) throws SQLException {
 				CallableStatement cs = conn.prepareCall(sql);
 				if (params != null) {
-					log.debug("params is not null it's members is "
+					logger.debug("params is not null it's members is "
 							+ Arrays.asList(params));
 					for (int i = 0; i < params.length; i++) {
 						cs.setObject(i + 1, params[i]);
 					}
 				} else
-					log.debug("params is null");
+					logger.debug("params is null");
 				ResultSet rs = cs.executeQuery();
 				ResultSetMetaData metaData = rs.getMetaData();
 				int colCount = metaData.getColumnCount();
@@ -854,12 +865,12 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 	 */
 	private void handleReferenceExample(Criteria criteria,
 			T instance) {
-		log.debug("handleReferenceExample start to handle "
+		logger.debug("handleReferenceExample start to handle "
 				+ instance.getClass() + " reference table query field");
 		try {
 			Field[] fields = instance.getClass().getDeclaredFields();
 			for (int i = 0; i < fields.length; i++) {
-				log.debug("start to handle field " + fields[i].getName());
+				logger.debug("start to handle field " + fields[i].getName());
 				Object refTableField = (Object) instance
 						.getClass()
 						.getDeclaredMethod(
@@ -868,7 +879,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 						.invoke(instance, null);
 				if ((refTableField != null)
 						&& (refTableField instanceof BaseAbstractBo)) {
-					log.debug(fields[i].getName()
+					logger.debug(fields[i].getName()
 							+ " is a BaseAbstractBo, its type is "
 							+ refTableField.getClass() + ", start to handle it");
 					criteria.createCriteria(fields[i].getName()).add(
@@ -876,7 +887,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 
 				} else if (refTableField != null
 						&& (refTableField instanceof Collection)) {
-					log.debug(fields[i].getName()
+					logger.debug(fields[i].getName()
 							+ " is a Collection, its type is "
 							+ refTableField.getClass() + ", start to handle it");
 					Collection col = (Collection) refTableField;
@@ -899,7 +910,7 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 			throw new RuntimeException(e);
 		}
 
-		log.debug("handleReferenceExample end");
+		logger.debug("handleReferenceExample end");
 	}
 
 	/*public void deleteByExample(BaseBusinessObject instance) {

@@ -1,4 +1,4 @@
-package com.xxl.baseService.bo;
+package com.xxl.os.bo;
 
 import java.io.Serializable;
 import java.util.Calendar;

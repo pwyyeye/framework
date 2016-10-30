@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.xxl.facade.AdminSession;
+import com.xxl.facade.AdminRemote;
 
 import common.bussiness.CommonLogger;
 import common.filter.SemLogonInterface;
@@ -29,7 +29,7 @@ public class LogonImpl implements SemLogonInterface{
 
 	public static Log sysLogger = LogFactory.getLog("sys");
 	protected InitialContext context = null;
-	private AdminSession adminSession;
+	private AdminRemote adminSession;
 	public boolean performLogon(UsersVO user, HttpServletRequest request,Integer roleID) {
 		logger.debug("start perform logon...");
 		try {

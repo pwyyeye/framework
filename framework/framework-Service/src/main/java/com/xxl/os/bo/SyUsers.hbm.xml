@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class name="common.os.bo.SyUsers" table="SY_USERS">
+        <id name="id" column="US_ID" type="integer">
+            <!-- <generator class="sequence">
+				<param name="sequence">SEQ_DM_SyUsers</param>
+			</generator>-->
+			<generator class="identity"/>
+        </id>
+ 
+        <property name="name" column="name" type="string"  not-null="true" />
+        <property name="password" column="password" type="string" />
+        <property name="loginId" column="loginId" type="string"  not-null="true" />
+        <property name="code" column="code" type="string"/>
+        <property name="sex" column="sex" type="string" />
+        <property name="party" column="party" type="integer" />
+        <property name="peoples" column="peoples" type="string" />
+        <property name="nationality" column="nationality" type="string" />
+        <property name="nativePlace" column="nativePlace" type="string" />
+        <property name="wedLock" column="wedLock" type="string" />
+        <property name="educateLevel" column="educateLevel" type="integer" />
+        <property name="archAddr" column="archAddr" type="string" />
+        <property name="credentialType" column="credentialType" type="integer" />
+        <property name="credentialNo" column="credentialNo" type="string" />
+        <property name="tel" column="tel" type="string" />
+        <property name="wechat" column="wechat" type="string" />
+        <property name="qq" column="qq" type="string" />
+        <property name="weibo" column="weibo" type="string" />
+        <property name="email" column="email" type="string" />
+        <property name="parentId" column="parentId" type="integer" />
+        <property name="orderNo" column="orderNo" type="integer" />
+        <property name="mobile" column="mobile" type="string" />
+        <property name="housetel" column="housetel" type="string" />
+        <property name="title" column="title" type="string" />
+        <property name="level" column="level" type="integer" />
+        <property name="mark" column="mark" type="string"  />
+        <property name="status" column="status" type="string"  not-null="true" />
+        <property name="registerDate" column="registerDate" type="java.util.Calendar" />
+        <property name="logoutDate" column="logoutDate" type="java.util.Calendar" />
+        <property name="timeType" column="timeType" type="integer" />
+        <property name="engineer" column="engineer" type="string"/>
+        <property name="birthday" column="birthday" type="java.util.Calendar" />
+        <property name="bloodType" column="bloodType" type="string" />
+        <property name="isDirector" column="isDirector" type="integer" />
+        <property name="isAd" column="isAd" type="integer"/>
+        <property name="isOpen" column="isOpen" type="string" />
+        <property name="remark" column="remark" type="string" />
+ 
+        <many-to-one name="syDepartment" column="DE_ID" class="common.os.bo.SyDepartment"  not-null="true"  lazy="false"/>
+        <many-to-one name="syOrganise" column="OR_ID" class="common.os.bo.SyOrganise"  not-null="true" />
+   
+    </class>
+    
+</hibernate-mapping>

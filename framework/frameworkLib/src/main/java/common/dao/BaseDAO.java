@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.hibernate.criterion.DetachedCriteria;
 
+import common.businessObject.BaseBusinessObject;
 import common.value.BaseVO;
 import common.value.PageList;
 
@@ -73,6 +74,7 @@ public interface BaseDAO<T, ID extends Serializable> {
 			final Integer firstResult, final Integer maxResults);
 
 	public String save(T transientInstance);
+	public Integer save(BaseBusinessObject transientInstance);
 	public void saveOrUpdate(T transientInstance);
 	//public String save(BaseBusinessStringObject transientInstance) ;
 	public void delete(T persistentInstance);

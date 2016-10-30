@@ -16,6 +16,6 @@
 	<dubbo:protocol name="dubbo" port="20880" />
 		
 	<!-- 用户服务接口 -->
-	<dubbo:service interface="com.xxl.facade.CommonRemote" ref="pmsUserFacade" />
+	<dubbo:service interface="com.xxl.facade.CommonRemote" ref="commonRemote" />
 
 </beans>  

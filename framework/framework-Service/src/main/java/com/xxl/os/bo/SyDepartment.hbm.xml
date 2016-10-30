@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class name="common.os.bo.SyDepartment" table="SY_DEPARTMENT" lazy="false">
+        <id name="id" column="DE_ID" type="integer">
+          <generator class="identity"/>
+         
+         <!--  
+            <generator class="sequence">
+				<param name="sequence">SEQ_DM_Sy_Department</param>
+			</generator>-->
+        </id>
+ 
+        <property name="orderNo" column="DE_ORDERNO" type="integer" />
+        <property name="name" column="DE_NAME" type="string" />
+        <property name="abbr" column="DE_ABBR" type="string"/>
+        <property name="groupName" column="DE_GROUPNAME" type="string" />
+        <property name="kind" column="DE_KIND" type="string" />
+        <property name="tel" column="DE_TEL" type="string" />
+        <property name="fax" column="DE_FAX" type="string" />
+        <property name="leaderId" column="DE_LEADERID" type="integer" />
+        <property name="chiefId" column="DE_CHIEFID" type="integer" />
+        <property name="remark" column="DE_REMARK" type="string" />
+        <property name="parentId" column="DE_PARENTID" type="integer" />
+        <property name="deptLevel" column="DE_DEPTLEVEL" type="integer" />
+        <property name="mark" column="DE_MARK" type="string" />
+        <property name="status" column="DE_STATUS" type="integer"/>
+        <property name="registerDate" column="DE_REGISTERDATE" type="java.util.Calendar"  />
+        <property name="logoutDate" column="DE_LOGOUTDATE" type="java.util.Calendar" />
+        <property name="deptType" column="DE_DEPTTYPE" type="string" />
+        <property name="deptNum" column="DE_DEPTNUM" type="string" />
+ 
+        <many-to-one name="syOrganise" column="OR_ID" class="common.os.bo.SyOrganise"  not-null="true" />
+ 
+    </class>
+    
+</hibernate-mapping>
