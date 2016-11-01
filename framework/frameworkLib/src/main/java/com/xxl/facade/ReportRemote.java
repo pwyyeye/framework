@@ -3,7 +3,6 @@ package com.xxl.facade;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.ejb.EJBObject;
 
 import common.exception.CommonException;
 import common.value.PageList;

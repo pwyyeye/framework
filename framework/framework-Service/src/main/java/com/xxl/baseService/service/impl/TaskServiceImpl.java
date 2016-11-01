@@ -43,8 +43,8 @@ public class TaskServiceImpl implements ITaskService {
 	@Resource
 	private ITaskDao taskDao;
 
-	@Resource
-	private Scheduler scheduler;
+//	@Resource
+	private Scheduler scheduler; 
 
 	@Override
 	public void initTask() {

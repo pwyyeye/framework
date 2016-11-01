@@ -23,31 +23,22 @@ import common.bussiness.User;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.security.InvalidKeyException;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.ejb.CreateException;
-import javax.ejb.SessionBean;
-import javax.ejb.SessionContext;
-import javax.jms.JMSException;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+//import javax.jms.ObjectMessage;
+//import javax.jms.Queue;
+//import javax.jms.QueueConnection;
+//import javax.jms.QueueConnectionFactory;
+//import javax.jms.QueueSender;
+//import javax.jms.QueueSession;
+//import javax.naming.InitialContext;
+//import javax.naming.NamingException;
 
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.exception.CommonException;
-import common.jms.vo.UserPushLogVO;
 import common.os.vo.DepartmentVO;
 import common.os.vo.OrganiseVO;
 import common.os.vo.UsersVO;
@@ -55,13 +46,11 @@ import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;
 import common.value.MailMessage;
 import common.value.MobileMessage;
-import common.value.PageList;
 import common.value.SemMessageObject;
 import common.web.bean.SessionUserBean;
 
 @Service("commonRemote")
 public class CommonService implements CommonRemote {
-	SessionContext sessionContext;
 
 	public Log logger = LogFactory.getLog(this.getClass());
 
@@ -69,15 +58,15 @@ public class CommonService implements CommonRemote {
 
 //	AlphaUddi uddiSession;
 
-	private QueueConnectionFactory qcFactory;
-
-	private QueueSession qSession;
-
-	private QueueConnection qConnection;
-
-	private QueueSender qSender;
-
-	private Queue queSJ;
+//	private QueueConnectionFactory qcFactory;
+//
+//	private QueueSession qSession;
+//
+//	private QueueConnection qConnection;
+//
+//	private QueueSender qSender;
+//
+//	private Queue queSJ;
 
 	private HelperRemote helperRemote;
 
@@ -109,12 +98,8 @@ public class CommonService implements CommonRemote {
 
 
 
-	InitialContext context;
+//	InitialContext context;
 
-
-	public void setSessionContext(SessionContext sessionContext) {
-		this.sessionContext = sessionContext;
-	}
 
 	public UsersVO getDeptTopDirectorVO(String deptID) throws Exception {
 		if (userExternalOS) {
@@ -445,14 +430,14 @@ public class CommonService implements CommonRemote {
 		logger.debug("start send mail");
 		SemMessageObject messageObject = new SemMessageObject(null, message,
 				new Integer(SemAppConstants.MAIL_QUEUE));
-		ObjectMessage objectMessage;
-		try {
-			objectMessage = qSession.createObjectMessage(messageObject);
-			qSender.send(objectMessage);
-		} catch (JMSException e) {
-			logger.error("后台发送邮件失败", e);
-			throw new CommException(e);
-		}
+//		ObjectMessage objectMessage;
+//		try {
+//			objectMessage = qSession.createObjectMessage(messageObject);
+//			qSender.send(objectMessage);
+//		} catch (Exception e) {
+//			logger.error("后台发送邮件失败", e);
+//			throw new CommException(e);
+//		}
 		logger.debug("start send mail end");
 	}
 
@@ -464,19 +449,19 @@ public class CommonService implements CommonRemote {
 	}
 
 	public void sendMessageByMobile(MobileMessage message) throws CommException {
-		try {
-			MobileDB.init();
-			MobileDB sender = MobileDB.getTheInstance();
-			sender
-					.sentMobileMsg(message.getDestMobiles(), message
-							.getContent());
-		} catch (NamingException ex) {
-			throw new CommException(ex);
-		} catch (SQLException ex) {
-			throw new CommException(ex);
-		} finally {
-			MobileDB.end();
-		}
+//		try {
+//			MobileDB.init();
+//			MobileDB sender = MobileDB.getTheInstance();
+//			sender
+//					.sentMobileMsg(message.getDestMobiles(), message
+//							.getContent());
+//		} catch (NamingException ex) {
+//			throw new CommException(ex);
+//		} catch (SQLException ex) {
+//			throw new CommException(ex);
+//		} finally {
+//			MobileDB.end();
+//		}
 	}
 
 	public void sendMessageByMobile(String destMobile, String[] message)
@@ -534,9 +519,6 @@ public class CommonService implements CommonRemote {
 			return adminSession
 					.getSessionUserBean(theUser, systemID, ip, token);
 		} catch (RemoteException e) {
-			logger.error("调用ADMIN EJB服务失败", e);
-			throw new CommException("调用ADMIN EJB服务失败", e);
-		} catch (CreateException e) {
 			logger.error("调用ADMIN EJB服务失败", e);
 			throw new CommException("调用ADMIN EJB服务失败", e);
 		} catch (Exception e) {

@@ -75,7 +75,7 @@ import common.web.utils.SemWebAppUtils;
 @Service("adminRemote")
 public class AdminService extends BaseService implements AdminRemote{
 	public Log logger = LogFactory.getLog(this.getClass());
-	@Autowired
+	//@Autowired
 	private IFrameworkDao frameworkDAO;
 	
 	Session hibernateSession;

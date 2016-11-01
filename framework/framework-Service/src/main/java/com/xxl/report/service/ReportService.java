@@ -16,18 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ejb.EJBException;
-import javax.ejb.SessionBean;
-import javax.ejb.SessionContext;
-import javax.jms.JMSException;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.naming.NamingException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -62,7 +50,7 @@ import common.value.SemMessageObject;
 
 @Service("reportRemote")
 public class ReportService implements ReportRemote {
-	SessionContext sessionContext;
+//	SessionContext sessionContext;
 
 	public Log logger = LogFactory.getLog(this.getClass());
 
@@ -72,15 +60,15 @@ public class ReportService implements ReportRemote {
 
 	private CommonRemote commonRemote;
 
-	private QueueConnectionFactory qcFactory;
-
-	private QueueSession qSession;
-
-	private QueueConnection qConnection;
-
-	private QueueSender qSender;
-
-	private Queue queSJ;
+//	private QueueConnectionFactory qcFactory;
+//
+//	private QueueSession qSession;
+//
+//	private QueueConnection qConnection;
+//
+//	private QueueSender qSender;
+//
+//	private Queue queSJ;
 
 	public void ejbCreate() {
 
@@ -458,14 +446,14 @@ public class ReportService implements ReportRemote {
 				SemMessageObject messageObject = new SemMessageObject(null,
 						scheduleID, new Integer(
 								SemAppConstants.QUEUE_REPORT_SCHEDULE));
-				ObjectMessage objectMessage;
-				try {
-					objectMessage = qSession.createObjectMessage(messageObject);
-					qSender.send(objectMessage);
-				} catch (JMSException e) {
-					logger.error("后台执行报表调度失败", e);
-					throw new CommonException(e);
-				}
+//				ObjectMessage objectMessage;
+//				try {
+//					objectMessage = qSession.createObjectMessage(messageObject);
+//					qSender.send(objectMessage);
+//				} catch (JMSException e) {
+//					logger.error("后台执行报表调度失败", e);
+//					throw new CommonException(e);
+//				}
 			}
 
 		} catch (HibernateException ee) {
@@ -931,14 +919,7 @@ public class ReportService implements ReportRemote {
 		return result;
 	}
 
-	public void ejbRemove() throws EJBException, RemoteException {
-	}
-
-	public void ejbActivate() throws EJBException, RemoteException {
-	}
-
-	public void ejbPassivate() throws EJBException, RemoteException {
-	}
+	
 
 	private List getSubmodules(int system, Session hibernateSession) {
 //		return SemAppUtils.getSubmodules(system, hibernateSession);

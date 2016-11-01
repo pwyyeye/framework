@@ -24,6 +24,11 @@
     	<artifactId>frameworkLib</artifactId>
     	<version>${project.version}</version>
     </dependency>
+    <dependency>
+	 	<groupId>com.xxl</groupId>
+	 	<artifactId>framework-Service</artifactId>
+	 	<version>${project.version}</version>
+	 </dependency>
   </dependencies>
   <build>
     <finalName>frameworkWeb</finalName>

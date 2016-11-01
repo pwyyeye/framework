@@ -19,4 +19,5 @@
   [ERROR] [2016-10-30 22:24:00][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
   [ERROR] [2016-10-30 23:55:56][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
   [ERROR] [2016-10-30 23:58:20][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-10-31 22:44:37][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
   

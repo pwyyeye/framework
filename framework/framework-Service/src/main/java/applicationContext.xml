@@ -10,12 +10,7 @@
         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
-	<!-- 自动扫描 -->  
-	<context:component-scan base-package="common.dao" />
-	<context:component-scan base-package="com.xxl.baseService.dao" />
-    <context:component-scan base-package="com.xxl.baseService.service" />  
-    <context:component-scan base-package="com.xxl.os.service" />  
-    <context:component-scan base-package="com.xxl.report.service" />  
+	
     
    <!-- <context:component-scan base-package="com.xxl.springsecurity" /> -->  
     <!-- 引入配置文件 -->  
@@ -63,7 +58,7 @@
         <property name="dataSource" ref="dataSource"></property>
         <property name="packagesToScan" >
             <list>
-                <value>com.xxl.baseService.bo</value>
+                <value>com.xxl.baseService.bo.test</value>
             </list>
         </property>
         <!--<property name="mappingDirectoryLocations">  
@@ -125,7 +120,11 @@
     <!-- 调度工厂 -->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     </bean>
-    
-    
+     <!-- 自动扫描 -->  
+    <context:component-scan base-package="common.dao" />
+	<context:component-scan base-package="com.xxl.baseService.dao" />
+    <context:component-scan base-package="com.xxl.baseService.service" />  
+    <context:component-scan base-package="com.xxl.os.service" />  
+    <context:component-scan base-package="com.xxl.report.service" />  
     <import resource="dubbo-provider.xml" />
 </beans>
