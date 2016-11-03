@@ -4,6 +4,13 @@
 <html>
 	<%@ include file="common.jsp"%>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <%
+    String path = request.getContextPath();
+    
+    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";%>
+    
+	<base href="<%=basePath%>">
+    
 	<script>
 	function checkIE() {
 	var ver = navigator.appVersion;

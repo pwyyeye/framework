@@ -19,7 +19,6 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
 import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.ejb.support.AbstractStatelessSessionBean;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;

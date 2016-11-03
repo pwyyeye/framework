@@ -48,8 +48,8 @@ public class LoginController extends BaseController {
 
 	@Autowired
 	private CommonRemote commonRemote;
-	
-	@Autowired
+	 
+	//@Autowired
 	public AdminRemote adminRemote;
 
 	private String ip;
@@ -80,10 +80,11 @@ public class LoginController extends BaseController {
 		
 		System.out.println("helloword1");
 		try {
-			commonRemote.getUserToken("123");
+			String token=commonRemote.getUserToken("123");
+			logger.info("token="+token);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("home error:"+e);
+			this.handleException(e, request, response);
 		}
 		return "login";
 	}
