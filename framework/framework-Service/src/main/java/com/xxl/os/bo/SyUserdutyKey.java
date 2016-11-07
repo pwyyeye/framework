@@ -1,6 +1,6 @@
 package com.xxl.os.bo;
 
-public class SyUserdutyKey {
+public class SyUserdutyKey extends common.businessObject.BaseBusinessObject{
 	private SyDepartment department;
 	private SyDuty duty;
 	private SyUsers users;
@@ -27,5 +27,11 @@ public class SyUserdutyKey {
 
 	public void setUsers(SyUsers users) {
 		this.users = users;
+	}
+
+	@Override
+	public Object toVO() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

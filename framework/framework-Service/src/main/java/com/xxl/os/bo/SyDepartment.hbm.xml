@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
-        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "hibernate-mapping-3.0.dtd">
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
     
 <hibernate-mapping>
 
-    <class name="common.os.bo.SyDepartment" table="SY_DEPARTMENT" lazy="false">
+    <class name="com.xxl.os.bo.SyDepartment" table="SY_DEPARTMENT" lazy="false">
         <id name="id" column="DE_ID" type="integer">
           <generator class="identity"/>
          
@@ -34,7 +33,7 @@
         <property name="deptType" column="DE_DEPTTYPE" type="string" />
         <property name="deptNum" column="DE_DEPTNUM" type="string" />
  
-        <many-to-one name="syOrganise" column="OR_ID" class="common.os.bo.SyOrganise"  not-null="true" />
+        <many-to-one name="syOrganise" column="OR_ID" class="com.xxl.os.bo.SyOrganise"  not-null="true" />
  
     </class>
     

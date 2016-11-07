@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
-        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "hibernate-mapping-3.0.dtd">
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
     
 <hibernate-mapping>
 
-    <class name="common.os.bo.SyDuty" table="SY_DUTY">
+    <class name="com.xxl.os.bo.SyDuty" table="SY_DUTY">
         <id name="id" column="DU_ID" type="integer">
           <generator class="identity"/>  
         </id>
@@ -20,7 +19,7 @@
  
         <set name="syUserdutySet" inverse="true">
             <key column="DU_ID"/>
-            <one-to-many class="common.os.bo.SyUserduty"/>
+            <one-to-many class="com.xxl.os.bo.SyUserduty"/>
         </set>
     </class>
     

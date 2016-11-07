@@ -1,6 +1,5 @@
 package com.xxl.os.service;
 
-
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Service;
 
@@ -54,17 +54,34 @@ import common.web.bean.SessionUserBean;
 import common.web.utils.SemWebAppUtils;
 
 @Service("structureRemote")
-public class StructureService extends BaseService implements StructureRemote{
+public class StructureService extends BaseService implements StructureRemote {
 	public Log logger = LogFactory.getLog(this.getClass());
 	public Log dbLogger = SemAppUtils.getDBLog(StructureService.class);
+	@Autowired
 	DepartmentDAO departmentDAO;
+
+	@Autowired
 	DutyDAO dutyDAO;
+	
+	@Autowired
 	OnlineDAO onlineDAO;
+	
+	@Autowired
 	OrganiseDAO organiseDAO;
+	
+	@Autowired
 	UserDutyDAO userDutyDAO;
+	
+	@Autowired
 	UsersDAO usersDAO;
+	
+	@Autowired
 	HelperRemote helperRemote;
+	
+	@Autowired
 	CommonRemote commonRemote;
+	
+	@Autowired
 	UserPropertiesDAO userPropertiesDAO;
 
 	public UsersVO getUserInfo(final Integer empId) throws OSException,
@@ -78,8 +95,7 @@ public class StructureService extends BaseService implements StructureRemote{
 		try {
 			// usersDAO.deleteById(id, SyUsers.class);
 
-			SyUsers users = (SyUsers) usersDAO.loadById(empId,
-					SyUsers.class);
+			SyUsers users = (SyUsers) usersDAO.loadById(empId, SyUsers.class);
 			return (UsersVO) users.toVO();
 
 		} catch (Exception e) {
@@ -108,7 +124,7 @@ public class StructureService extends BaseService implements StructureRemote{
 			SyUsers bo = new SyUsers(vo.getId());
 			SemAppUtils.beanCopy(vo, bo);
 			if (SemAppUtils.isNotEmpty(vo.getPassword())) {
-				String password = SemAppUtils.encrytor(vo.getPassword());
+				String password = commonRemote.encrytor(vo.getPassword());
 				bo.setPassword(password);
 			}
 			bo.setRegisterDate(Calendar.getInstance());
@@ -120,19 +136,19 @@ public class StructureService extends BaseService implements StructureRemote{
 			bo.setSyOrganise(department.getSyOrganise());
 			bo.setIsAd(0);
 			logger.debug(bo);
-			Integer userId =usersDAO.save(bo);
-//			this.publishMessage(1001, "新增注册用户", "新增注册用户成功,users id="
-//					+ bo.getLoginId());
+			Integer userId = usersDAO.save(bo);
+			// this.publishMessage(1001, "新增注册用户", "新增注册用户成功,users id="
+			// + bo.getLoginId());
 			return userId;
 		} catch (org.springframework.dao.DataIntegrityViolationException ee) {
 			logger.error("添加用户失败，该用户已存在,mobile[" + vo.getLoginId() + "]", ee);
-//			this.publishMessage(1001, "新增注册用户失败", "该用户已存在,users id="
-//					+ vo.getLoginId());
+			// this.publishMessage(1001, "新增注册用户失败", "该用户已存在,users id="
+			// + vo.getLoginId());
 			throw new OSBussinessException("添加用户失败，该用户已存在");
 		} catch (Exception e) {
 			logger.error("新增用户资料失败：", e);
-//			this.publishMessage(1001, "新增注册用户失败", "该用户资料失败,users id="
-//					+ vo.getLoginId() + ",ERROR MESSAGE=" + e.getMessage());
+			// this.publishMessage(1001, "新增注册用户失败", "该用户资料失败,users id="
+			// + vo.getLoginId() + ",ERROR MESSAGE=" + e.getMessage());
 			throw new OSException("新增用户资料失败：", e);
 		}
 	}
@@ -232,18 +248,23 @@ public class StructureService extends BaseService implements StructureRemote{
 			DetachedCriteria criteria = DetachedCriteria
 					.forClass(SyUsers.class);
 			if (vo.getSearchValue() != null) {
-				criteria.add(Expression.or(Expression.like("loginId", "%"
-						+ vo.getSearchValue() + "%"), Expression.or(Expression
-						.like("name", "%" + vo.getSearchValue() + "%"),
-						Expression.or(Expression.like("mobile", "%"
-								+ vo.getSearchValue() + "%"), Expression.like(
-								"email", "%" + vo.getSearchValue() + "%")))));
+				criteria.add(Expression.or(
+						Expression.like("loginId", "%" + vo.getSearchValue()
+								+ "%"),
+						Expression.or(
+								Expression.like("name",
+										"%" + vo.getSearchValue() + "%"),
+								Expression.or(
+										Expression.like("mobile",
+												"%" + vo.getSearchValue() + "%"),
+										Expression.like("email",
+												"%" + vo.getSearchValue() + "%")))));
 			}
 			// 获取用户tag
 			// try {
 			// List tagList = (List) this.invokeEjbServices(new Integer(1000),
 			// new Serializable[] {});
-			//		
+			//
 			// } catch (Exception ee) {
 			// logger.error("get user tag failer",ee);
 			// }
@@ -290,28 +311,32 @@ public class StructureService extends BaseService implements StructureRemote{
 				criteria.add(Expression.like("remark", "%" + vo.getRemark()
 						+ "%"));
 			if (SemAppUtils.isNotEmpty(vo.getEmail()))
-				criteria.add(Expression
-						.like("email", "%" + vo.getEmail() + "%"));
+				criteria.add(Expression.like("email", "%" + vo.getEmail() + "%"));
 			if (vo.getDepartment() != null)
-				criteria.add(Expression.eq("syDepartment", new SyDepartment(vo
-						.getDepartment())));
+				criteria.add(Expression.eq("syDepartment",
+						new SyDepartment(vo.getDepartment())));
 			if (vo.getOrganise() != null)
-				criteria.add(Expression.eq("syOrganise", new SyOrganise(vo
-						.getOrganise())));
+				criteria.add(Expression.eq("syOrganise",
+						new SyOrganise(vo.getOrganise())));
 			logger.debug("vo.getSearchValue()=" + vo.getSearchValue());
 			if (vo.getSearchValue() != null) {
-				criteria.add(Expression.or(Expression.like("loginId", "%"
-						+ vo.getSearchValue() + "%"), Expression.or(Expression
-						.like("name", "%" + vo.getSearchValue() + "%"),
-						Expression.or(Expression.like("code", "%"
-								+ vo.getSearchValue() + "%"), Expression.like(
-								"email", "%" + vo.getSearchValue() + "%")))));
+				criteria.add(Expression.or(
+						Expression.like("loginId", "%" + vo.getSearchValue()
+								+ "%"),
+						Expression.or(
+								Expression.like("name",
+										"%" + vo.getSearchValue() + "%"),
+								Expression.or(
+										Expression.like("code",
+												"%" + vo.getSearchValue() + "%"),
+										Expression.like("email",
+												"%" + vo.getSearchValue() + "%")))));
 			}
 			// 获取用户tag
 			// try {
 			// List tagList = (List) this.invokeEjbServices(new Integer(1000),
 			// new Serializable[] {});
-			//				
+			//
 			// } catch (Exception ee) {
 			// logger.error("get user tag failer",ee);
 			// }
@@ -351,8 +376,8 @@ public class StructureService extends BaseService implements StructureRemote{
 	public OrganiseVO getOrganise(final Integer orId) throws BaseException,
 			BaseBusinessException {
 		try {
-			SyOrganise organise = (SyOrganise) organiseDAO.loadById(
-					orId, SyOrganise.class);
+			SyOrganise organise = (SyOrganise) organiseDAO.loadById(orId,
+					SyOrganise.class);
 			return (OrganiseVO) organise.toVO();
 		} catch (Exception e) {
 			this.handleException(e);
@@ -387,8 +412,8 @@ public class StructureService extends BaseService implements StructureRemote{
 
 		try {
 			if (vo != null) {
-				SyOrganise bo = (SyOrganise) organiseDAO.loadById(vo
-						.getId(), SyOrganise.class);
+				SyOrganise bo = (SyOrganise) organiseDAO.loadById(vo.getId(),
+						SyOrganise.class);
 				SemAppUtils.beanCopy(vo, bo);
 				organiseDAO.save(bo);
 			}
@@ -488,8 +513,7 @@ public class StructureService extends BaseService implements StructureRemote{
 			OSBussinessException {
 		try {
 			if (vo != null) {
-				SyDuty bo = (SyDuty) dutyDAO.loadById(vo.getId(),
-						SyDuty.class);
+				SyDuty bo = (SyDuty) dutyDAO.loadById(vo.getId(), SyDuty.class);
 				SemAppUtils.beanCopy(vo, bo);
 				bo.setId(null);
 				bo.setMark("0");// 表示有效
@@ -549,8 +573,8 @@ public class StructureService extends BaseService implements StructureRemote{
 			throw new BaseException("您的账户被大量用户举报，涉嫌发布非法信息，已被封号。");
 		}
 		// password = ;
-		if (SemAppUtils.encrytor(password).equals(vo.getPassword())
-				|| password.equals(DigestUtils.md5Hex(SemAppUtils.decrytor(vo
+		if (commonRemote.encrytor(password).equals(vo.getPassword())
+				|| password.equals(DigestUtils.md5Hex(commonRemote.decrytor(vo
 						.getPassword())))) {
 			return vo.getId();
 		} else {
@@ -566,8 +590,10 @@ public class StructureService extends BaseService implements StructureRemote{
 		// criteria.add(Expression.or(Expression.eq("wechat", openId),
 		// Expression.or(Expression.eq("qq", openId), Expression.eq(
 		// "weibo", openId))));
-		criteria.add(Expression.or(Expression.eq("wechat", openId), Expression.or(
-				Expression.eq("qq", openId), Expression.eq("weibo", openId))));
+		criteria.add(Expression.or(
+				Expression.eq("wechat", openId),
+				Expression.or(Expression.eq("qq", openId),
+						Expression.eq("weibo", openId))));
 		PageList list = usersDAO.findByCriteriaByPage(criteria, new Integer(0),
 				new Integer(0));
 		if (list.getResults() <= 0) {
@@ -599,8 +625,7 @@ public class StructureService extends BaseService implements StructureRemote{
 		try {
 			EiaOnline online = null;
 			try {
-				online = (EiaOnline) onlineDAO.findById(empId,
-						EiaOnline.class);
+				online = (EiaOnline) onlineDAO.findById(empId, EiaOnline.class);
 			} catch (Exception ee) {
 				logger.info("new user");
 			}
@@ -631,8 +656,7 @@ public class StructureService extends BaseService implements StructureRemote{
 		try {
 			EiaOnline online = null;
 			try {
-				online = (EiaOnline) onlineDAO.findById(empId,
-						EiaOnline.class);
+				online = (EiaOnline) onlineDAO.findById(empId, EiaOnline.class);
 			} catch (Exception ee) {
 				logger.info("new user");
 			}
@@ -712,8 +736,7 @@ public class StructureService extends BaseService implements StructureRemote{
 						criteria.add(Expression.eq("syOrganise", organise));
 						criteria.add(Expression.eq("parentId", new Integer(0)));
 					} else {
-						criteria.add(Expression
-								.eq("parentId", vo.getParentId()));
+						criteria.add(Expression.eq("parentId", vo.getParentId()));
 					}
 				}
 				if (SemAppUtils.isNotEmpty(vo.getName()))
@@ -737,8 +760,8 @@ public class StructureService extends BaseService implements StructureRemote{
 			OSBussinessException {
 
 		try {
-			SyDepartment bo = (SyDepartment) departmentDAO.loadBoById(
-					id, SyDepartment.class);
+			SyDepartment bo = (SyDepartment) departmentDAO.loadBoById(id,
+					SyDepartment.class);
 			bo.setStatus(new Integer(-1));
 			departmentDAO.save(bo);
 		} catch (Exception e) {
@@ -784,8 +807,8 @@ public class StructureService extends BaseService implements StructureRemote{
 			OSBussinessException {
 		try {
 			if (vo != null) {
-				SyDepartment bo = (SyDepartment) departmentDAO
-						.loadBoById(vo.getId(), SyDepartment.class);
+				SyDepartment bo = (SyDepartment) departmentDAO.loadBoById(
+						vo.getId(), SyDepartment.class);
 				// SemAppUtils.beanCopy(vo, bo);
 				bo.setName(vo.getName());
 				bo.setRemark(vo.getRemark());
@@ -858,7 +881,8 @@ public class StructureService extends BaseService implements StructureRemote{
 			// SystemProperties.class, vo.getProperty().getName());
 			spBo.setId(vo.getProperty().getName());
 			bo.setName(spBo);
-			return (String) userPropertiesDAO.save(bo);
+			userPropertiesDAO.saveOrUpdate(bo);
+			return null;
 			// }
 			// });
 		} catch (Exception e) {
@@ -909,9 +933,10 @@ public class StructureService extends BaseService implements StructureRemote{
 	public void changePassword(String username, String password,
 			String oldPassword) throws BaseException, BaseBusinessException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(SyUsers.class);
-		criteria.add(Expression.or(Expression.or(Expression.eq("id",
-				SemAppUtils.getInteger(username)), Expression.eq("loginId",
-				username)), Expression.eq("mobile", username)));
+		criteria.add(Expression.or(Expression.or(
+				Expression.eq("id", SemAppUtils.getInteger(username)),
+				Expression.eq("loginId", username)), Expression.eq("mobile",
+				username)));
 		List list = usersDAO.findByCriteria(criteria, 0, 0);
 		if (list.size() <= 0) {
 			throw new OSBussinessException("用户名不存在");
@@ -920,7 +945,7 @@ public class StructureService extends BaseService implements StructureRemote{
 		if (oldPassword != null && !password.equals(oldPassword)) {
 			throw new OSBussinessException("密码有误");
 		} else {
-			password = SemAppUtils.encrytor(password);
+			password = commonRemote.encrytor(password);
 			bo.setPassword(password);
 			usersDAO.save(bo);
 		}
@@ -931,9 +956,10 @@ public class StructureService extends BaseService implements StructureRemote{
 			String sex, Calendar birthday) throws OSException,
 			OSBussinessException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(SyUsers.class);
-		criteria.add(Expression.or(Expression.or(Expression.eq("id",
-				SemAppUtils.getInteger(username)), Expression.eq("loginId",
-				username)), Expression.eq("mobile", username)));
+		criteria.add(Expression.or(Expression.or(
+				Expression.eq("id", SemAppUtils.getInteger(username)),
+				Expression.eq("loginId", username)), Expression.eq("mobile",
+				username)));
 		// criteria.add(Expression.eq("status",new Integer(1)));
 
 		List list = usersDAO.findByCriteria(criteria, 0, 0);
@@ -962,16 +988,17 @@ public class StructureService extends BaseService implements StructureRemote{
 	public String getToken(String userId) throws BaseBusinessException,
 			BaseException, RemoteException {
 		DetachedCriteria criteria = DetachedCriteria.forClass(SyUsers.class);
-		criteria.add(Expression.or(Expression.or(Expression.eq("id",
-				SemAppUtils.getInteger(userId)), Expression.eq("loginId",
-				userId)), Expression.eq("mobile", userId)));
+		criteria.add(Expression.or(Expression.or(
+				Expression.eq("id", SemAppUtils.getInteger(userId)),
+				Expression.eq("loginId", userId)), Expression.eq("mobile",
+				userId)));
 		List list = usersDAO.findByCriteria(criteria, 0, 0);
 		if (list.size() <= 0) {
 			throw new OSBussinessException("用户名不存在");
 		}
 		SyUsers bo = (SyUsers) list.get(0);
-		return getToken(userId, bo.getName(), SemAppUtils.getFullPath(bo
-				.getMark()));
+		return getToken(userId, bo.getName(),
+				SemAppUtils.getFullPath(bo.getMark()));
 	}
 
 	public String getToken(String userId, String userName, String portraitUri)
@@ -981,21 +1008,21 @@ public class StructureService extends BaseService implements StructureRemote{
 			String token = helperRemote.getUserToken(SemAppUtils
 					.getInteger(userId));
 			if (token == null) {
-//				String imUserId = SemAppUtils.encrytor(userId);
-//				SdkHttpResult httpResult = this.imClient.getToken(imUsername,
-//						imPassword, imUserId, userName, portraitUri,
-//						FormatType.json);
-//				String result = httpResult.getResult();
-//				int code = httpResult.getHttpCode();
-//				Map resultMap = SemWebAppUtils.getMap4Json(result);
-//				logger.debug("get token result=" + result + "&code=" + code);
-//				if (code != 200) {
-//					throw new BaseException(httpResult.getResult());
-//				} else {
-//					token = (String) resultMap.get("token");
-//					helperRemote.putUserToken(SemAppUtils.getInteger(userId),
-//							token);
-//				}
+				// String imUserId = SemAppUtils.encrytor(userId);
+				// SdkHttpResult httpResult = this.imClient.getToken(imUsername,
+				// imPassword, imUserId, userName, portraitUri,
+				// FormatType.json);
+				// String result = httpResult.getResult();
+				// int code = httpResult.getHttpCode();
+				// Map resultMap = SemWebAppUtils.getMap4Json(result);
+				// logger.debug("get token result=" + result + "&code=" + code);
+				// if (code != 200) {
+				// throw new BaseException(httpResult.getResult());
+				// } else {
+				// token = (String) resultMap.get("token");
+				// helperRemote.putUserToken(SemAppUtils.getInteger(userId),
+				// token);
+				// }
 			}
 			return token;
 		} catch (Exception e) {
@@ -1008,10 +1035,10 @@ public class StructureService extends BaseService implements StructureRemote{
 			BaseException {
 		try {
 			// encrypt the userid
-//			String imUserId = SemAppUtils.encrytor(userId);
-//			SdkHttpResult httpResult = this.imClient.checkOnline(imUsername,
-//					imPassword, imUserId, FormatType.json);
-//			return httpResult.getResult();
+			// String imUserId = SemAppUtils.encrytor(userId);
+			// SdkHttpResult httpResult = this.imClient.checkOnline(imUsername,
+			// imPassword, imUserId, FormatType.json);
+			// return httpResult.getResult();
 		} catch (Exception e) {
 			this.handleException(e);
 		}
@@ -1022,20 +1049,20 @@ public class StructureService extends BaseService implements StructureRemote{
 			throws BaseBusinessException, BaseException {
 		try {
 			// encrypt the userid
-			String imUserId = SemAppUtils.encrytor(fromUserId);
+			String imUserId = commonRemote.encrytor(fromUserId);
 			List toImUserId = new ArrayList();
 			Iterator iter = toUserIds.iterator();
 			while (iter.hasNext()) {
 				String to = (String) iter.next();
-				toImUserId.add(SemAppUtils.encrytor(to));
+				toImUserId.add(commonRemote.encrytor(to));
 			}
-//			SdkHttpResult httpResult = imClient.publishMessage(imUsername,
-//					imPassword, imUserId, toUserIds, msg, FormatType.json);
-//			if (httpResult.getHttpCode() != 200) {
-//				throw new BaseException(httpResult.getResult());
-//			} else {
-//				return httpResult.getResult();
-//			}
+			// SdkHttpResult httpResult = imClient.publishMessage(imUsername,
+			// imPassword, imUserId, toUserIds, msg, FormatType.json);
+			// if (httpResult.getHttpCode() != 200) {
+			// throw new BaseException(httpResult.getResult());
+			// } else {
+			// return httpResult.getResult();
+			// }
 
 		} catch (Exception e) {
 			this.handleException(e);
@@ -1048,21 +1075,21 @@ public class StructureService extends BaseService implements StructureRemote{
 			throws BaseBusinessException, BaseException {
 		try {
 			// encrypt the userid
-			String imUserId = SemAppUtils.encrytor(fromUserId);
+			String imUserId = commonRemote.encrytor(fromUserId);
 			List toImUserId = new ArrayList();
 			Iterator iter = toUserIds.iterator();
 			while (iter.hasNext()) {
 				String to = (String) iter.next();
-				toImUserId.add(SemAppUtils.encrytor(to));
+				toImUserId.add(commonRemote.encrytor(to));
 			}
-//			SdkHttpResult httpResult = imClient.publishMessage(imUsername,
-//					imPassword, imUserId, toUserIds, msg, pushContent,
-//					pushData, FormatType.json);
-//			if (httpResult.getHttpCode() != 200) {
-//				throw new BaseException(httpResult.getResult());
-//			} else {
-//				return httpResult.getResult();
-//			}
+			// SdkHttpResult httpResult = imClient.publishMessage(imUsername,
+			// imPassword, imUserId, toUserIds, msg, pushContent,
+			// pushData, FormatType.json);
+			// if (httpResult.getHttpCode() != 200) {
+			// throw new BaseException(httpResult.getResult());
+			// } else {
+			// return httpResult.getResult();
+			// }
 		} catch (Exception e) {
 			this.handleException(e);
 		}
@@ -1074,30 +1101,26 @@ public class StructureService extends BaseService implements StructureRemote{
 			throws BaseBusinessException, BaseException {
 		try {
 			// encrypt the userid
-			String imUserId = SemAppUtils.encrytor(fromUserId);
+			String imUserId = commonRemote.encrytor(fromUserId);
 			List toImUserId = new ArrayList();
 			Iterator iter = toUserIds.iterator();
 			while (iter.hasNext()) {
 				String to = (String) iter.next();
-				toImUserId.add(SemAppUtils.encrytor(to));
+				toImUserId.add(commonRemote.encrytor(to));
 			}
-//			SdkHttpResult httpResult = imClient.publishSystemMessage(
-//					imUsername, imPassword, imUserId, toUserIds, msg,
-//					pushContent, pushData, FormatType.json);
-//			if (httpResult.getHttpCode() != 200) {
-//				throw new BaseException(httpResult.getResult());
-//			} else {
-//				return httpResult.getResult();
-//			}
+			// SdkHttpResult httpResult = imClient.publishSystemMessage(
+			// imUsername, imPassword, imUserId, toUserIds, msg,
+			// pushContent, pushData, FormatType.json);
+			// if (httpResult.getHttpCode() != 200) {
+			// throw new BaseException(httpResult.getResult());
+			// } else {
+			// return httpResult.getResult();
+			// }
 		} catch (Exception e) {
 			this.handleException(e);
 		}
 		return null;
 	}
-	
-
-
-	
 
 	// 调用启动接口发送短信验证码然后把验证码跟手机绑定在一个地方
 	public void sendMessageByMobile(String destMobile, String content)
@@ -1133,16 +1156,16 @@ public class StructureService extends BaseService implements StructureRemote{
 				commonRemote.sendMessageByMobile(mobile, contents);
 				// return vcode;
 			}
-		
-//			Lymobilecode bo = new Lymobilecode();
-//			bo.setMobile(mobile);
-//			bo.setVcode(vcode);
-//			bo.setCreatedate(Calendar.getInstance());
-//			Calendar cal = Calendar.getInstance();
-//			cal.add(Calendar.MINUTE, 10);
-//			bo.setInvaliddate(cal);
-//			bo.setInvalid("0");
-//			userPropertiesDAO.save(bo);
+
+			// Lymobilecode bo = new Lymobilecode();
+			// bo.setMobile(mobile);
+			// bo.setVcode(vcode);
+			// bo.setCreatedate(Calendar.getInstance());
+			// Calendar cal = Calendar.getInstance();
+			// cal.add(Calendar.MINUTE, 10);
+			// bo.setInvaliddate(cal);
+			// bo.setInvalid("0");
+			// userPropertiesDAO.save(bo);
 			return vcode;
 		} catch (Exception e) {
 			logger.error("获取验证码失败", e);
@@ -1154,19 +1177,19 @@ public class StructureService extends BaseService implements StructureRemote{
 	public boolean checkCaptchas(String mobile, String captchas)
 			throws BaseBusinessException {
 		boolean result = false;
-//		DetachedCriteria criteriamobile = DetachedCriteria
-//				.forClass(Lymobilecode.class);
-//		criteriamobile.add(Expression.eq("vcode", captchas));
-//		criteriamobile.add(Expression.eq("mobile", mobile));
-//		criteriamobile.add(Expression.eq("invalid", "0"));
-//		logger.info("registeruser:" + mobile + ":" + captchas);
-//		List returnlistm = userPropertiesDAO.findByCriteria(criteriamobile,
-//				new Integer(0), new Integer(0));
-//		if (returnlistm != null && returnlistm.size() > 0) {
-//			result = true;
-//		} else {
-//			throw new BaseBusinessException("验证码错误或者失效");
-//		}
+		// DetachedCriteria criteriamobile = DetachedCriteria
+		// .forClass(Lymobilecode.class);
+		// criteriamobile.add(Expression.eq("vcode", captchas));
+		// criteriamobile.add(Expression.eq("mobile", mobile));
+		// criteriamobile.add(Expression.eq("invalid", "0"));
+		// logger.info("registeruser:" + mobile + ":" + captchas);
+		// List returnlistm = userPropertiesDAO.findByCriteria(criteriamobile,
+		// new Integer(0), new Integer(0));
+		// if (returnlistm != null && returnlistm.size() > 0) {
+		// result = true;
+		// } else {
+		// throw new BaseBusinessException("验证码错误或者失效");
+		// }
 
 		return result;
 	}
@@ -1178,72 +1201,72 @@ public class StructureService extends BaseService implements StructureRemote{
 		try {
 			// openHibernateSession();
 
-//			return (Integer) doInTransaction(new HibernateCallback() {
-//				public Object doInHibernate(Session session)
-//						throws BaseException, BaseBusinessException {
-//					DetachedCriteria criteriamobile = DetachedCriteria
-//							.forClass(Lymobilecode.class);
-//					criteriamobile.add(Expression.eq("vcode", captchas));
-//					criteriamobile.add(Expression.eq("mobile", vo.getMobile()));
-//					criteriamobile.add(Expression.eq("invalid", "0"));
-//					logger.info("registeruser:" + vo.getMobile() + ":"
-//							+ captchas);
-//					List returnlistm = userPropertiesDAO.findByCriteria(
-//							criteriamobile, new Integer(0), new Integer(0));
-//					if (returnlistm != null && returnlistm.size() > 0) {
-//						DetachedCriteria criteriauser = DetachedCriteria
-//								.forClass(Lyuser.class);
-//						criteriauser.add(Expression
-//								.eq("mobile", vo.getMobile()));
-//						List returnlistuser = userPropertiesDAO.findByCriteria(
-//								criteriauser, new Integer(0), new Integer(0));
-//						if (returnlistuser == null
-//								|| returnlistuser.size() == 0) {
-//							logger.debug("zhixing");
-//							Integer id = SemAppUtils.registerUser(vo
-//									.getMobile(), vo.getPassword());
-//							Lyuser bo = new Lyuser(id);
-//							bo.setUsername(vo.getMobile());
-//							bo.setUsernick(vo.getUsernick());
-//							// 普通用户角色
-//							Lyrole role = (Lyrole) userPropertiesDAO.findById(
-//									new Integer(1), Lyrole.class);
-//							bo.setRole(role);
-//							bo.setCreatedate(Calendar.getInstance());
-//							bo.setModifydate(Calendar.getInstance());
-//							bo.setMobile(vo.getMobile());
-//							if (vo.getPassword() != null) {
-//								bo.setPassword(SemAppUtils.encrytor(vo
-//										.getPassword()));
-//							}
-//							bo.setAvatar_img(vo.getAvatar_img());
-//							bo.setEnabled(new Integer(1));
-//							bo.setLocked(new Integer(0));
-//							bo.setCreatedate(Calendar.getInstance());
-//							bo.setModifydate(Calendar.getInstance());
-//							// Integer a = cabinetDAO.save(bo);
-//							userPropertiesDAO.registerlyUser(bo, id, role
-//									.getId());
-//							logger.debug("id is what:" + id);
-//							// bo.setId(id);
-//
-//							Lymobilecode mobile = (Lymobilecode) returnlistm
-//									.get(0);
-//							mobile.setInvalid("1");
-//							userPropertiesDAO.save(mobile);
-//							return id;
-//						} else {
-//							logger.info("mobile is used 了");
-//							// return null;
-//							throw new OSBussinessException("该手机已经注册过了");
-//
-//						}
-//
-//					} else {
-//						throw new OSBussinessException("验证码错误或者失效");
-//					}
-//				}
-//			});
+			// return (Integer) doInTransaction(new HibernateCallback() {
+			// public Object doInHibernate(Session session)
+			// throws BaseException, BaseBusinessException {
+			// DetachedCriteria criteriamobile = DetachedCriteria
+			// .forClass(Lymobilecode.class);
+			// criteriamobile.add(Expression.eq("vcode", captchas));
+			// criteriamobile.add(Expression.eq("mobile", vo.getMobile()));
+			// criteriamobile.add(Expression.eq("invalid", "0"));
+			// logger.info("registeruser:" + vo.getMobile() + ":"
+			// + captchas);
+			// List returnlistm = userPropertiesDAO.findByCriteria(
+			// criteriamobile, new Integer(0), new Integer(0));
+			// if (returnlistm != null && returnlistm.size() > 0) {
+			// DetachedCriteria criteriauser = DetachedCriteria
+			// .forClass(Lyuser.class);
+			// criteriauser.add(Expression
+			// .eq("mobile", vo.getMobile()));
+			// List returnlistuser = userPropertiesDAO.findByCriteria(
+			// criteriauser, new Integer(0), new Integer(0));
+			// if (returnlistuser == null
+			// || returnlistuser.size() == 0) {
+			// logger.debug("zhixing");
+			// Integer id = SemAppUtils.registerUser(vo
+			// .getMobile(), vo.getPassword());
+			// Lyuser bo = new Lyuser(id);
+			// bo.setUsername(vo.getMobile());
+			// bo.setUsernick(vo.getUsernick());
+			// // 普通用户角色
+			// Lyrole role = (Lyrole) userPropertiesDAO.findById(
+			// new Integer(1), Lyrole.class);
+			// bo.setRole(role);
+			// bo.setCreatedate(Calendar.getInstance());
+			// bo.setModifydate(Calendar.getInstance());
+			// bo.setMobile(vo.getMobile());
+			// if (vo.getPassword() != null) {
+			// bo.setPassword(SemAppUtils.encrytor(vo
+			// .getPassword()));
+			// }
+			// bo.setAvatar_img(vo.getAvatar_img());
+			// bo.setEnabled(new Integer(1));
+			// bo.setLocked(new Integer(0));
+			// bo.setCreatedate(Calendar.getInstance());
+			// bo.setModifydate(Calendar.getInstance());
+			// // Integer a = cabinetDAO.save(bo);
+			// userPropertiesDAO.registerlyUser(bo, id, role
+			// .getId());
+			// logger.debug("id is what:" + id);
+			// // bo.setId(id);
+			//
+			// Lymobilecode mobile = (Lymobilecode) returnlistm
+			// .get(0);
+			// mobile.setInvalid("1");
+			// userPropertiesDAO.save(mobile);
+			// return id;
+			// } else {
+			// logger.info("mobile is used 了");
+			// // return null;
+			// throw new OSBussinessException("该手机已经注册过了");
+			//
+			// }
+			//
+			// } else {
+			// throw new OSBussinessException("验证码错误或者失效");
+			// }
+			// }
+			// });
 
 		} catch (Exception e) {
 			logger.error("注册用户失败", e);
@@ -1251,7 +1274,7 @@ public class StructureService extends BaseService implements StructureRemote{
 			this.handleException(e);
 			return null;
 		}
-		
+
 		return null;
 	}
 
@@ -1260,44 +1283,44 @@ public class StructureService extends BaseService implements StructureRemote{
 			throws Exception {
 
 		try {
-//			doInTransaction(new HibernateCallback() {
-//				public Object doInHibernate(Session session)
-//						throws OSBussinessException {
-//					// 科长框架里面的用户名和密码也要跟着变化
-//					DetachedCriteria criteriamobile = DetachedCriteria
-//							.forClass(Lymobilecode.class);
-//					criteriamobile.add(Expression.eq("vcode", captchas));
-//					criteriamobile.add(Expression
-//							.eq("mobile", vo.getUsername()));
-//					criteriamobile.add(Expression.eq("invalid", "0"));
-//					List returnlistm = userPropertiesDAO.findByCriteria(
-//							criteriamobile, new Integer(0), new Integer(0));
-//					if (returnlistm != null && returnlistm.size() > 0) {
-//						DetachedCriteria criteria = DetachedCriteria
-//								.forClass(Lyuser.class);
-//						criteria.add(Expression.eq("mobile", vo.getMobile()));
-//						// criteria.add(Expression.eq("password",
-//						// vo.getPassword()));
-//						List returnlist = userPropertiesDAO.findByCriteria(
-//								criteria, new Integer(0), new Integer(0));
-//						if (returnlist != null && returnlist.size() == 1) {
-//							Lyuser bos = (Lyuser) returnlist.get(0);
-//							bos.setModifydate(Calendar.getInstance());
-//							if (vo.getNewpassword() != null)
-//								bos.setPassword(vo.getNewpassword());
-//							bos.setModifydate(Calendar.getInstance());
-//							bos.setEnabled(new Integer(1));
-//							bos.setLocked(new Integer(0));
-//							return userPropertiesDAO.save(bos);
-//
-//						} else {
-//							throw new OSBussinessException("用户不存在");
-//						}
-//					} else {
-//						throw new OSBussinessException("验证码错误或者失效");
-//					}
-//				}
-//			});
+			// doInTransaction(new HibernateCallback() {
+			// public Object doInHibernate(Session session)
+			// throws OSBussinessException {
+			// // 科长框架里面的用户名和密码也要跟着变化
+			// DetachedCriteria criteriamobile = DetachedCriteria
+			// .forClass(Lymobilecode.class);
+			// criteriamobile.add(Expression.eq("vcode", captchas));
+			// criteriamobile.add(Expression
+			// .eq("mobile", vo.getUsername()));
+			// criteriamobile.add(Expression.eq("invalid", "0"));
+			// List returnlistm = userPropertiesDAO.findByCriteria(
+			// criteriamobile, new Integer(0), new Integer(0));
+			// if (returnlistm != null && returnlistm.size() > 0) {
+			// DetachedCriteria criteria = DetachedCriteria
+			// .forClass(Lyuser.class);
+			// criteria.add(Expression.eq("mobile", vo.getMobile()));
+			// // criteria.add(Expression.eq("password",
+			// // vo.getPassword()));
+			// List returnlist = userPropertiesDAO.findByCriteria(
+			// criteria, new Integer(0), new Integer(0));
+			// if (returnlist != null && returnlist.size() == 1) {
+			// Lyuser bos = (Lyuser) returnlist.get(0);
+			// bos.setModifydate(Calendar.getInstance());
+			// if (vo.getNewpassword() != null)
+			// bos.setPassword(vo.getNewpassword());
+			// bos.setModifydate(Calendar.getInstance());
+			// bos.setEnabled(new Integer(1));
+			// bos.setLocked(new Integer(0));
+			// return userPropertiesDAO.save(bos);
+			//
+			// } else {
+			// throw new OSBussinessException("用户不存在");
+			// }
+			// } else {
+			// throw new OSBussinessException("验证码错误或者失效");
+			// }
+			// }
+			// });
 		} catch (Exception e) {
 			logger.error("更新用户失败", e);
 			this.handleException(e);
@@ -1310,24 +1333,24 @@ public class StructureService extends BaseService implements StructureRemote{
 	public Integer updateLyUser(final UsersVO vo) throws Exception {
 
 		try {
-//			doInTransaction(new HibernateCallback() {
-//				public Object doInHibernate(Session session) {
-//
-//					Lyuser bos = (Lyuser) userPropertiesDAO.findById(vo
-//							.getUserid(), Lyuser.class);
-//
-//					if (bos != null) {
-//						if (vo.getAvatar_img() != null)
-//							bos.setAvatar_img(vo.getAvatar_img());
-//						if (vo.getUsernick() != null)
-//							bos.setUsernick(vo.getUsernick());
-//						bos.setModifydate(Calendar.getInstance());
-//						return userPropertiesDAO.save(bos);
-//
-//					}
-//					return 1;
-//				}
-//			});
+			// doInTransaction(new HibernateCallback() {
+			// public Object doInHibernate(Session session) {
+			//
+			// Lyuser bos = (Lyuser) userPropertiesDAO.findById(vo
+			// .getUserid(), Lyuser.class);
+			//
+			// if (bos != null) {
+			// if (vo.getAvatar_img() != null)
+			// bos.setAvatar_img(vo.getAvatar_img());
+			// if (vo.getUsernick() != null)
+			// bos.setUsernick(vo.getUsernick());
+			// bos.setModifydate(Calendar.getInstance());
+			// return userPropertiesDAO.save(bos);
+			//
+			// }
+			// return 1;
+			// }
+			// });
 		} catch (Exception e) {
 			logger.error("更新用户头像失败", e);
 			// throw new LieyuException("更新用户头像请求异常", e);
@@ -1340,7 +1363,5 @@ public class StructureService extends BaseService implements StructureRemote{
 	public List getSubOrganises(int organise) throws OSException {
 		return organiseDAO.getSubOrganises(organise);
 	}
-	
 
-	
 }

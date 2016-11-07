@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
-        "hibernate-mapping-3.0.dtd">
-
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
   <hibernate-mapping>
      <class name="com.xxl.baseService.bo.MenuRole" table="RB_PABINDING">
         <id name="id" type="int" >
@@ -12,9 +10,9 @@
         <property name="rightCode">
         <column name="RIGHTCODE" sql-type="varchar(16)" />
         </property>
-        <many-to-one name="menu" class="common.businessObject.Menu" column="ACTIONID"/>
-        <many-to-one name="role" class="common.businessObject.Role" column="ROLEID"/>
+        <many-to-one name="menu" class="com.xxl.baseService.bo.Menu" column="ACTIONID"/>
+        <many-to-one name="role" class="com.xxl.baseService.bo.Role" column="ROLEID"/>
         <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
-        <many-to-one name="organise" class="common.os.bo.SyOrganise" column="OR_ID"/>
+        <many-to-one name="organise" class="com.xxl.os.bo.SyOrganise" column="OR_ID"/>
      </class>
   </hibernate-mapping>

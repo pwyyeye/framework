@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
-        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "hibernate-mapping-3.0.dtd">
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
     
 <hibernate-mapping>
 
-    <class name="common.os.bo.SyUsers" table="SY_USERS">
+    <class name="com.xxl.os.bo.SyUsers" table="SY_USERS">
         <id name="id" column="US_ID" type="integer">
             <!-- <generator class="sequence">
 				<param name="sequence">SEQ_DM_SyUsers</param>
@@ -51,8 +50,8 @@
         <property name="isOpen" column="isOpen" type="string" />
         <property name="remark" column="remark" type="string" />
  
-        <many-to-one name="syDepartment" column="DE_ID" class="common.os.bo.SyDepartment"  not-null="true"  lazy="false"/>
-        <many-to-one name="syOrganise" column="OR_ID" class="common.os.bo.SyOrganise"  not-null="true" />
+        <many-to-one name="syDepartment" column="DE_ID" class="com.xxl.os.bo.SyDepartment"  not-null="true"  lazy="false"/>
+        <many-to-one name="syOrganise" column="OR_ID" class="com.xxl.os.bo.SyOrganise"  not-null="true" />
    
     </class>
     

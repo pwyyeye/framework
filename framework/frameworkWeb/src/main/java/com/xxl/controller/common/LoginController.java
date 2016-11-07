@@ -1,4 +1,4 @@
-package com.xxl.controller.user;
+package com.xxl.controller.common;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -21,9 +21,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.xxl.facade.AdminRemote;
 import com.xxl.facade.CommonRemote;
+import com.xxl.facade.HelperRemote;
 
 import common.bussiness.CommonLogger;
 import common.controller.BaseController;
@@ -49,8 +51,11 @@ public class LoginController extends BaseController {
 	@Autowired
 	private CommonRemote commonRemote;
 	 
-	//@Autowired
+	@Autowired
 	public AdminRemote adminRemote;
+	
+	@Autowired
+	HelperRemote helperRemote;
 
 	private String ip;
 
@@ -62,19 +67,6 @@ public class LoginController extends BaseController {
 
 	private String theme;
 	
-	@RequestMapping(value = "/login")
-	@ResponseBody
-	public String login(HttpServletRequest request,HttpServletResponse response) {
-		String userIdStr = request.getParameter("id");
-		if (userIdStr != null && !userIdStr.equals("")) {
-			int userId = Integer.parseInt(userIdStr);
-//			userVo = this.userService.findById(userId);
-		
-		}
-		System.out.println("helloword1");
-		return "123";
-	}
-
 	@RequestMapping(value = "/home")
 	public String home(HttpServletRequest request,HttpServletResponse response) {
 		
@@ -89,34 +81,6 @@ public class LoginController extends BaseController {
 		return "login";
 	}
 	
-	// easyui列表分页测试
-//	public void login(
-//			HttpServletRequest request,
-//			HttpServletResponse response,
-//			@RequestParam(required = false, defaultValue = "1") Integer page, // 第几页
-//			@RequestParam(required = false, defaultValue = "10") Integer rows, // 页数大小
-//			@RequestParam(required = false, defaultValue = "") String paramName,
-//			@RequestParam(required = false, defaultValue = "") String createTime) {
-//		try {
-//			response.setContentType("text/json;charset=UTF-8");
-//			PageList pageList = this.userService.findByPage(new UserVo(),
-//					(page - 1) * rows, rows);
-//			/*
-//			 * Map<String,Object> map = new HashMap<String,Object>();
-//			 * map.put("rows", pageList.getItems()); 
-//			 * map.put("total", pageList.getResults());
-//			 */
-//			List b1 = new ArrayList();
-//			b1.add("com.xxl.hnust.vo.UserVo#password");
-//			b1.add("com.xxl.hnust.vo.UserVo#age");
-//			String json = SemAppUtils.getJsonFromBean(new BaseResponseVO("1",
-//					"获取用户列表成功", pageList), b1, "yyyy-MM-dd HH:mm:ss");
-//			response.getWriter().write(json);
-//		} catch (IOException e) {
-//			logger.error("获取用户列表发生异常!", e);
-//			this.handleException(new IOException("获取用户列表发生异常!"), request, response);
-//		}
-//	}
 
 	@InitBinder("userVo")
 	// 传入对象参数时，需要提前配置这项
@@ -126,7 +90,7 @@ public class LoginController extends BaseController {
 	
 
 	
-	@RequestMapping(value = "/logon")
+	@RequestMapping(value = "/logon.do")
 	private void logon(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException {
 
@@ -135,7 +99,7 @@ public class LoginController extends BaseController {
 		ip = request.getRemoteAddr();
 		String moduleStr = (String) getSessionAttribute(request,
 				SemWebAppConstants.SESSION_MODULE_ID);
-		sessionModuleID = new Integer(moduleStr);
+		sessionModuleID =moduleStr==null?null: new Integer(moduleStr);
 		logger.debug("start logging as the role[" + theRole + "],moduleStr["
 				+ moduleStr + "],moduleID[" + sessionModuleID + "]");
 		UsersVO commUser = null;
@@ -147,7 +111,6 @@ public class LoginController extends BaseController {
 		} else {
 
 			try {
-//				commUser = SemAppUtils.verifyUsersVO(username, password);
 				commUser = commonRemote.verifyUsersVO(username, password);
 			} catch (Exception e1) {
 				logger.error("用户名或密码有误！,username=" + username, e1);
@@ -169,8 +132,8 @@ public class LoginController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/")
-	public String defaultMethod(
-			HttpServletRequest request, HttpServletResponse response) {
+	public void defaultMethod(
+			HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr) {
 		String lastAccessUrl = request
 				.getParameter(SemWebAppConstants.LAST_ACCESS_PAGE);
 		logger.debug("lastAccessUrl=" + lastAccessUrl);
@@ -186,7 +149,7 @@ public class LoginController extends BaseController {
 						this.getSessionUser(request).getEmpIDInt());
 				// this.removeSessionAttribute(request,
 				// SemWebAppConstants.USER_KEY);
-				return null;
+				return ;
 			}
 			if ("y".equalsIgnoreCase(switchStr)) {
 				logon(request, response);
@@ -194,26 +157,24 @@ public class LoginController extends BaseController {
 			logger.debug("switch role or theme");
 			
 //			String input = mapping.getInput();
-//			String path = request.getContextPath();  
-//			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";  
+			String path = request.getContextPath();  
+			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";  
 			String requestURI=request.getRequestURI();  
 			
 			logger.debug("requestURI="+requestURI);
 			String split = requestURI.indexOf("?") == -1 ? "?" : "&";
-//			ActionForward forward = new ActionForward(mapping.findForward(
-//					"main").getPath()
-//					+ split + "theme=" + theme);
-//			forward.setRedirect(true);
 			logger.debug("go to main page" +"redirect:"+requestURI+ split + "theme=" + theme);
-			return "redirect:"+requestURI+ split + "theme=" + theme;
+			attr.addAttribute("theme", theme);
+			response.sendRedirect(basePath+"indexController/"+ split + "theme=" + theme);
+//			return "redirect:"+basePath+path+"/indexController/"+ split + "theme=" + theme;
 
 		} catch (Exception ee) {
 			this.handleException(ee, request, response);
-			return null;
+			return ;
 		}
 
 	}
-	@RequestMapping(value = "/list")
+	@RequestMapping(value = "/list.do")
 	public void list(
 			HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -233,31 +194,12 @@ public class LoginController extends BaseController {
 		return;
 	}
 
-	// public ActionForward custom(ActionMapping mapping, ActionForm form,
-	// HttpServletRequest request, HttpServletResponse response) {
-	// ItModuleVO
-	// module=(ItModuleVO)this.getSessionAttribute(request,SemWebAppConstants.SESSION_MODULE);
-	// SessionUserBean
-	// userBean=(SessionUserBean)this.getSessionAttribute(request,SemWebAppConstants.USER_KEY);
-	// if (module != null) {
-	// mainUrl = module.getIndexPage();
-	// if (mainUrl == null)
-	// mainUrl = "switchRoleAction.do";
-	// //String token = TheUtility.getLogonToken(user.getCode());
-	// String split = mainUrl.indexOf("?") != -1 ? "&" : "?";
-	// mainUrl = mainUrl + split + SemWebAppConstants.SEM_LOGIN_TOKEN
-	// + "=" +userBean.getToken() ;
-	// }
-	// request.setAttribute("main_page", response.encodeURL(mainUrl));
-	// logger.debug("get to main page"+mainUrl);
-	// return mapping.findForward("main");
-	// }
 
 	public boolean performLogon(UsersVO user, HttpServletRequest request,
 			Integer roleID) {
 		logger.debug("start perform logon module[" + sessionModuleID + "]");
 		try {
-			String token = SemAppUtils.getLogonToken((Integer) user.getId());
+			String token = commonRemote.getUserToken((Integer) user.getId());
 			if (sessionModuleID == null) {
 				sessionModuleID = new Integer(SemAppConstants.COMMON_MODULE_ID);
 				logger.debug("logon default module");
@@ -287,7 +229,7 @@ public class LoginController extends BaseController {
 			theme = userBean.getProperty("USER_DEFAULT_THEME");
 			if (SemWebAppUtils.isEmpty(theme)) {
 				try {
-					theme = SemAppUtils.getProperty("USER_DEFAULT_THEME");
+					theme = helperRemote.getProperty("USER_DEFAULT_THEME");
 				} catch (Exception e) {
 					logger.error("get user theme fail", e);
 				}
@@ -303,7 +245,7 @@ public class LoginController extends BaseController {
 		} catch (BaseException e) {
 			logger.error("登录失败", e);
 			return false;
-		} catch (RemoteException e) {
+		} catch (Exception e) {
 			logger.error("登录失败", e);
 			return false;
 		}

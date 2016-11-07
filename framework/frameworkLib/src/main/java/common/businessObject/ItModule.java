@@ -5,7 +5,7 @@ import java.util.*;
 
 import common.value.ItModuleVO;
 
-public class ItModule implements Serializable{
+public class ItModule extends BaseAbstractBo{
 
 	private static final long serialVersionUID = 1L;
 	

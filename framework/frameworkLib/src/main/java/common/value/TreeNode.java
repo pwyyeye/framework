@@ -1,6 +1,8 @@
 package common.value;
 
-public class TreeNode {
+import java.io.Serializable;
+
+public class TreeNode  implements Serializable{
 	private String id;
 
 	private String text;

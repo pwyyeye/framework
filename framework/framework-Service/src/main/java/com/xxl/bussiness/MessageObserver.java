@@ -1,28 +1,24 @@
 package com.xxl.bussiness;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import common.HibernateUtil;
-import common.businessObject.MessageEvent;
-import common.businessObject.MessageSubscibe;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+
+import com.xxl.HibernateUtil;
+import common.businessObject.MessageEvent;
+import common.businessObject.MessageSubscibe;
 import common.bussiness.Message;
-import common.exception.BaseBusinessException;
-import common.exception.BaseException;
 import common.os.vo.UsersVO;
 import common.utils.SemAppUtils;
 import common.web.utils.SemWebAppConstants;
-
-import java.sql.SQLException;
-import javax.naming.NamingException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import java.util.ArrayList;
 
 public class MessageObserver implements Observer {
 	public static Log logger = LogFactory.getLog(MessageObserver.class);

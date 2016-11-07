@@ -20,6 +20,44 @@
 		<load-on-startup>0</load-on-startup>
 	</servlet> -->
 
+<filter>
+    <filter-name>SEM SSO Login</filter-name>
+    <filter-class>common.filter.SemLogonFilter</filter-class>
+    <init-param>
+      <param-name>LOGIN_PAGE</param-name>
+      <param-value>logonJumpController/</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>LOGIN_IMPL_CLASS</param-name>
+      <param-value>common.bussiness.LogonImpl</param-value>
+    </init-param>
+    <init-param>
+			<param-name>SYSTEM_ID</param-name>
+			<param-value>6</param-value>
+	</init-param>
+	<init-param>
+			<param-name>PROXY_LOGIN</param-name>
+			<param-value>true</param-value>
+	</init-param>
+    <init-param>
+      <param-name>filterPageSuffixs</param-name>
+      <param-value>do,jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>needlessFilterPages</param-name>
+      <param-value>loginController,login.jsp,moduleController,appAction.do,logonJumpController,error.jsp</param-value>
+    </init-param>
+    <init-param>
+      <param-name>SESSION_USER_CLASS</param-name>
+      <param-value>common.web.bean。SessionUserBean</param-value>
+    </init-param>
+     <init-param>
+      <param-name>finalURL</param-name>
+      <param-value>FINAL_URL</param-value>
+    </init-param>
+    </filter>
+    
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -29,12 +67,35 @@
 			<param-value>UTF-8</param-value>
 		</init-param>
 	</filter>
+	
+	 <filter>
+    <filter-name>Set Character Encoding</filter-name>
+    <filter-class>common.filter.SetCharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <init-param>
+      <param-name>ignore</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-	<!-- spring security 
+ 
+	<filter-mapping>
+	    <filter-name>SEM SSO Login</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	  <filter-mapping>
+	    <filter-name>Set Character Encoding</filter-name>
+	    <servlet-name>SpringMVC</servlet-name>
+	  </filter-mapping>
+	
+<!--spring security 
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -70,4 +131,5 @@
 	<welcome-file-list>
 		<welcome-file>/index.jsp</welcome-file>
 	</welcome-file-list>
+	
 </web-app>

@@ -32,7 +32,7 @@ import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;
 import common.web.bean.SessionUserBean;
 
-public abstract class BaseService{
+public abstract class BaseService implements Serializable{
 	public Log logger = LogFactory.getLog(this.getClass());
 
 //	protected AlphaUddi alpha;

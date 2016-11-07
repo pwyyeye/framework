@@ -1,20 +1,10 @@
 package com.xxl.report.service;
 
-import java.io.File;
-import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,21 +18,17 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Service;
 
+import com.xxl.HibernateUtil;
 import com.xxl.baseService.bo.ReportModule;
 import com.xxl.baseService.bo.ReportSchedule;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
 import com.xxl.facade.ReportRemote;
-
-import common.HibernateUtil;
 import common.businessObject.ItModule;
 import common.bussiness.CommException;
 import common.exception.CommonException;
-import common.os.vo.DepartmentVO;
-import common.os.vo.UsersVO;
 import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;
-import common.value.MailMessage;
 import common.value.PageList;
 import common.value.ReportModuleVO;
 import common.value.ReportScheduleVO;

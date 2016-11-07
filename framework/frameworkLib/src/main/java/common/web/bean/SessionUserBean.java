@@ -28,6 +28,9 @@ public class SessionUserBean implements SessionUserInterface, Serializable {
 	private ItModuleVO module;
 	private Map properties;
 	private OrganiseVO organise;
+	private User commonUser;
+	
+	private UsersVO CommonUsersVO;
 
 	public OrganiseVO getOrganise() {
 		return organise;
@@ -135,11 +138,20 @@ public class SessionUserBean implements SessionUserInterface, Serializable {
 
 	public UsersVO getCommonUsersVO() {
 //		return SemAppUtils.getUserInfo(empID);
-		return null;
+		return this.CommonUsersVO;
 	}
 	public User getCommonUser() {
 //		return SemAppUtils.getUserInfo(""+empID);
-		return null;
+		return this.commonUser;
+		
+	}
+	
+	public void setCommonUser(User commonUser) {
+		this.commonUser = commonUser;
+	}
+
+	public void setCommonUsersVO(UsersVO commonUsersVO) {
+		CommonUsersVO = commonUsersVO;
 	}
 
 	public String getToken() {

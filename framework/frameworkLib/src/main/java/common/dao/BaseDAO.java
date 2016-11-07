@@ -130,4 +130,10 @@ public interface BaseDAO<T, ID extends Serializable> {
 	 */
 	public Integer callUpdateProcedure(final String sql,
 			final Object[] params);
+	
+	
+	public List<Map<String,Object>> find_sql_toMap(String queryString,Object[] params);
+	public void executeSql(String queryString,Object[] params);
+	
+	public void executeVoidProcedureSql(final String queryString,final Object[] params) throws Exception;
 }

@@ -21,6 +21,7 @@ import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xxl.HibernateUtil;
 import com.xxl.baseService.bo.Favorite;
 import com.xxl.baseService.bo.Menu;
 import com.xxl.baseService.bo.MenuRole;
@@ -38,7 +39,6 @@ import com.xxl.facade.HelperRemote;
 import com.xxl.facade.ReportRemote;
 import com.xxl.facade.StructureRemote;
 import com.xxl.os.bo.SyOrganise;
-import common.HibernateUtil;
 import common.businessObject.ItModule;
 import common.businessObject.MessageEvent;
 import common.businessObject.MessageSubscibe;
@@ -75,7 +75,7 @@ import common.web.utils.SemWebAppUtils;
 @Service("adminRemote")
 public class AdminService extends BaseService implements AdminRemote{
 	public Log logger = LogFactory.getLog(this.getClass());
-	//@Autowired
+	@Autowired
 	private IFrameworkDao frameworkDAO;
 	
 	Session hibernateSession;
@@ -401,7 +401,7 @@ public class AdminService extends BaseService implements AdminRemote{
 	}
 
 	public TreeControl getMenuTree(String systemID, SessionUserBean theUser)
-			throws BaseException {
+			throws  BaseException, RemoteException {
 		TreeControl treeControl = null;
 		try {
 			hibernateSession = HibernateUtil.currentSession();
@@ -1102,21 +1102,25 @@ public class AdminService extends BaseService implements AdminRemote{
 		RoleVO roleVO = null;
 		// Integer lastRoleID = null;
 		UserLogin login = null;
-		Transaction tx = null;
+//		Transaction tx = null;
 		Iterator iter;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
-					systemID);
+//			hibernateSession = HibernateUtil.currentSession();
+//			tx = hibernateSession.beginTransaction();
+//			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+//					systemID);
+			ItModule module = (ItModule) frameworkDAO.loadBoById(systemID,ItModule.class
+					);
 			if (roleID == null) {
-				Criteria criteria = hibernateSession
-						.createCriteria(UserLogin.class);
+//				Criteria criteria = hibernateSession
+//						.createCriteria(UserLogin.class);
 				// if (!isSystemModule(systemID.intValue()))
+				DetachedCriteria criteria = DetachedCriteria.forClass(UserLogin.class);
 				criteria.add(Expression.eq("module", module));
 				criteria.add(Expression.eq("empID", ""+theUser.getId()));
 				criteria.addOrder(Order.desc("lastLoginDate"));
-				iter = criteria.list().iterator();
+//				iter = criteria.list().iterator();
+				iter=frameworkDAO.findByCriteria(criteria, 0, 0).iterator();
 				if (iter.hasNext()) {
 					login = (UserLogin) iter.next();
 					// if (isSystemModule(systemID.intValue())) {
@@ -1137,8 +1141,9 @@ public class AdminService extends BaseService implements AdminRemote{
 						+ theUser.getCode() + ",deptID="
 						+ theUser.getDepartment() + "levelID="
 						+ theUser.getLevel());
-				Criteria criteria2 = hibernateSession
-						.createCriteria(UABinding.class);
+//				Criteria criteria2 = hibernateSession
+//						.createCriteria(UABinding.class);
+				DetachedCriteria criteria2 = DetachedCriteria.forClass(UABinding.class);
 				if (!isSystemModule(module.getId().intValue()))
 					criteria2.add(Expression.eq("module", module));
 				criteria2.add(Expression.or(Expression.or(Expression.eq(
@@ -1146,36 +1151,42 @@ public class AdminService extends BaseService implements AdminRemote{
 						theUser.getDepartment())), Expression.eq("levelID",
 						theUser.getLevel())));
 				if (roleID != null) {
-					Role role = (Role) hibernateSession
-							.load(Role.class, roleID);
+//					Role role = (Role) hibernateSession
+//							.load(Role.class, roleID);
+					Role role = (Role) frameworkDAO.loadBoById(roleID,Role.class
+							);
 					criteria2.add(Expression.eq("role", role));
 				} else {
 					last = true;
 				}
-				iter = criteria2.list().iterator();
+//				iter = criteria2.list().iterator();
+				iter=frameworkDAO.findByCriteria(criteria2, 0, 0).iterator();
 				if (iter.hasNext()) {
 					hasFoundRole = true;
 					UABinding ua = (UABinding) iter.next();
 					Role role = ua.getRole();
+					System.out.println(role.getId()+"------------------------------");
 					roleVO = (RoleVO) role.toVO();
 					logger.debug("create new role=" + roleVO.getId());
 					if (login != null) {
 						login.setLastRole(role);
 						login.setModule(module);
 						login.setLastLoginDate(Calendar.getInstance());
-						hibernateSession.update(login);
+//						hibernateSession.update(login);
+						frameworkDAO.saveOrUpdate(login);
 					} else {
 						login = new UserLogin();
 						login.setEmpID(""+theUser.getId());
 						login.setModule(module);
 						login.setLastRole(role);
 						login.setLastLoginDate(Calendar.getInstance());
-						hibernateSession.save(login);
+//						hibernateSession.save(login);
+						frameworkDAO.saveOrUpdate(login);
 					}
 					// logon OA system
 					commonRemote.logonOASystem((Integer) theUser.getId(), ip);
 					// logon
-					tx.commit();
+//					tx.commit();
 				} else {
 					if (roleID != null) {
 						// if (lastRoleID == null
@@ -1189,8 +1200,11 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 			if (!hasFoundRole) {
 				logger.debug("has not found role,enter the unallow role");
-				Role unallowRole = (Role) hibernateSession.load(Role.class,
-						new Integer(UNALLOW_USER_ID));
+//				Role unallowRole = (Role) hibernateSession.load(Role.class,
+//						new Integer(UNALLOW_USER_ID));
+				
+				Role unallowRole = (Role) frameworkDAO.loadBoById(new Integer(UNALLOW_USER_ID),Role.class
+						);
 				roleVO = (RoleVO) unallowRole.toVO();
 				module = unallowRole.getModule();
 				// to unallow User
@@ -1219,6 +1233,11 @@ public class AdminService extends BaseService implements AdminRemote{
 				//}
 				//currentUser.setOrganise(roleVO.getOrganise());
 				currentUser.setOrganise(organise);
+//				currentUser.setCommonUsersVO(theUser);
+				UsersVO uservo=frameworkDAO.getUserInfo(theUser.getId()+"");
+				currentUser.setCommonUsersVO(uservo);
+
+				currentUser.setCommonUser(SemAppUtils.vo2User(uservo));
 				logger.debug("update online user info" + theUser.getId()
 						+ ",role name" + roleVO.getName()+"organise Name="+organise.getName());
 				helperRemote.login((Integer) theUser.getId(), WEB_USER_ID);
@@ -1231,8 +1250,8 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 
 		} catch (Exception ee) {
-			if (tx != null)
-				tx.rollback();
+//			if (tx != null)
+//				tx.rollback();
 			logger.error("数据库操作失败", ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 		} finally {
@@ -1273,7 +1292,7 @@ public class AdminService extends BaseService implements AdminRemote{
 				if(searchVO.getOrganise()!=null&&searchVO.getOrganise().intValue()!=0){
 					//SyOrganise organise=new SyOrganise(searchVO.getOrganise());
 					//criteria.add(Expression.eq("organise",organise));
-					List organiseList=SemAppUtils.getSubOrganises(searchVO.getOrganise().intValue());
+					List organiseList=commonRemote.getSubOrganises(searchVO.getOrganise().intValue());
 					criteria.add(Expression.in("organise",organiseList));
 				}
 				if (searchVO.getName() != null) {
@@ -1372,7 +1391,7 @@ public class AdminService extends BaseService implements AdminRemote{
 				.getDepartment())), Expression.eq("levelID", user.getLevel())));
 		criteria.addOrder(Order.asc("module"));
 		List resultList = new ArrayList();
-		Integer rowCount = (Integer) criteria.setProjection(
+		Long rowCount = (Long) criteria.setProjection(
 				Projections.rowCount()).uniqueResult();
 		criteria.setProjection(null);
 		Iterator iter = criteria.list().iterator();

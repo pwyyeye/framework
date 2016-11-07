@@ -4,23 +4,40 @@ import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.stereotype.Repository;
 
 import com.xxl.os.dao.OnlineDAO;
+
 import common.dao.impl.BaseDAOImpl;
 import common.os.vo.UsersVO;
 import common.os.vo.exception.OSException;
 import common.utils.SemAppUtils;
 
+@Repository("onlineDAO")
 public class OnlineDAOImpl extends BaseDAOImpl implements OnlineDAO {
 
 	public Log logger = LogFactory.getLog(this.getClass());
 
 	public String getUserToken(final Integer empId) {
+		
+		String token = null;
+		
+//		String sql = " select t.rowid||t.ol_authkey as token from sy_onlineinfo t WHERE t.OL_USERID=?";
+		String sql = " select t.ol_authkey from EIA_ONLINE t WHERE  "
+				+ "t.OL_USERID=?";
+		List<Map<String, Object>> list=find_sql_toMap(sql,new Integer[]{empId});
+		if(list.size()==0) return token;
+		Map<String, Object> map=list.get(0);
+		token = (String) map.get("token");
+		return token;
+		
 //		return (String) getHibernateTemplate().execute(new HibernateCallback() {
 //			public Object doInHibernate(Session session) {
 //				try {
@@ -43,7 +60,9 @@ public class OnlineDAOImpl extends BaseDAOImpl implements OnlineDAO {
 //				}
 //			}
 //		});
-		return null;
+		
+		
+
 	}
 
 	public UsersVO getEofficeLoginUser(final String ip, final String authKey,

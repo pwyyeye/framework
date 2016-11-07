@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
-        "hibernate-mapping-3.0.dtd">
-
-
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
 
   <hibernate-mapping>
      <class name="com.xxl.baseService.bo.UserLogin"  table="RB_USERLOGIN">
@@ -18,6 +15,6 @@
         <column name="LASTLOGINDATE" sql-type="Date" />
         </property>
          <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
-         <many-to-one name="lastRole" class="common.businessObject.Role" column="LASTROLEID"/>
+         <many-to-one name="lastRole" class="com.xxl.baseService.bo.Role" column="LASTROLEID"/>
      </class>
   </hibernate-mapping>

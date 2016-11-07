@@ -2,8 +2,10 @@ package com.xxl.baseService.service.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xxl.baseService.dao.IFrameworkDao;
 import com.xxl.bussiness.EofficeDB;
 import com.xxl.bussiness.LdapAuth;
 import com.xxl.bussiness.MailSender;
@@ -22,7 +24,11 @@ import common.bussiness.CommException;
 import common.bussiness.User;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
@@ -35,6 +41,13 @@ import java.util.List;
 //import javax.jms.QueueSession;
 //import javax.naming.InitialContext;
 //import javax.naming.NamingException;
+
+
+
+
+
+
+import javax.crypto.NoSuchPaddingException;
 
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
@@ -54,25 +67,20 @@ public class CommonService implements CommonRemote {
 
 	public Log logger = LogFactory.getLog(this.getClass());
 
-	AdminRemote adminSession;
+	@Autowired
+	AdminRemote adminRemote;
 
-//	AlphaUddi uddiSession;
 
-//	private QueueConnectionFactory qcFactory;
-//
-//	private QueueSession qSession;
-//
-//	private QueueConnection qConnection;
-//
-//	private QueueSender qSender;
-//
-//	private Queue queSJ;
-
+	@Autowired
 	private HelperRemote helperRemote;
 
+	@Autowired
 	private StructureRemote structureRemote;
 
 //	private JMSTaskRemote jmsTaskRemote;
+	
+	@Autowired
+	private IFrameworkDao frameworkDAO;
 
 	private boolean isTest = true;
 
@@ -97,6 +105,7 @@ public class CommonService implements CommonRemote {
 	private String secretKey;
 
 
+	
 
 //	InitialContext context;
 
@@ -145,8 +154,9 @@ public class CommonService implements CommonRemote {
 				EofficeDB eofficeDB = EofficeDB.getTheInstance();
 				return eofficeDB.getUserInfo("" + empID);
 			} else {
-				NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-				return eofficeDB.getUserInfo("" + empID);
+//				NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
+//				return eofficeDB.getUserInfo("" + empID);
+				return frameworkDAO.getUserInfo(empID+"");
 			}
 		} else {
 			return structureRemote.getUserInfo(empID);
@@ -159,8 +169,10 @@ public class CommonService implements CommonRemote {
 			EofficeDB eofficeDB = EofficeDB.getTheInstance();
 			return SemAppUtils.vo2User(eofficeDB.getUserInfo(empID.trim()));
 		} else {
-			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-			return SemAppUtils.vo2User(eofficeDB.getUserInfo(empID.trim()));
+//			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
+			System.out.println("---------------------------"+empID);
+//			return SemAppUtils.vo2User(eofficeDB.getUserInfo(empID.trim()));
+			return SemAppUtils.vo2User(frameworkDAO.getUserInfo(empID+""));
 		}
 	}
 
@@ -182,13 +194,13 @@ public class CommonService implements CommonRemote {
 	}
 
 	public String getUserToken(Integer empID) throws Exception {
-		return "test OK!";
-//		if (userExternalOS) {
-//			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-//			return eofficeDB.getUserToken("" + empID);
-//		} else {
-//			return structureRemote.getUserToken(empID);
-//		}
+//		return "test OK!";
+		if (userExternalOS) {
+			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
+			return eofficeDB.getUserToken("" + empID);
+		} else {
+			return structureRemote.getUserToken(empID);
+		}
 	}
 
 	public String getUserToken(String empID) throws Exception, RemoteException {
@@ -210,6 +222,7 @@ public class CommonService implements CommonRemote {
 			if (empid != null) {
 				UsersVO vo = getUserInfo(new Integer(empid));
 				// return SemAppUtils.vo2User(vo);
+				logger.debug(SemAppUtils.getJsonFromBean(vo));
 				return vo;
 			} else {
 				throw new CommException("非法用户");
@@ -325,7 +338,7 @@ public class CommonService implements CommonRemote {
 		// authKey, getExpiredTime(), 0, isTest||systemAuth, getCheckActive());
 	}
 
-	public List getUserOfDept(String deptID) throws CommException {
+	public List getUserOfDept(String deptID) throws Exception {
 		if (userExternalOS) {
 			return NewEofficeDB.getTheInstance().getUserOfDept(deptID);
 		} else {
@@ -516,7 +529,7 @@ public class CommonService implements CommonRemote {
 
 			String token = getUserToken((Integer) theUser.getId());
 			// return null;
-			return adminSession
+			return adminRemote
 					.getSessionUserBean(theUser, systemID, ip, token);
 		} catch (RemoteException e) {
 			logger.error("调用ADMIN EJB服务失败", e);
@@ -589,9 +602,38 @@ public class CommonService implements CommonRemote {
 		}
 	}
 
+	public EncrypDes initDes(EncrypDes des){
+		if(des!=null) return des;
+		try {
+			secretKey = helperRemote.getProperty("DES_SECRET_KEY");
+			System.out.println("-----------------------------"+secretKey+"-----------------------------");
+			des = new EncrypDes(secretKey);
+			return des;
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchProviderException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return des;
+	}
 	public String encrytor(String data) throws BaseException,
 			BaseBusinessException {
 		try {
+			des=initDes(des);
 			return des.encrypt(data);
 		} catch (Exception e) {
 			this.handleException(e);
@@ -602,6 +644,7 @@ public class CommonService implements CommonRemote {
 	public String decrytor(String data) throws BaseException,
 			BaseBusinessException {
 		try {
+			des=initDes(des);
 			return des.decrypt(data);
 		} catch (Exception e) {
 			this.handleException(e);

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xxl.facade.CommonRemote;
 
@@ -59,7 +60,8 @@ public class SemLogonFilter implements Filter {
 
 	private String system;
 
-	private CommonRemote  common;
+	@Autowired
+	private CommonRemote  commonRemote;
 	
 	
 	public void destroy() {
@@ -84,21 +86,26 @@ public class SemLogonFilter implements Filter {
 		logger.debug("go to url->" + url + "?" + queryStr + ",page=" + page);
 		HttpSession hSession = req.getSession();
 		Integer systemID = null;
-
+		logger.debug("pass 000---------------------------------"+this.login_page+":"+page);
 		if (page.equals(this.login_page)) {
 			chain.doFilter(request, response);
 			return;
 		}
-		String suffix = getFileSuffix(page);
+		
+		String suffix = getFileSuffix(uri);
+		logger.debug("pass 111---------------------------------"+suffix);
 		boolean needFilter = false;
 		if (filterPageSuffixs != null) {
 			for (int i = 0; i < filterPageSuffixs.length && !needFilter; i++) {
+				logger.debug(i+"》filterPageSuffixs[i]="+filterPageSuffixs[i]);
 				if (suffix.equalsIgnoreCase(filterPageSuffixs[i]))
 					needFilter = true;
 			}
 		}
+		logger.debug(" needlessFilterPages="+needlessFilterPages);
 		if (needlessFilterPages != null && needFilter) {
 			for (int i = 0; i < needlessFilterPages.length; i++) {
+				logger.debug(i+" needlessFilterPages[i]="+needlessFilterPages[i]);
 				if (page.equalsIgnoreCase(needlessFilterPages[i])) {
 					needFilter = false;
 				}
@@ -131,6 +138,7 @@ public class SemLogonFilter implements Filter {
 			}
 		}
 		// if token has changed,must relogin
+		logger.debug("pass 222---------------------------------"+needFilter);
 		UsersVO loginUser = null;
 		if (userInstance == null && needFilter) {
 			// logger.debug("page[" + page + "]need Fileter");
@@ -165,13 +173,13 @@ public class SemLogonFilter implements Filter {
 					if (token != null) {
 						errorMessage = "连接超时，请重新登录!";
 						notLogin = false;
-						loginUser = common.getEofficeLoginUserVO(token, ip);
+						loginUser = commonRemote.getEofficeLoginUserVO(token, ip);
 
 					} else if (username != null) {
 						errorMessage = "用户名或密码错误";
 						notLogin = false;
 						try {
-							loginUser = common
+							loginUser = commonRemote
 									.verifyUsersVO(username, password);
 						} catch (BaseException ee) {
 							errorMessage = ee.getMessage();
@@ -182,7 +190,7 @@ public class SemLogonFilter implements Filter {
 						errorMessage = "当前用户未注册";
 						notLogin = false;
 						errorCode = "-2";
-						loginUser = common.getEofficeLoginUserVO(openId);
+						loginUser = commonRemote.getEofficeLoginUserVO(openId);
 					}
 					logger.debug("result:loginUser=" + loginUser);
 					if (loginUser == null) {// oa token unvalid
@@ -199,8 +207,8 @@ public class SemLogonFilter implements Filter {
 									ee);
 							return;
 						}
-						common.logonOASystem(loginUser.getId(), ip);
-						SessionUserBean userBean = common.getSemSessionUser(
+						commonRemote.logonOASystem(loginUser.getId(), ip);
+						SessionUserBean userBean = commonRemote.getSemSessionUser(
 								loginUser, systemID, ip);
 
 						logger.debug("userBean=" + userBean);
@@ -262,7 +270,6 @@ public class SemLogonFilter implements Filter {
 				return; //
 			}
 		}
-
 		// �ж��û��ķ��ʵ�ַ�Ƿ�Ϸ�
 		if (needCheckAccess != null && check_access_class != null
 				&& session_user_class != null && needFilter) {
@@ -382,25 +389,83 @@ public class SemLogonFilter implements Filter {
 		}
 	}
 
+//	private String getFileSuffix(String filename) {
+//		if (filename == null)
+//			return null;
+//		if(filename.lastIndexOf("?")!=-1){
+//			filename=filename.substring(0, filename.lastIndexOf("?"));
+//		}
+//		int i = filename.lastIndexOf(".");
+//		if (i < 0 || i >= filename.length() - 1) {
+//			return "";
+//		}
+//		return filename.substring(i + 1);
+//	}
+	
 	private String getFileSuffix(String filename) {
 		if (filename == null)
 			return null;
+		if(filename.indexOf("?")!=-1){
+			filename=filename.substring(0, filename.indexOf("?"));
+		}
 		int i = filename.lastIndexOf(".");
 		if (i < 0 || i >= filename.length() - 1) {
-			return "";
+			int j = filename.lastIndexOf("/");
+			if(j>=0){
+				return "do";
+			}else {
+				return "";
+			}
+			
 		}
 		return filename.substring(i + 1);
 	}
 
-	private String getReqPage(String filename) {
-		if (filename == null)
-			return null;
-		int i = filename.lastIndexOf("/");
-		int j = filename.indexOf("?");
-		if (i < 0 || i >= filename.length() - 1) {
-			return "";
+//	private String getReqPage(String filename) {
+//		if (filename == null)
+//			return null;
+//		int i = filename.lastIndexOf("/");
+//		int j = filename.indexOf("?");
+//		if (i < 0 || i >= filename.length() - 1) {
+//			return "";
+//		}
+//		int k=filename.substring(0, i).lastIndexOf("/");
+//		if(k==-1){
+//			return j < i ? filename.substring(i + 1) : filename.substring(i + 1, j);
+//		}else{
+//			return  filename.substring(k + 1, j);
+//		}
+//		
+//	}
+	 private String getReqPage(String filename) {
+			if (filename == null)
+				return null;
+			int i = filename.lastIndexOf("/");
+			int j = filename.indexOf("?");
+			if (i < 0 || i > filename.length() - 1) {
+				return "";
+			}else if(i == (filename.length() - 1)){
+				//情况二
+				String temp="";
+				temp= filename.substring(0, i-1);
+				filename=filename.substring(temp.lastIndexOf("/")+1, i);
+				return filename;
+			}
+			
+			/**
+				例如：filename =  情况1、"/frameworkWeb/loginController/home";
+								情况2、/frameworkWeb/loginController/
+								情况3、/frameworkWeb/loginController/login.do
+				
+			*/
+			
+			int k=i==0?-1:filename.substring(0, i-1).lastIndexOf("/");
+			if(k==-1){
+				return j < i ? filename.substring(i + 1) : filename.substring(i + 1, j);
+			}else{
+				return filename.substring(k+1, i);
+			}
+			
 		}
-		return j < i ? filename.substring(i + 1) : filename.substring(i + 1, j);
-	}
 
 } // EOC

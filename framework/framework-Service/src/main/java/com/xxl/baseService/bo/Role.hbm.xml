@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
-        "hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+
   <hibernate-mapping>
      <class name="com.xxl.baseService.bo.Role" table="RB_ROLES">
         <id name="id" column="ROLEID">
@@ -17,7 +17,7 @@
         <column name="VALID" sql-type="int" />
         </property>
        <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
-       <many-to-one name="organise" class="common.os.bo.SyOrganise" column="OR_ID"/>
+       <many-to-one name="organise" class="com.xxl.os.bo.SyOrganise" column="OR_ID"/>
 
      </class>
   </hibernate-mapping>

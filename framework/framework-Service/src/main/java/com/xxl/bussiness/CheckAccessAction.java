@@ -1,19 +1,10 @@
 package com.xxl.bussiness;
 
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 
-import common.HibernateUtil;
-
+import com.xxl.HibernateUtil;
 import common.filter.CheckAccessInterface;
 import common.os.vo.UsersVO;
 

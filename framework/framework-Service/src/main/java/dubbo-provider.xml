@@ -16,7 +16,11 @@
 	<dubbo:protocol name="dubbo" port="20880" />
 		
 	<!-- 用户服务接口 -->
-	<dubbo:service interface="com.xxl.facade.CommonRemote" ref="commonRemote" />
+	<dubbo:service interface="com.xxl.facade.CommonRemote" ref="commonRemote" timeout="1200000"/>
 
-	<dubbo:service interface="com.xxl.facade.AdminRemote" ref="adminRemote" />
+	<dubbo:service interface="com.xxl.facade.AdminRemote" ref="adminRemote" timeout="1200000"/>
+	
+	<dubbo:service interface="com.xxl.facade.HelperRemote" ref="helperRemote" timeout="1200000"/>
+	
+	<dubbo:service interface="com.xxl.facade.StructureRemote" ref="structureRemote" timeout="1200000"/>
 </beans>  

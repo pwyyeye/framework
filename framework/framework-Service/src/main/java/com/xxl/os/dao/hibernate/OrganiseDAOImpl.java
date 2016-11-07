@@ -9,12 +9,15 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.stereotype.Repository;
 
 import com.xxl.os.dao.OrganiseDAO;
+
 import common.dao.impl.BaseDAOImpl;
 import common.os.vo.exception.OSException;
 import common.value.PageList;
 
+@Repository("organiseDAO")
 public class OrganiseDAOImpl extends BaseDAOImpl implements OrganiseDAO {
 
 	public Log logger = LogFactory.getLog(this.getClass());

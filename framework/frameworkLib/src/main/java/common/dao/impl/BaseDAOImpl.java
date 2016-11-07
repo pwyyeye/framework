@@ -38,6 +38,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Projections;
 import org.hibernate.jdbc.Work;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate4.HibernateCallback;
@@ -856,6 +857,64 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 		});
 		return result;
 	}
+	
+	/**
+	 2      * 通过SQL查询，将结果集转换成Map对象，列名作为键(适用于有返回结果集的存储过程或查询语句)
+	 3      * @param queryString
+	 4      * @param params
+	 5      * @return
+	 6      */
+	public List<Map<String,Object>> find_sql_toMap(String queryString,Object[] params){
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createSQLQuery(queryString);
+        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        if(null!=params){
+            for(int i=0;i<params.length;i++){
+                query.setParameter(i, params[i]);
+            }
+        }
+        List<java.util.Map<String,Object>> list = query.list();
+        return list;
+    }
+	
+	/**
+     * 通过SQL执行无返回结果的语句，执行修改、删除、添加等(适用于无结果集返回SQL语句，不能用于存储过程)
+     * @param queryString
+     * @param params
+     */
+    public void executeSql(String queryString,Object[] params){
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery(queryString);
+        if(null!=params){
+            for(int i=0;i<params.length;i++){
+                query.setParameter(i, params[i]);
+            }
+        }
+        query.executeUpdate();
+    }
+    
+    /**
+     * 通过SQL执行无返回结果的存储过程(仅限于存储过程)
+     * @param queryString
+     * @param params
+     */
+    public void executeVoidProcedureSql(final String queryString,final Object[] params) throws Exception{
+        Session session = sessionFactory.getCurrentSession();
+        session.doWork(new Work(){
+          public void execute(Connection conn) throws SQLException {
+            ResultSet rs = null;
+            CallableStatement call = conn.prepareCall("{" + queryString + "}");
+            if (null != params) {
+                for (int i = 0; i <params.length; i++) {
+                    call.setObject(i+1, params[i]);
+                }
+            }
+            rs = call.executeQuery();
+            call.close();
+            rs.close();
+          }
+       });
+    }
 
 	/**
 	 * handle reference table example.

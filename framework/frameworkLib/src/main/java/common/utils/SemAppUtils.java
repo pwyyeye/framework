@@ -4,14 +4,17 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import net.sf.cglib.beans.BeanCopier;
@@ -24,6 +27,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
@@ -40,6 +44,9 @@ import common.utils.SemAppUtils;
 public class SemAppUtils {
 
 	public static Log logger = LogFactory.getLog(SemAppUtils.class);
+	
+	@Autowired
+	public static CommonRemote commonRemote;
 
 	public static String object2String(Object obj) {
 		Class voClass = obj.getClass();
@@ -477,8 +484,19 @@ public class SemAppUtils {
 	public static UsersVO getUserInfo(Integer empID) {
 		UsersVO user = null;
 		try {
-			CommonRemote common = null;
-			user = common.getUserInfo(empID);
+			
+			user = commonRemote.getUserInfo(empID);
+		} catch (Exception ee) {
+			logger.error("访问业务逻辑层失败", ee);
+		}
+		return user;
+	}
+	
+	public static User getUserInfo(String empID) {
+		User user = null;
+		try {
+			
+			user = commonRemote.getUserInfo(empID);
 		} catch (Exception ee) {
 			logger.error("访问业务逻辑层失败", ee);
 		}
@@ -488,8 +506,8 @@ public class SemAppUtils {
 	public static Department getDeptInfo(Integer deptID) {
 		Department deptment = null;
 		try {
-			CommonRemote common = null;
-			deptment = common.getDepartmentInfo(deptID);
+			
+			deptment = commonRemote.getDepartmentInfo(deptID);
 		} catch (Exception ee) {
 			logger.error("访问业务逻辑层失败", ee);
 		}
@@ -499,8 +517,8 @@ public class SemAppUtils {
 	public static List getSubOrganises(int organise) throws BaseException,
 			BaseBusinessException {
 		try {
-			CommonRemote common = null;
-			return common.getSubOrganises(organise);
+			
+			return commonRemote.getSubOrganises(organise);
 		} catch (Exception ex3) {
 			handleException(ex3);
 			return null;
@@ -538,7 +556,7 @@ public class SemAppUtils {
 		vo.setDepartmentName(user.getAbbr());
 		vo.setDepartment(user.getDeptid());
 		vo.setDepartmentCode(user.getDeptnum());
-		vo.setLevel(SemAppUtils.getInteger(user.getLevel()));
+		vo.setLevel(SemAppUtils.getInteger(user.getLevel()==null?"0":user.getLevel()));
 		return vo;
 	}
 	
@@ -548,8 +566,7 @@ public class SemAppUtils {
 	
 	public static String getLogonToken(Integer empID) {
 		try {
-			CommonRemote common =null;
-			return common.getUserToken(empID);
+			return commonRemote.getUserToken(empID);
 			// home.remove(common);
 		}  catch (Exception ex2) {
 			ex2.printStackTrace();
@@ -635,51 +652,51 @@ public class SemAppUtils {
 	
 	
 	// encrytor & decrytor Data
-		public static String encrytor(String data) throws BaseException,
-				BaseBusinessException {
-			try {
-				CommonRemote common = null;
-				return common.encrytor(data);
-			} catch (Exception ex3) {
-				handleException(ex3);
-				return null;
-			}
-
-		}
-
-		public static String decrytor(String data) throws BaseException,
-				BaseBusinessException {
-			try {
-				CommonRemote common = null;
-				return common.decrytor(data);
-			} catch (Exception ex3) {
-				handleException(ex3);
-				return null;
-			}
-		}
-
-		public static String encrytor(String data, String key)
-				throws BaseException, BaseBusinessException {
-			try {
-				CommonRemote common = null;
-				return common.encrytor(data, key);
-			} catch (Exception ex3) {
-				handleException(ex3);
-				return null;
-			}
-
-		}
-
-		public static String decrytor(String data, String key)
-				throws BaseException, BaseBusinessException {
-			try {
-				CommonRemote common = null;
-				return common.decrytor(data, key);
-			} catch (Exception ex3) {
-				handleException(ex3);
-				return null;
-			}
-		}
+//		public static String encrytor(String data) throws BaseException,
+//				BaseBusinessException {
+//			try {
+//				
+//				return commonRemote.encrytor(data);
+//			} catch (Exception ex3) {
+//				handleException(ex3);
+//				return null;
+//			}
+//
+//		}
+//
+//		public static String decrytor(String data) throws BaseException,
+//				BaseBusinessException {
+//			try {
+//				
+//				return commonRemote.decrytor(data);
+//			} catch (Exception ex3) {
+//				handleException(ex3);
+//				return null;
+//			}
+//		}
+//
+//		public static String encrytor(String data, String key)
+//				throws BaseException, BaseBusinessException {
+//			try {
+//				
+//				return commonRemote.encrytor(data, key);
+//			} catch (Exception ex3) {
+//				handleException(ex3);
+//				return null;
+//			}
+//
+//		}
+//
+//		public static String decrytor(String data, String key)
+//				throws BaseException, BaseBusinessException {
+//			try {
+//				
+//				return commonRemote.decrytor(data, key);
+//			} catch (Exception ex3) {
+//				handleException(ex3);
+//				return null;
+//			}
+//		}
 		
 		/**
 		 * 随机产生字符串
@@ -698,4 +715,32 @@ public class SemAppUtils {
 			}
 			return sb.toString();
 		}
+		
+		public static String getUrlQuery(String url, String name) {
+			// String
+			// url="http://semhq20/DocWeb/fileAction.do?id=80&token=sdfwerw&parentID=";
+			String result = null;
+			Map queryMap = new HashMap();
+			try {
+				URI urlO = new URI(url);
+				String query = urlO.getQuery();
+				String[] temps = query.split("&");
+				for (int i = 0; i < temps.length; i++) {
+					String[] querys = temps[i].split("=");
+					if (querys.length > 1) {
+						System.out.println(querys[0] + "=" + querys[1]);
+						queryMap.put(querys[0], querys[1]);
+					}
+				}
+				result = (String) queryMap.get(name);
+			} catch (Exception e) {
+				logger.error("查询参数失败", e);
+			}
+			return result;
+		}
+		
+		public static boolean isSystemModule(int systemID) {
+			return systemID == 0 || systemID == SemAppConstants.COMMON_MODULE_ID;
+		}
+
 }

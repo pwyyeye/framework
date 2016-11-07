@@ -234,7 +234,7 @@ var moduleStore = function(id) {
 		},
 		proxy : {
 			type : 'ajax',
-			url : 'moduleAction.do?action=list&root=' + id,
+			url : 'moduleController/list.do?root=' + id,
 			method : 'POST',
 			reader : {
 				type : 'json',

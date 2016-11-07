@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.xxl.controller.user.LoginController;
+import com.xxl.controller.common.LoginController;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;  
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;  

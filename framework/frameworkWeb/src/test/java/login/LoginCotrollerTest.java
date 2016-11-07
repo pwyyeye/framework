@@ -1,7 +1,9 @@
 package login;
 
 import org.junit.Test;
-import com.xxl.controller.user.LoginController;
+
+import com.xxl.controller.common.LoginController;
+
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;  

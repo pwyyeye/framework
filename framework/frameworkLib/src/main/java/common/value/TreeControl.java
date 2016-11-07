@@ -67,9 +67,10 @@ public class TreeControl
   protected void setRoot(TreeControlNode root) {
     if (this.root != null)
       removeNode(this.root);
-    if (root != null)
+    if (root != null){
       addNode(root);
-    root.setLast(true);
+      root.setLast(true);
+    }
     this.root = root;
   }
 

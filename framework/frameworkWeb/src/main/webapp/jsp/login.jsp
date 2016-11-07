@@ -1,16 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="/WEB-INF/controls.tld" prefix="controls"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 	<%@ include file="common.jsp"%>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <%
-    String path = request.getContextPath();
-    
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";%>
-    
-	<base href="<%=basePath%>">
-    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">    
 	<script>
 	function checkIE() {
 	var ver = navigator.appVersion;
@@ -67,6 +61,7 @@ Ext.QuickTips.init();
                       width:300
                 }
                //     <logic:present name="SELECT_MODULE">,{xtype:'systemcombo'}</logic:present>
+               <c:if test='${SELECT_MODULE==null}' var='SELECT_MODULE'>,{xtype:'systemcombo'}</c:if>
                 //,{xtype:'panel',  border:false, 
               //  html:'<p>&nbsp;</p><p>&nbsp;</p>'
               //  }
@@ -108,14 +103,14 @@ Ext.QuickTips.init();
                     handler: function(){
                         if(win.getComponent('logonForm').form.isValid()){
                         win.getComponent('logonForm').form.submit({
-                            url:'logonAction.do?action=list', 
+                            url:'loginController/list.do', 
                             waitTitle:'提示',
                             method: 'POST',
                             waitMsg:'正在验证您的身份,请稍候.....',
                             success:function(form,action){
                             var loginResult = action.result.success;
                             var errmsg = action.result.msg;
-                            window.location.href='logonAction.do';
+                            window.location.href='loginController/';
                          
                             } ,
                             failure: function(form,action) {

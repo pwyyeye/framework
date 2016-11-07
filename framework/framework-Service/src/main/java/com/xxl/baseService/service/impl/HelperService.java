@@ -17,13 +17,14 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
+import com.xxl.HibernateUtil;
 import com.xxl.baseService.bo.Notice;
 import com.xxl.baseService.bo.SystemProperties;
 import com.xxl.facade.HelperRemote;
 
-import common.HibernateUtil;
 import common.exception.CommonException;
 import common.jms.vo.JMSTaskVO;
 import common.utils.SemAppUtils;
@@ -33,7 +34,7 @@ import common.value.OnlineVO;
 import common.value.PageList;
 
 @Service("helperRemote")
-public class HelperService implements HelperRemote{
+public class HelperService implements HelperRemote,InitializingBean{
 
 	public Log logger = LogFactory.getLog(this.getClass());
 
@@ -43,7 +44,7 @@ public class HelperService implements HelperRemote{
 
 //	SessionContext sessionContext;
 
-	Properties properties;
+	Properties properties= new Properties();
 
 	private Map backgrounds;
 
@@ -334,9 +335,6 @@ public class HelperService implements HelperRemote{
 		return pageList;
 	}
 
-	public void ejbCreate() {
-
-	}
 	
 	public void putUserToken(Integer empId,String token){
 		if(empId==null||token==null){
@@ -524,6 +522,31 @@ public class HelperService implements HelperRemote{
 	}
 	private Integer convertEmpID(String empID){
 		return SemAppUtils.getInteger(empID);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// TODO Auto-generated method stub
+		properties = new Properties();
+		backgrounds = new HashMap();
+		onlineUsers = new HashMap();
+		offlines = new HashMap();
+		loginMap = new HashMap();
+		currentRoles = new HashMap();
+		singleModes = new HashMap();
+		onMethods = new HashMap();
+		this.userTokens=new HashMap();
+		this.customVars=new HashMap();
+		this.userMessages = new HashMap();
+		this.backgroundsErrors = new HashMap();
+		completeBackgrounds=new HashMap();
+		String onlineValidStr = this.getProperty("DEFAULT_ONLINE_VALID");
+		try {
+			onlineValidPeriod = Integer.parseInt(onlineValidStr);
+		} catch (Exception ee) {
+			onlineValidPeriod = DEFAULT_ONLINE_VALID;
+		}
+		setPropertiesAndNotices();
 	}
 
 }

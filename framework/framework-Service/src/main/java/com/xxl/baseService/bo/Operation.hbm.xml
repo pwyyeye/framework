@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC
-        "-//Hibernate/Hibernate Mapping DTD 2.0//EN"
-        "hibernate-mapping-3.0.dtd">
-
-
-
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
   <hibernate-mapping>
      <class name="com.xxl.baseService.bo.Operation"  table="RB_OPERATIONS">
+     <id name="id" column="OPERATIONID">
+         <generator class="identity"/>
+        </id>
+        <!-- 
         <id name="code" type="String" >
         <column name="OPERATIONID" sql-type="varchar(10)" not-null="true"/>
         <generator class="uuid.hex"/>
-        </id>
+        </id> -->
         <property name="name">
         <column name="OPERATIONNAME" sql-type="varchar(20)" />
         </property>

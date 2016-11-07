@@ -64,8 +64,8 @@ public class NewEofficeDB {
 		ds = (DataSource) initCtx.lookup("jdbc/newOA");
 	}
 
-	public static NewEofficeDB getTheInstance() {
-		return theInstance;
+	public static NewEofficeDB getTheInstance() throws Exception {
+		return theInstance==null?new NewEofficeDB():theInstance;
 	}
 
 	/**

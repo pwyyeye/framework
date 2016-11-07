@@ -56,16 +56,38 @@
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
-        <property name="packagesToScan" >
+       <!-- <property name="packagesToScan" >
             <list>
-                <value>com.xxl.baseService.bo.test</value>
+                <value>com.xxl.baseService.bo</value>
             </list>
-        </property>
-        <!--<property name="mappingDirectoryLocations">  
+        </property>--> 
+        <!-- --><property name="mappingDirectoryLocations">  
             <list>  
-                <value>classpath:/com/xxl/baseService/bo/</value>  
+                <value>classpath:/com/xxl/baseService/bo/</value>
+                <value>classpath:/com/xxl/os/bo/</value>    
             </list>  
-        </property> --> 
+        </property>
+       <!-- <property name="mappingResources">
+			<list>
+				<value>com/xxl/baseService/bo/ItModule.hbm.xml</value>
+				<value>com/xxl/baseService/bo/Favorite.hbm.xml</value>
+				<value>com/xxl/baseService/bo/MessageEvent.hbm.xml</value>
+				<value>com/xxl/baseService/bo/MessageSubscibe.hbm.xml</value>
+				<value>com/xxl/baseService/bo/Role.hbm.xml</value>
+				<value>com/xxl/baseService/bo/Menu.hbm.xml</value>
+				<value>com/xxl/baseService/bo/MenuRole.hbm.xml</value>
+				<value>com/xxl/baseService/bo/UABinding.hbm.xml</value>
+				<value>com/xxl/baseService/bo/UserLogin.hbm.xml</value>
+				<value>com/xxl/baseService/bo/ReportModule.hbm.xml</value>
+				<value>com/xxl/baseService/bo/Notice.hbm.xml</value>
+    			<value>com/xxl/baseService/bo/RaBinding.hbm.xml</value>
+				<value>com/xxl/baseService/bo/SystemProperties.hbm.xml</value>
+				<value>com/xxl/baseService/bo/UserProperties.hbm.xml</value>
+				
+				<value>com/xxl/baseService/bo/ReportSchedule.hbm.xml</value> 
+
+			</list>
+		</property> -->
         <property name="hibernateProperties">
             <props>
                 <prop key="dialect">${hibernate.dialect}</prop>
@@ -103,17 +125,21 @@
             <tx:method name="pause*" propagation="REQUIRED" />  
             <tx:method name="resume*" propagation="REQUIRED" />  
             <tx:method name="get*" propagation="REQUIRED" read-only="true" />  
+            <tx:method name="getSessionUserBean" propagation="REQUIRED"/> 
             <tx:method name="find*" propagation="REQUIRED" read-only="true" />  
             <tx:method name="load*" propagation="REQUIRED" read-only="true" />  
-            <tx:method name="*" propagation="REQUIRED" read-only="true" />  
+            <tx:method name="*" propagation="REQUIRED" read-only="true" />
         </tx:attributes>  
     </tx:advice>  
     
     <!-- 配置事务切面 -->  
     <aop:config>  
         <aop:pointcut id="serviceOperation"  
-            expression="execution(* com.xxl.hnust.service..*.*(..))" />  
+            expression="execution(* com.xxl.baseService.service..*.*(..))" />  
+        <aop:pointcut id="serviceOperation_os"  
+            expression="execution(* com.xxl.os.service..*.*(..))" />  
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />  
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation_os" />  
     </aop:config>  
     
     <!-- quartz配置  动态配置所以我们将 Factory 作为一个service一样的接口 QuartzJobFactory.java-->
@@ -124,7 +150,13 @@
     <context:component-scan base-package="common.dao" />
 	<context:component-scan base-package="com.xxl.baseService.dao" />
     <context:component-scan base-package="com.xxl.baseService.service" />  
-    <context:component-scan base-package="com.xxl.os.service" />  
+    <context:component-scan base-package="com.xxl.os" />  
     <context:component-scan base-package="com.xxl.report.service" />  
+    <context:component-scan base-package="common.dao" />
+	<context:component-scan base-package="common.utils" />
+    <context:component-scan base-package="common.filter" />
+    <context:component-scan base-package="common.bussiness" />
+    
+    
     <import resource="dubbo-provider.xml" />
 </beans>

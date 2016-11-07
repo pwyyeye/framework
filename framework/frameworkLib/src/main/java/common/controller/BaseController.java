@@ -9,6 +9,8 @@ import org.apache.commons.logging.LogFactory;
 
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
+import common.utils.SemAppConstants;
+import common.value.ItModuleVO;
 import common.value.JsonResult;
 import common.web.bean.SessionUserBean;
 import common.web.utils.SemWebAppConstants;
@@ -99,6 +101,31 @@ public class BaseController {
 		HttpSession session = req.getSession(false);
 		if (session != null)
 			session.setAttribute(name, obj);
+	}
+	
+	public Integer getSessionModuleID(HttpServletRequest request){
+		String moduleStr=(String)request.getSession().getAttribute(SemWebAppConstants.SESSION_MODULE_ID);
+		int module=moduleStr==null?0:Integer.parseInt(moduleStr);
+		if(module==SemAppConstants.COMMON_MODULE_ID) module=0;
+		return new Integer(module);		  
+	}
+	
+	public ItModuleVO getSessionModule(HttpServletRequest request){
+		return (ItModuleVO)request.getSession().getAttribute(SemWebAppConstants.SESSION_MODULE);
+		  
+	}
+	
+	protected void removeSessionAttribute(HttpServletRequest req, String name) {
+		logger.debug("Removing " + name + " from session.");
+		HttpSession session = req.getSession(false);
+		if (session != null)
+			session.removeAttribute(name);
+
+	}
+	
+	protected ItModuleVO getCurrentModuleVO(HttpServletRequest request) {
+		SessionUserBean user = this.getSessionUser(request);
+		return user == null ? null : getSessionUser(request).getModule();
 	}
 
 }
