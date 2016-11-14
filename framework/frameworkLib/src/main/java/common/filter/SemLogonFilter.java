@@ -86,26 +86,21 @@ public class SemLogonFilter implements Filter {
 		logger.debug("go to url->" + url + "?" + queryStr + ",page=" + page);
 		HttpSession hSession = req.getSession();
 		Integer systemID = null;
-		logger.debug("pass 000---------------------------------"+this.login_page+":"+page);
 		if (page.equals(this.login_page)) {
 			chain.doFilter(request, response);
 			return;
 		}
 		
 		String suffix = getFileSuffix(uri);
-		logger.debug("pass 111---------------------------------"+suffix);
 		boolean needFilter = false;
 		if (filterPageSuffixs != null) {
 			for (int i = 0; i < filterPageSuffixs.length && !needFilter; i++) {
-				logger.debug(i+"》filterPageSuffixs[i]="+filterPageSuffixs[i]);
 				if (suffix.equalsIgnoreCase(filterPageSuffixs[i]))
 					needFilter = true;
 			}
 		}
-		logger.debug(" needlessFilterPages="+needlessFilterPages);
 		if (needlessFilterPages != null && needFilter) {
 			for (int i = 0; i < needlessFilterPages.length; i++) {
-				logger.debug(i+" needlessFilterPages[i]="+needlessFilterPages[i]);
 				if (page.equalsIgnoreCase(needlessFilterPages[i])) {
 					needFilter = false;
 				}
@@ -138,7 +133,6 @@ public class SemLogonFilter implements Filter {
 			}
 		}
 		// if token has changed,must relogin
-		logger.debug("pass 222---------------------------------"+needFilter);
 		UsersVO loginUser = null;
 		if (userInstance == null && needFilter) {
 			// logger.debug("page[" + page + "]need Fileter");
@@ -261,7 +255,9 @@ public class SemLogonFilter implements Filter {
 				// response.getWriter().flush();
 				// response.flushBuffer();
 				if (type == 0) {
-					hres.sendRedirect(hres.encodeURL(login_page + "?"
+					String path = req.getContextPath();  
+					String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+					hres.sendRedirect(hres.encodeURL(basePath+login_page + "?"
 							+ SemWebAppConstants.SESSION_MODULE_ID + "="
 							+ system + "&"
 							+ SemWebAppConstants.LAST_ACCESS_PAGE + "="

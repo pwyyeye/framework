@@ -6,8 +6,9 @@ import javax.servlet.http.HttpServlet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.xxl.facade.ITaskService;
+import com.xxl.facade.TimeTaskRemote;
 
 import common.utils.SpringUtils;
 
@@ -23,14 +24,15 @@ public class TaskInit extends HttpServlet {
 
 	private static final Log logger = LogFactory.getLog(TaskInit.class);
 	
-	private ITaskService taskService;
+	@Autowired
+	private TimeTaskRemote timeTaskRemote;
 
 	public void init(ServletConfig config) throws ServletException {
 		
 		logger.info("－－－－－－开始添加定时任务 TaskInit－－－－－－");
 		super.init(config);  
-	    taskService = (ITaskService) SpringUtils.servletGetBean(this.getServletContext(), "taskService");
-	    taskService.initTask();
+//	    timeTaskRemote = (TimeTaskRemote) SpringUtils.servletGetBean(this.getServletContext(), "timeTaskRemote");
+		timeTaskRemote.initTask();
 		
 	}
 

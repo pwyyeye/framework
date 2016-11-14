@@ -10,7 +10,6 @@
      Ext.Loader.setPath('Ext.ux', 'extjs/ux');
      Ext.require(['Ext.ux.form.HtmlPlusEditor']);
 	 </script>
-	<html:base />
     <controls:grid recordLabel="角色" action="roleController/"
      gridBody="id:角色ID,module:模块,name:角色名称,description:描述,organise,organiseName:组织" 
      searchFieldsString="name,moduleID"

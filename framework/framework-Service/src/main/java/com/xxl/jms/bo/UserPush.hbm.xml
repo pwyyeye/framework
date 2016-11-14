@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+ <class name="com.xxl.jms.bo.UserPush"  table="eia_user_push" >
+	  <id name="id"  column="id" type="integer">  
+              <generator class="identity"/>
+        </id>  
+  <property  name="userId" type="integer">
+   <column length="7" name="userId"/>
+  </property>
+
+  <property name="on" type="integer">
+  	<column length="7" name="onFlag" />
+  </property>
+  <many-to-one name="module" class="common.businessObject.ItModule"
+  	column="SYSTEMID" />
+  <many-to-one name="type" class="com.xxl.jms.bo.UserPushType"
+  	column="type" />
+
+ </class>
+</hibernate-mapping>

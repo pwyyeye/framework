@@ -58,14 +58,14 @@ public class SwitchRoleController extends BaseController {
 	@Autowired
 	public AdminRemote adminRemote;
 
-	@RequestMapping("/add.do")
+	@RequestMapping("/add")
 	public void add(
 			HttpServletRequest request, HttpServletResponse response,MenuVO vo) {
 		response.setContentType("text/json;charset=UTF-8");
 
 	}
 
-	@RequestMapping("/list.do")
+	@RequestMapping("/list")
 	public void list(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
 		SessionUserBean currentUser = this.getSessionUser(request);
@@ -84,7 +84,7 @@ public class SwitchRoleController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/update.do")
+	@RequestMapping("/update")
 	public String update(HttpServletRequest request, HttpServletResponse response,MenuVO vo) {
 		try {
 			String roleID = request.getParameter("Ids");

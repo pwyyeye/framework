@@ -65,6 +65,10 @@ public class SystemPropertyVO extends BaseStringVO {
 
 	private Calendar setDate;
 
+	
+	public SystemPropertyVO() {
+		super();
+	}
 	public SystemPropertyVO(String id, String name, String value,
 			String remark, String module, Calendar startDate, Calendar endDate,
 			Integer parType, Integer timeLimit, String parent, String setUser,
@@ -203,10 +207,6 @@ public class SystemPropertyVO extends BaseStringVO {
 		this.moduleID = moduleID;
 	}
 
-	public SystemPropertyVO() {
-		super();
-
-	}
 
 	public String getParTypeStr() {
 		try {

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  <hibernate-mapping>
+     <class name="com.xxl.task.bo.TaskLog" table="BR_TASK_LOG">
+        <id name="id" column="ID">
+        <generator class="identity"/>
+        </id>
+         <property name="beginDate">
+        <column name="BEGIN_RUN_DATE" sql-type="date" />
+        </property>
+        <property name="endDate">
+        <column name="END_RUN_DATE" sql-type="date" />
+        </property>
+        <property name="runResult">
+        <column name="RUN_RESULT" sql-type="int" />
+        </property>
+        <property name="runContent">
+        <column name="RUN_CONTENT" sql-type="varchar(256)" />
+        </property>   
+       <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+       <many-to-one name="task" class="com.xxl.task.bo.Task" column="TASKID"/>
+
+     </class>
+  </hibernate-mapping>

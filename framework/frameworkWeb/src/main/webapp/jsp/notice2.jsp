@@ -16,7 +16,7 @@ var routeData = [ {
 
 </script>
 	<body>
-		<controls:grid recordLabel="系统公告" action="noticeAction.do"
+		<controls:grid recordLabel="系统公告" action="noticeController/"
 			gridBody="module:模块名,subject:主题,content:内容,moduleID,attachName:附件:attach,startDate:有效开始日期,endDate:有效截止日期:showReport.do?id=%s&value=%v,validStr:类型,valid"
 			searchFieldsString="moduleID,subject,content" needRightCheck="Y"
 			fileUpload="Y" pageSize="30" formHeight="450" searchFormHeight="300"

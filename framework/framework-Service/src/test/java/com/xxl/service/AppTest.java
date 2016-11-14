@@ -1,9 +1,16 @@
 package com.xxl.service;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.xxl.task.service.XxlGenericService;
+
+import common.os.vo.UsersVO;
 import common.utils.SpringUtils;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -40,6 +47,23 @@ public class AppTest
     {
         assertTrue( true );
     }
+    
+    
+    public void testGenericService()
+    {
+    	XxlGenericService xxl=XxlGenericService.getInstance();
+    	
+//    	UsersVO getUserInfo(Integer empID)
+    	
+    	List<Map<String, Object>> parameters=new ArrayList<Map<String,Object>>();
+    	Map<String,Object> map=new HashMap<String, Object>();
+    	map.put("ParamType", "java.lang.Integer");
+    	map.put("Object", new Integer(130610));
+    	parameters.add(map);
+    	Object obj=xxl.genericInvoke("com.xxl.facade.CommonRemote", "getUserInfo", parameters);
+    	System.out.println(obj);
+    }
+    
     
     public void test123()
     {

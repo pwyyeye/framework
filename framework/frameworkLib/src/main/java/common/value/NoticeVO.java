@@ -32,7 +32,7 @@ public class NoticeVO extends BaseVO {
 	public void setAttach(Integer attach) {
 		this.attach = attach;
 	}
-
+	
 	public NoticeVO(Integer id, String module, Integer moduleID,
 			String subject, Integer valid, String content, Calendar startDate,
 			Calendar endDate,Integer attach,String attachName) {

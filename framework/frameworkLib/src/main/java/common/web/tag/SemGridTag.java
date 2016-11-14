@@ -286,7 +286,8 @@ public class SemGridTag extends TagSupport {
 			out.println("]");
 			out.println(" ),");
 			out.println("proxy : new Ext.data.HttpProxy({");
-			out.println("url : '" + this.convertHref(action) + "action=list',");
+//			out.println("url : '" + this.convertHref(action) + "action=list',");
+			out.println("url : '" + this.convertHref(action,"list") + "',");
 			out.println("method : 'POST'");
 			out.println("})");
 			out.println("});");
@@ -653,7 +654,8 @@ public class SemGridTag extends TagSupport {
 			out.println("width : 250,");
 			out.println("msg:'正在删除全部记录，请稍候....'  });");
 			out.println("  Ext.Ajax.request({");
-			out.println(" url : '" + this.convertHref(action) + "action=delete',");
+//			out.println(" url : '" + this.convertHref(action) + "action=delete',");
+			out.println("url : '" + this.convertHref(action,"delete") + "',");
 			out.println("params : {Ids : Ids},");
 			out.println("  method : 'POST',");
 			out.println(" success : function(response,action){");
@@ -707,7 +709,8 @@ public class SemGridTag extends TagSupport {
 			out.println("msg:'正在删除" + recordLabel + "信息请稍后......'");
 			out.println("});");
 			out.println("Ext.Ajax.request({");
-			out.println("url : '" + this.convertHref(action) + "action=delete',");
+//			out.println("url : '" + this.convertHref(action) + "action=delete',");
+			out.println("url : '" + this.convertHref(action,"delete") + "',");
 			out.println("params : {Ids : Ids" + pageParameterSB + "},");
 			out.println("method : 'POST',");
 			out.println("success : function(response,action){");
@@ -798,8 +801,10 @@ public class SemGridTag extends TagSupport {
 					.println("        handler: function() {                          ");
 			out.println("            if (importForm.form.isValid()) {   ");
 			out.println("                importForm.form.submit({   ");
-			out.println("                    url:'" + this.convertHref(action)
-					+ "action=importExcel',");
+//			out.println("                    url:'" + this.convertHref(action)
+//					+ "action=importExcel',");
+			
+			out.println("url : '" + this.convertHref(action,"importExcel") + "',");
 			out.println("method : 'POST',");
 			out.println("waitMsg : '正在上传文件，请稍后',");
 			out
@@ -847,7 +852,8 @@ public class SemGridTag extends TagSupport {
 			out.println("clientValidation:true,//进行客户端验证");
 			out.println("waitMsg : '正在提交数据请稍后',//提示信息");
 			out.println("waitTitle : '提示',//标题");
-			out.println("url : '" + this.convertHref(action) + "action=add',//请求的url地址");
+//			out.println("url : '" + this.convertHref(action) + "action=add',//请求的url地址");
+			out.println("url : '" + this.convertHref(action,"add") + "',");
 			out.println("method:'POST',//请求方式");
 			out.println("params  :{'action':'add'" + pageParameterSB + "},");
 			out.println("success:function(form,action){//加载成功的处理函数");
@@ -885,7 +891,8 @@ public class SemGridTag extends TagSupport {
 			out.println("clientValidation:true,//进行客户端验证");
 			out.println("waitMsg : '正在提交数据请稍后',//提示信息");
 			out.println("waitTitle : '提示',//标题");
-			out.println("url : '" + this.convertHref(action) + "action=update',//请求的url地址");
+//			out.println("url : '" + this.convertHref(action) + "action=update',//请求的url地址");
+			out.println("url : '" + this.convertHref(action,"update") + "',");
 			out.println("method:'POST',//请求方式");
 			out.println("params  :{'action':'update'" + pageParameterSB + "},");
 			out.println("success:function(form,action){");
@@ -1009,7 +1016,8 @@ public class SemGridTag extends TagSupport {
 			//out.println("form.getForm().url=\""+action+"?action=exportExcel"+ currentParameterSB +"\";");
 			// out.println("form.getForm().submit();");  
 			//out.println("	 form.form.submit({");
-			out.println("form.getForm().getEl().dom.action='"+this.convertHref(action)+"action=exportExcel"+ currentParameterSB);
+//			out.println("form.getForm().getEl().dom.action='"+this.convertHref(action)+"action=exportExcel"+ currentParameterSB);
+			out.println("form.getForm().getEl().dom.action='"+this.convertHref(action,"exportExcel")+ currentParameterSB);
 			out.println("form.getForm().getEl().dom.submit()");
 			//out.println("url:'"+action+"?action=exportExcel"+ currentParameterSB +",");
 			//out.println(" waitMsg : '正在导出EXCEL(最大值1000条记录)',");
@@ -1021,7 +1029,9 @@ public class SemGridTag extends TagSupport {
 			out.println("}");
 			out.println("function exportExcel3(){");
 			out.println("win.show();");
-				out.println("form.getForm().getEl().dom.action='"+this.convertHref(action)+"action=exportExcel2"+ currentParameterSB);
+//				out.println("form.getForm().getEl().dom.action='"+this.convertHref(action)+"action=exportExcel2"+ currentParameterSB);
+				out.println("form.getForm().getEl().dom.action='"+this.convertHref(action,"exportExcel2")+ currentParameterSB);
+
 			out.println("form.getForm().getEl().dom.submit()");
 		
 			out.println("   win.hide(); ");
@@ -1520,13 +1530,16 @@ public class SemGridTag extends TagSupport {
 		this.showAllRecord = showAllRecord;
 	}
 	
-	private String convertHref(String href){
+	private String convertHref(String href,String subPath){
 		String result;
 		if(href.indexOf("?")!=-1){
-			result=href+"&";
+//			result=href+"&";
+			result=href.substring(0,href.indexOf("?"))+subPath+href.substring(href.indexOf("?"),href.length()-1);
 		}else{
-			result=href+"?";
+//			result=href+"?";
+			result=href+subPath;
 		}
+		logger.debug("convertHref"+result);
 		return result;
 	}
 

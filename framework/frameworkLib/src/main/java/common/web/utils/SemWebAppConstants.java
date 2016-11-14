@@ -6,7 +6,7 @@ public class SemWebAppConstants {
 	public static final String FORM_TAG_HEAD_ID="Head_Id";
 	
 	//登录的首页
-	public static final String COMMON_LOGIN_PAGE = "/portal/logonAction.do";
+	public static final String COMMON_LOGIN_PAGE = "logonController/";
 	
 	
 	public static final String SESSION_MODULE_ID="MODULE_ID";

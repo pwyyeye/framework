@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xxl.facade.ITaskService;
+import com.xxl.facade.TimeTaskRemote;
 import common.controller.BaseController;
 import common.task.vo.ScheduleJobVo;
 import common.utils.SemAppUtils;
@@ -31,10 +31,10 @@ import common.vo.BaseResponseVO;
 @RequestMapping("/task")
 public class TaskController extends BaseController {
 
-	public static Log logger = LogFactory.getLog(UserController.class);
+	public static Log logger = LogFactory.getLog(TaskController.class);
 
 //	@Resource
-	private ITaskService taskService;
+	private TimeTaskRemote taskService;
 	
 	@InitBinder("scheduleJobVo")
 	// 传入对象参数时，需要提前配置这项

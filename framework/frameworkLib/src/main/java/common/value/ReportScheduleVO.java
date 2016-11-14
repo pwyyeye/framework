@@ -338,9 +338,9 @@ public class ReportScheduleVO extends BaseVO {
 		this.recipientsDpno = recipientsDpno;
 	}
 
-	public ReportScheduleVO() {
-
-	}
+	 public ReportScheduleVO() {
+			super();
+		}
 
 	public ReportScheduleVO(String module, Integer moduleID,
 			Integer reportModuleID, String reportModule, Integer circleType,

@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.xxl.facade.AdminRemote;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
+import com.xxl.facade.StructureRemote;
 
 import common.bussiness.CommonLogger;
 import common.controller.BaseController;
@@ -56,6 +57,9 @@ public class LoginController extends BaseController {
 	
 	@Autowired
 	HelperRemote helperRemote;
+	
+	@Autowired
+	private StructureRemote structureRemote;
 
 	private String ip;
 
@@ -90,7 +94,7 @@ public class LoginController extends BaseController {
 	
 
 	
-	@RequestMapping(value = "/logon.do")
+	@RequestMapping(value = "/logon")
 	private void logon(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException {
 
@@ -161,7 +165,7 @@ public class LoginController extends BaseController {
 			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";  
 			String requestURI=request.getRequestURI();  
 			
-			logger.debug("requestURI="+requestURI);
+			logger.debug("basePath="+basePath);
 			String split = requestURI.indexOf("?") == -1 ? "?" : "&";
 			logger.debug("go to main page" +"redirect:"+requestURI+ split + "theme=" + theme);
 			attr.addAttribute("theme", theme);
@@ -174,7 +178,7 @@ public class LoginController extends BaseController {
 		}
 
 	}
-	@RequestMapping(value = "/list.do")
+	@RequestMapping(value = "/list")
 	public void list(
 			HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -199,7 +203,8 @@ public class LoginController extends BaseController {
 			Integer roleID) {
 		logger.debug("start perform logon module[" + sessionModuleID + "]");
 		try {
-			String token = commonRemote.getUserToken((Integer) user.getId());
+//			String token = commonRemote.getUserToken((Integer) user.getId());
+			String token = structureRemote.getUserToken((Integer) user.getId());
 			if (sessionModuleID == null) {
 				sessionModuleID = new Integer(SemAppConstants.COMMON_MODULE_ID);
 				logger.debug("logon default module");

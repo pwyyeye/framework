@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="/WEB-INF/controls.tld" prefix="controls"%>
 <html><%@ include file="common.jsp"%>
- <script src="js/GetUserAndDept.js" language="javascript"></script>
- <script src="js/GetUser.js" language="javascript"></script>
-	<html:base/>
-    <controls:grid recordLabel="用户" action="initUserRoleAction.do"
+<!--  
+ <script src="../js/GetUserAndDept.js" language="javascript"></script>
+ <script src="../js/GetUser.js" language="javascript"></script>-->
+    <controls:grid recordLabel="用户" action="initUserRoleController/"
      gridBody="moduleID,module:模块,role:角色,empID:工号,empName:姓名,deptID:部门ID,deptName:部门名称,levelID:层级,roleID" 
      searchFieldsString="moduleID,empID,roleID" 
      needUpdateAfterAdd="Y"
@@ -16,7 +16,7 @@
 					model : 'idNameModel',defaultRootId : id,	nodeParam : 'id',autoLoad:true,
 					proxy : {
 						type : 'ajax',
-						url : 'roleAction.do?action=list',
+						url : 'roleController/list',
 						method : 'POST',
 						reader : {
 							type : 'json',
@@ -28,7 +28,7 @@
 					model : 'idNameModel',defaultRootId : id,autoLoad:true,
 					proxy : {
 						type : 'ajax',
-						url : 'usersAction.do?action=list&start=0&limit=0',
+						url : 'usersController/list?start=0&limit=0',
 						method : 'POST',
 						reader : {
 							type : 'json',

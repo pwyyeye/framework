@@ -6,7 +6,7 @@ import java.util.Calendar;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.xxl.facade.ITaskService;
+import com.xxl.facade.TimeTaskRemote;
 import common.task.vo.ScheduleJobVo;
 import common.utils.SemAppUtils;
 import common.utils.SpringUtils;
@@ -47,7 +47,7 @@ public class TaskUtils {
             e.printStackTrace();  
         }  
         if (method != null) {
-        	ITaskService taskService = (ITaskService) SpringUtils.getBean("taskService");
+        	TimeTaskRemote taskService = (TimeTaskRemote) SpringUtils.getBean("taskService");
         	scheduleJobVo.setRunTime(Calendar.getInstance());
             try {  
                 method.invoke(object);

@@ -16,6 +16,9 @@ public String getEmpName() {
 public void setEmpName(String empName) {
 	this.empName = empName;
 }
+public LockVO() {
+	super();
+}
 public LockVO(Integer menuID,String menuName, Integer lockConnectID, Calendar lockDate) {
 	super(menuID);
 	// TODO Auto-generated constructor stub

@@ -28,7 +28,7 @@ public class RoleController extends BaseController {
 	@Autowired
 	public AdminRemote adminRemote;
 	
-	@RequestMapping(value = "/add.do")
+	@RequestMapping(value = "/add")
 	public void add(
 			HttpServletRequest request, HttpServletResponse response,RoleVO roleVO) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -49,7 +49,7 @@ public class RoleController extends BaseController {
 			}
 		}
 	}
-	@RequestMapping(value = "/list.do")
+	@RequestMapping(value = "/list")
 	public void list(
 			HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("get the role list");
@@ -116,7 +116,7 @@ public class RoleController extends BaseController {
 			logger.error("业务逻辑层异常", ee);
 		}
 	}
-	@RequestMapping(value = "/update.do")
+	@RequestMapping(value = "/update")
 	public void update(HttpServletRequest request, HttpServletResponse response,RoleVO roleVO) {
 		response.setContentType("text/json;charset=UTF-8");
 		try {
@@ -136,7 +136,7 @@ public class RoleController extends BaseController {
 			logger.error("业务逻辑层异常", ee);
 		}
 	}
-	@RequestMapping(value = "/delete.do")
+	@RequestMapping(value = "/delete")
 	public void delete(
 			HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");

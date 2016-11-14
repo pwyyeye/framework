@@ -1,6 +1,6 @@
 package com.xxl.baseService.dao;
 
-import com.xxl.baseService.bo.ScheduleJob;
+import com.xxl.task.bo.ScheduleJob;
 
 import common.dao.BaseDAO;
 

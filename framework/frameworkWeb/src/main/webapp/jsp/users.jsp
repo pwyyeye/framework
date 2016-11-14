@@ -5,7 +5,6 @@
 <html>
 	<%@ include file="common.jsp"%>
 	<title>用户管理</title>
-	<html:base />
 	<script>
 var searchname = '';
 var searchremark = '';
@@ -39,7 +38,7 @@ Ext.onReady(function() {
 		    	       if(currentId>0 &detailForm.sType!=1){
 		    	    	   detailForm.sType=2;
 		    	    	   alert(currentId);
-					       detailForm.form.load({url:'departmentAction.do?action=cancel&id='+currentId});
+					       detailForm.form.load({url:'departmentController/cancel&id='+currentId});
 					   }
                     }					
 			},
@@ -119,7 +118,7 @@ Ext.onReady(function() {
 				},
 				proxy : {
 					type : 'ajax',
-					url : 'departmentAction.do?action=list&root=' + id,
+					url : 'departmentController/list?root=' + id,
 					method : 'POST',
 					reader : {
 						type : 'json',
@@ -202,7 +201,7 @@ Ext.onReady(function() {
 		model : 'datas',
 		proxy : {
 			type : 'ajax',
-			url : 'usersAction.do?action=list',
+			url : 'usersController/list',
 			method : 'POST',
 			reader : {
 				type : 'json',
@@ -409,7 +408,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 				
 					proxy : {
 						type : 'ajax',
-						url : 'dutyAction.do?action=list',
+						url : 'dutyController/list',
 						method : 'POST',
 						reader : {
 							type : 'json',
@@ -655,7 +654,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 						msg : '正在删除全部记录，请稍候....'
 					});
 					Ext.Ajax.request( {
-						url : 'usersAction.do?action=delete',
+						url : 'usersController/delete',
 						params : {
 							Ids : Ids
 						},
@@ -718,7 +717,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 			});
 			Ext.Ajax
 					.request( {
-						url : 'usersAction.do?action=delete',
+						url : 'usersController/delete',
 						params : {
 							Ids : Ids,
 						},
@@ -776,7 +775,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 			});
 			Ext.Ajax
 					.request( {
-						url : 'departmentAction.do?action=delete',
+						url : 'departmentController/delete',
 						params : {
 							Ids : Ids,
 						},
@@ -872,7 +871,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 												if (importForm.form.isValid()) {
 													importForm.form
 															.submit( {
-																url : 'usersAction.do?action=importExcel',
+																url : 'usersController/importExcel',
 																method : 'POST',
 																waitMsg : '正在上传文件，请稍后',
 																success : function(
@@ -919,7 +918,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 				clientValidation : true,//进行客户端验证
 							waitMsg : '正在提交数据请稍后',//提示信息
 							waitTitle : '提示',//标题
-							url : 'departmentAction.do?action=add',//请求的url地址
+							url : 'departmentController/add',//请求的url地址
 							method : 'POST',//请求方式
 							params : {
 								'action' : 'add',
@@ -959,26 +958,28 @@ var dutyStore=Ext.create('Ext.data.Store', {
 		}else{//modify
 			detailForm.form.findField('id').setValue(currentId);
 			detailForm.form.submit({
-				clientValidation : true,//进行客户端验证
+							clientValidation : true,//进行客户端验证
 							waitMsg : '正在提交数据请稍后',//提示信息
 							waitTitle : '提示',//标题
-							url : 'departmentAction.do?action=update',//请求的url地址
+							url : 'departmentController/update',//请求的url地址
 							method : 'POST',//请求方式
 							success : function(form, action) {//加载成功的处理函数
+								departStore.reload();
           					if (typeof (action.result.message) != 'undefined') {
 									Ext.Msg.alert('提示', action.result.message);
 								} else {
 									Ext.Msg.alert('提示', '修改部门信息成功');
 								}
 							},
-							failure : function(form, action) {//加载失败的处理函数
+							failure : function(form,action){//加载失败的处理函数
+								departStore.reload();
 								if (typeof (action.result.message) != 'undefined') {
 									Ext.Msg.alert('提示', action.result.message);
 								} else {
 									Ext.Msg.alert('提示', '修改部门信息失败');
 								}
 							}
-							departStore.reload();
+							
 			});
 		}
 	}
@@ -993,11 +994,8 @@ var dutyStore=Ext.create('Ext.data.Store', {
 							clientValidation : true,//进行客户端验证
 							waitMsg : '正在提交数据请稍后',//提示信息
 							waitTitle : '提示',//标题
-							url : 'usersAction.do?action=custom',//请求的url地址
+							url : 'usersController/custom',//请求的url地址
 							method : 'POST',//请求方式
-							params : {
-								'action' : 'custom',
-							},
 							success : function(pswForm, action) {//加载成功的处理函数
 								pswWin.hide();
 								if (typeof (action.result) != 'undefined') {
@@ -1023,7 +1021,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 							clientValidation : true,//进行客户端验证
 							waitMsg : '正在提交数据请稍后',//提示信息
 							waitTitle : '提示',//标题
-							url : 'usersAction.do?action=add',//请求的url地址
+							url : 'usersActionController/?action=add',//请求的url地址
 							method : 'POST',//请求方式
 							params : {
 								'action' : 'add',
@@ -1056,7 +1054,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 							clientValidation : true,//进行客户端验证
 							waitMsg : '正在提交数据请稍后',//提示信息
 							waitTitle : '提示',//标题
-							url : 'usersAction.do?action=update',//请求的url地址
+							url : 'usersController/update',//请求的url地址
 							method : 'POST',//请求方式
 							params : {
 								'action' : 'update',
@@ -1153,7 +1151,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 		}
 		function exportExcel2() {
 			win.show();
-			form.getForm().getEl().dom.action = 'usersAction.do?action=exportExcel&javax.servlet.forward.query_string=weblogic_jsession=null&SEM_LOGIN_TOKEN=AAANZUAAFAAAEpVAAZsst2biexngsvf52utbjb5z45&MODULE_ID=2&javax.servlet.forward.request_uri=/PMWeb/vendorAction.do&weblogic_jsession=null&javax.servlet.forward.servlet_path=/vendorAction.do&javax.servlet.forward.context_path=/PMWeb&weblogic.servlet.forward.target_servlet_path=/vendor.jsp&weblogic.servlet.jsp=true&name='
+			form.getForm().getEl().dom.action = 'usersController/exportExcel&javax.servlet.forward.query_string=weblogic_jsession=null&SEM_LOGIN_TOKEN=AAANZUAAFAAAEpVAAZsst2biexngsvf52utbjb5z45&MODULE_ID=2&javax.servlet.forward.request_uri=/PMWeb/vendorAction.do&weblogic_jsession=null&javax.servlet.forward.servlet_path=/vendorAction.do&javax.servlet.forward.context_path=/PMWeb&weblogic.servlet.forward.target_servlet_path=/vendor.jsp&weblogic.servlet.jsp=true&name='
 					+ searchname
 					+ '&remark='
 					+ searchremark
@@ -1164,7 +1162,7 @@ var dutyStore=Ext.create('Ext.data.Store', {
 		}
 		function exportExcel3() {
 			win.show();
-			form.getForm().getEl().dom.action = 'usersAction.do?action=exportExcel2&javax.servlet.forward.query_string=weblogic_jsession=null&SEM_LOGIN_TOKEN=AAANZUAAFAAAEpVAAZsst2biexngsvf52utbjb5z45&MODULE_ID=2&javax.servlet.forward.request_uri=/PMWeb/vendorAction.do&weblogic_jsession=null&javax.servlet.forward.servlet_path=/vendorAction.do&javax.servlet.forward.context_path=/PMWeb&weblogic.servlet.forward.target_servlet_path=/vendor.jsp&weblogic.servlet.jsp=true&name='
+			form.getForm().getEl().dom.action = 'usersController/exportExcel2&javax.servlet.forward.query_string=weblogic_jsession=null&SEM_LOGIN_TOKEN=AAANZUAAFAAAEpVAAZsst2biexngsvf52utbjb5z45&MODULE_ID=2&javax.servlet.forward.request_uri=/PMWeb/vendorAction.do&weblogic_jsession=null&javax.servlet.forward.servlet_path=/vendorAction.do&javax.servlet.forward.context_path=/PMWeb&weblogic.servlet.forward.target_servlet_path=/vendor.jsp&weblogic.servlet.jsp=true&name='
 					+ searchname
 					+ '&remark='
 					+ searchremark

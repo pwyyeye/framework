@@ -22,7 +22,7 @@
         <!-- 是否根据需要自动建表
         <property name="hbm2ddl.auto">update</property>   -->  
         <!-- 是否显示sql语句 -->  
-        <property name="show_sql">true</property>  
+        <property name="show_sql">false</property>  
         <!-- 将SQL脚本进行格式化后再输出 -->  
         <property name="hibernate.format_sql">true</property>  
         <!-- 设置连接数据库所使用的方言 -->  

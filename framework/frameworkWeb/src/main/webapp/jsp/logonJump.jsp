@@ -7,7 +7,7 @@
     }else{
       theLocation=window.location;
     } 
-    theLocation.href="logonAction.do";
+    theLocation.href="loginController/";
 </script></HEAD>
 <body>
 

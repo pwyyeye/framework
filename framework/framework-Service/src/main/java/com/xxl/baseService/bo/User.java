@@ -6,9 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
-
-import com.xxl.baseService.vo.UserVo;
-
 import common.businessObject.BaseBusinessObject;
 import common.utils.SemAppUtils;
 
@@ -79,8 +76,9 @@ public class User extends BaseBusinessObject {
 
 	@Override
 	public Object toVO() {
-		UserVo vo = new UserVo();
-		SemAppUtils.BO2VO(this, vo);
-		return vo;
+//		UserVo vo = new UserVo();
+//		SemAppUtils.BO2VO(this, vo);
+//		return vo;
+		return null;
 	}
 }

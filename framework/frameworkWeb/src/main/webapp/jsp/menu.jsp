@@ -3,9 +3,7 @@
 <%@ taglib uri="/WEB-INF/controls.tld" prefix="controls"%>
 <html>
 	<%@ include file="common.jsp"%>
-	<html:base />
-
-	<controls:grid recordLabel="功能" action="menuAction.do"
+	<controls:grid recordLabel="功能" action="menuController/"
 		gridBody="name:功能,link:链接地址,frame:客户端,id,sortID:排序号,singleMode:单模"
 		searchFieldsString="name" needRightCheck="Y" needUpdateAfterAdd="Y"
 		customRight="Y" rightString="1349" formHeight="450" formWidth="400"

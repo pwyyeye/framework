@@ -55,6 +55,8 @@ public  class UsersVO extends BaseVO {
 	private String name;
 
 	private String password;
+	
+	private String newpassword;
  
 	private String loginId;
   
@@ -133,7 +135,10 @@ public  class UsersVO extends BaseVO {
 	private Integer organise;
 	private String organiseName;
 	
+	private Integer firstResult;
+	private Integer fetchSize;
 	
+	private String captchas;
 	
 	public Integer getOrganise() {
 		return organise;
@@ -159,7 +164,13 @@ public  class UsersVO extends BaseVO {
 		this.searchValue = searchValue;
 	}
 
+	public String getNewpassword() {
+		return newpassword;
+	}
 
+	public void setNewpassword(String newpassword) {
+		this.newpassword = newpassword;
+	}
 
 	public String getWechat() {
 		return wechat;
@@ -233,12 +244,30 @@ public  class UsersVO extends BaseVO {
 		this.credentialType = credentialType;
 	}
 
-	
 
+	public String getCaptchas() {
+		return captchas;
+	}
 
+	public void setCaptchas(String captchas) {
+		this.captchas = captchas;
+	}
 
+	public Integer getFirstResult() {
+		return firstResult;
+	}
 
+	public void setFirstResult(Integer firstResult) {
+		this.firstResult = firstResult;
+	}
 
+	public Integer getFetchSize() {
+		return fetchSize;
+	}
+
+	public void setFetchSize(Integer fetchSize) {
+		this.fetchSize = fetchSize;
+	}
 
 	public Integer getDepartment() {
 		return department;

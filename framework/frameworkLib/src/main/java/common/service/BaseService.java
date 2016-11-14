@@ -1,15 +1,8 @@
 package common.service;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.sql.Connection;
 import java.util.Properties;
 
-import javax.ejb.SessionContext;
-import javax.jms.ObjectMessage;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,10 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
-import org.springframework.orm.hibernate3.SessionHolder;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.xxl.facade.HelperRemote;
@@ -28,11 +19,13 @@ import com.xxl.facade.HelperRemote;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.exception.CommonException;
-import common.utils.SemAppConstants;
-import common.utils.SemAppUtils;
-import common.web.bean.SessionUserBean;
 
 public abstract class BaseService implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Log logger = LogFactory.getLog(this.getClass());
 
 //	protected AlphaUddi alpha;

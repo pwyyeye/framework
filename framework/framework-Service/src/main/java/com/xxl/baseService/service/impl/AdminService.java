@@ -173,13 +173,15 @@ public class AdminService extends BaseService implements AdminRemote{
 			DetachedCriteria criteria = DetachedCriteria.forClass(ItModule.class);
 			criteria.add(Expression.eq("status", new Integer(0)));
 			boolean rename = renameModuleID.booleanValue();
+			
 			if (root != null) {
 				ItModule rootModule = (ItModule) frameworkDAO.loadBoById(
 						root,ItModule.class);
 				if (containRoot.booleanValue()) {
 					ItModuleVO vo = (ItModuleVO) rootModule.toVO();
-					if (rename)
+					if (rename){
 						vo.setId(0 - ((Integer) vo.getId()).intValue());
+					}
 					systems.add(vo);
 				}
 
@@ -188,8 +190,14 @@ public class AdminService extends BaseService implements AdminRemote{
 			criteria.addOrder(Order.asc("parentModule"));
 			criteria.addOrder(Order.asc("sortID"));
 			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, 0, 0);
-	
-			return pageList.getItems();
+			Iterator iter = pageList.getItems().iterator();
+			while (iter.hasNext()) {
+				ItModuleVO vo = (ItModuleVO) iter.next();
+				if (rename)
+					vo.setId(0 - ((Integer) vo.getId()).intValue());
+				systems.add(vo);
+			}
+			return systems;
 		} catch (Exception ee) {
 			logger.error(ee);
 			throw new BaseException("数据库异常" + ee.getMessage());
@@ -1098,6 +1106,9 @@ public class AdminService extends BaseService implements AdminRemote{
 		logger.debug("getSeesionUserBeam arg is systemID=" + systemID
 				+ ",roleID=" + roleID + ",token=" + token + ",userCode="
 				+ theUser.getCode() + ",unitid=" + theUser.getDepartment());
+		System.out.println("getSeesionUserBeam arg is systemID=" + systemID
+				+ ",roleID=" + roleID + ",token=" + token + ",userCode="
+				+ theUser.getCode() + ",unitid=" + theUser.getDepartment());
 		SessionUserBean currentUser = null;
 		RoleVO roleVO = null;
 		// Integer lastRoleID = null;
@@ -1314,7 +1325,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 			}
 
-			Integer rowCount = (Integer) criteria.setProjection(
+			Long rowCount = (Long) criteria.setProjection(
 					Projections.rowCount()).uniqueResult();
 			criteria.setProjection(null);
 			if (size > 0) {
@@ -1337,11 +1348,11 @@ public class AdminService extends BaseService implements AdminRemote{
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("����ϵͳ������" + ee.getMessage());
+			throw new BaseException("获取角色列表失败" + ee.getMessage());
 
 		}catch (Exception ee) {
 			logger.error(ee);
-			throw new BaseException("����ϵͳ������" + ee.getMessage());
+			throw new BaseException("获取角色列表失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -1453,7 +1464,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 			}
 			criteria.addOrder(Order.desc("module"));
-			Integer rowCount = (Integer) criteria.setProjection(
+			Long rowCount = (Long) criteria.setProjection(
 					Projections.rowCount()).uniqueResult();
 			criteria.setProjection(null);
 
@@ -1723,7 +1734,7 @@ public class AdminService extends BaseService implements AdminRemote{
 				criteria.add(Expression.eq("module", module));
 
 			}
-			Integer rowCount = (Integer) criteria.setProjection(
+			Long rowCount = (Long) criteria.setProjection(
 					Projections.rowCount()).uniqueResult();
 			criteria.setProjection(null);
 			logger.debug("size=" + size + ",start=" + firstResult);
@@ -2099,7 +2110,7 @@ public class AdminService extends BaseService implements AdminRemote{
 				itModule.setId(new Integer(system));
 				criteria.add(Expression.eq("module", itModule));
 			}
-			Integer rowCount = (Integer) criteria.setProjection(
+			Long rowCount = (Long) criteria.setProjection(
 					Projections.rowCount()).uniqueResult();
 			criteria.setProjection(null);
 			if (size > 0) {

@@ -24,7 +24,7 @@
 			    ]
 			 ),			
 			proxy : new Ext.data.HttpProxy({
-				url : 'moduleAction.do?action=list&root='+id,
+				url : 'moduleController/list&root='+id,
 				baseParams : {'root' : '0'},
 				method : 'POST'
 			})

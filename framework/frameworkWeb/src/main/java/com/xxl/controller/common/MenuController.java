@@ -62,7 +62,7 @@ public class MenuController extends BaseController {
 	@Autowired
 	public HelperRemote helperRemote;
 	
-	@RequestMapping("/add.do")
+	@RequestMapping("/add")
 	public void add(
 			HttpServletRequest request, HttpServletResponse response,MenuVO vo) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -101,7 +101,7 @@ public class MenuController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/list.do")
+	@RequestMapping("/list")
 	public void list(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
 		String rootStr = request.getParameter("root");
@@ -149,7 +149,7 @@ public class MenuController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/update.do")
+	@RequestMapping("/update")
 	public void update(HttpServletRequest request, HttpServletResponse response,MenuVO vo) {
 		response.setContentType("text/json;charset=UTF-8");
 		try {
@@ -177,7 +177,7 @@ public class MenuController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/importExcel.do")
+	@RequestMapping("/importExcel")
 	public void importExcel(HttpServletRequest request, HttpServletResponse response) {
 
 		response.setContentType("text/json;charset=UTF-8");
@@ -233,7 +233,7 @@ public class MenuController extends BaseController {
 
 	}
 
-	@RequestMapping("/delete.do")
+	@RequestMapping("/delete")
 	public void delete(
 			HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -254,7 +254,7 @@ public class MenuController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/cancel.do")
+	@RequestMapping("/cancel")
 	public void cancel(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
 		String rootStr = request.getParameter("root");
@@ -290,7 +290,7 @@ public class MenuController extends BaseController {
 		return "menu";
 	}
 
-	@RequestMapping("/expand.do")
+	@RequestMapping("/expand")
 	public void expand(
 			HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -307,6 +307,7 @@ public class MenuController extends BaseController {
 				if (root == 0)
 					root = 0 - this.getSessionModuleID(request).intValue();
 				boolean isModule = (root <= 0);// 如果ID<0表示是模块节点
+				logger.debug("rootStr:"+rootStr+",root"+root+",isModule"+isModule);
 				if (isModule) {
 					root = 0 - root;
 					List modules = adminRemote.getSystemList(
@@ -345,7 +346,7 @@ public class MenuController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/custom.do")
+	@RequestMapping("/custom")
 	public void custom(
 			HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");

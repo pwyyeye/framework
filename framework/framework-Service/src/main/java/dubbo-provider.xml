@@ -7,7 +7,7 @@
             http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<dubbo:application name="gw-service-user" />
+	<dubbo:application name="framework-service" />
 
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" />
@@ -16,11 +16,17 @@
 	<dubbo:protocol name="dubbo" port="20880" />
 		
 	<!-- 用户服务接口 -->
-	<dubbo:service interface="com.xxl.facade.CommonRemote" ref="commonRemote" timeout="1200000"/>
+	<dubbo:service interface="com.xxl.facade.CommonRemote" ref="commonRemote" timeout="30000"/>
 
-	<dubbo:service interface="com.xxl.facade.AdminRemote" ref="adminRemote" timeout="1200000"/>
+	<dubbo:service interface="com.xxl.facade.AdminRemote" ref="adminRemote" timeout="30000"/>
 	
-	<dubbo:service interface="com.xxl.facade.HelperRemote" ref="helperRemote" timeout="1200000"/>
+	<dubbo:service interface="com.xxl.facade.HelperRemote" ref="helperRemote" timeout="30000"/>
 	
-	<dubbo:service interface="com.xxl.facade.StructureRemote" ref="structureRemote" timeout="1200000"/>
+	<dubbo:service interface="com.xxl.facade.StructureRemote" ref="structureRemote" timeout="30000"/>
+	
+	<dubbo:service interface="com.xxl.facade.JMSTaskRemote" ref="jMSTaskRemote" timeout="30000"/>
+	
+	<dubbo:service interface="com.xxl.facade.TimeTaskRemote" ref="timeTaskRemote" timeout="30000"/>
+	
+	
 </beans>  

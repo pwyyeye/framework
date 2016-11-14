@@ -2,8 +2,7 @@
 <%@ taglib uri="/WEB-INF/controls.tld" prefix="controls"%>
 <html>
 	<%@ include file="common.jsp"%>
-	<html:base />
-    <controls:grid recordLabel="角色权限" action="menuRoleAction.do"
+    <controls:grid recordLabel="角色权限" action="menuRoleController/"
      gridBody="module:模块名,menu:菜单名,role:角色名,rightCode,otherRightCode:rightCode,moduleID,roleID,menuID,listRight,addRight,updateRight,deleteRight,exportRight,listRightStr:查询权限,addRightStr:新增权限,updateRightStr:修改权限,deleteRightStr:删除权限,deleteAllRightStr:删除全部权限,exportRightStr:导出权限,importRightStr:导入权限,customRight,customRightStr:自定义功能权限"
      searchFieldsString="moduleID,roleID,menuID"
      pageSize="30"
@@ -19,7 +18,7 @@
 					autoLoad : true,
 					proxy : {
 						type : 'ajax',
-						url : 'roleAction.do?action=list',
+						url : 'roleController/list',
 						method : 'POST',
 						reader : {
 							type : 'json',
@@ -92,7 +91,7 @@
 			    ['id','name']
 			 ),	
 			proxy: new Ext.data.HttpProxy({
-				url : 'roleAction.do?action=list'
+				url : 'roleAController/list'
 			})
 		  });  		
 				

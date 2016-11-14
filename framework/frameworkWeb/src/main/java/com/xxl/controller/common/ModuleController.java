@@ -55,7 +55,7 @@ public class ModuleController extends BaseController {
 	@Autowired
 	public AdminRemote adminRemote;
 
-	@RequestMapping("/add.do")
+	@RequestMapping("/add")
 	public void add(
 			HttpServletRequest request, HttpServletResponse response,ItModuleVO vo) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -71,7 +71,7 @@ public class ModuleController extends BaseController {
 		
 	}
 
-	@RequestMapping("/cancel.do")
+	@RequestMapping("/cancel")
 	public void cancel(
 			HttpServletRequest request, HttpServletResponse response,ItModuleVO vo) {		
 		response.setContentType("text/json;charset=UTF-8");
@@ -97,7 +97,7 @@ public class ModuleController extends BaseController {
 	}
 	
 
-	@RequestMapping("/list.do")
+	@RequestMapping("/list")
 	public void list(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
 		String rootStr = request.getParameter("id");
@@ -136,7 +136,7 @@ public class ModuleController extends BaseController {
         }
 	}
 
-	@RequestMapping("/update.do")
+	@RequestMapping("/update")
 	public void update(HttpServletRequest request, HttpServletResponse response,ItModuleVO vo) {
 		response.setContentType("text/json;charset=UTF-8");
 		try {

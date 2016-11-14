@@ -3,7 +3,7 @@
 <html>
 	<%@ include file="common.jsp"%>
 	<html:base />
-    <controls:grid recordLabel="报表角色权限" action="raBindingAction.do"
+    <controls:grid recordLabel="报表角色权限" action="raBindingController/"
      gridBody="module:模块名,report:报表名,role:角色名,rightCode,otherRightCode:rightCode,moduleID,roleID,reportID,listRight,addRight,updateRight,deleteRight,exportRight,listRightStr:查询权限,addRightStr:新增权限,updateRightStr:修改权限,deleteRightStr:删除权限,exportRightStr:导出权限,importRightStr:导入权限,customRight,customRightStr:自定义功能权限"
      searchFieldsString="moduleID,roleID,reprotID"
      pageSize="30"
@@ -59,7 +59,7 @@
 					},
 					proxy : {
 						type : 'ajax',
-						url : 'reportModuleAction.do?action=cancel&root=' + id,
+						url : 'reportModuleController/cancel&root=' + id,
 						method : 'POST',
 						reader : {
 							type : 'json',
@@ -81,7 +81,7 @@
 			    ['id','name']
 			 ),	
 			proxy: new Ext.data.HttpProxy({
-				url : 'roleAction.do?action=list'
+				url : 'roleController/list'
 			})
 		  }); 	
 				

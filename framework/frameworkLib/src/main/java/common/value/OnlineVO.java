@@ -32,10 +32,10 @@ public class OnlineVO extends BaseVO {
 	}
 
 	public String getEmpName() {
-		if(SemAppUtils.isEmpty(empName)){
-			empName=SemAppUtils.getUserInfo(empId).getName();
-		}
-		
+//		if(SemAppUtils.isEmpty(empName)){
+//			empName=SemAppUtils.getUserInfo(empId).getName();
+//		}
+//		
 		return empName;
 	}
 
@@ -74,7 +74,9 @@ public class OnlineVO extends BaseVO {
 		this.status = status;
 		this.lastUpdateMillis = lastUpdateMillis;
 	}
-
+	 public OnlineVO() {
+			super();
+		}
 	public long getLastUpdateMillis() {
 		return lastUpdateMillis;
 	}

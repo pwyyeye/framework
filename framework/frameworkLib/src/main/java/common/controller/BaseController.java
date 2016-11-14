@@ -1,20 +1,32 @@
 package common.controller;
 
+import java.beans.PropertyEditorSupport;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import common.bussiness.CommonLogger;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.utils.SemAppConstants;
+import common.utils.SemAppUtils;
 import common.value.ItModuleVO;
 import common.value.JsonResult;
+import common.value.PageList;
 import common.web.bean.SessionUserBean;
 import common.web.utils.SemWebAppConstants;
+import common.web.utils.SemWebAppUtils;
 
+@Controller
 public class BaseController {
 	
 	public Log logger = LogFactory.getLog(BaseController.class);;
@@ -107,6 +119,7 @@ public class BaseController {
 		String moduleStr=(String)request.getSession().getAttribute(SemWebAppConstants.SESSION_MODULE_ID);
 		int module=moduleStr==null?0:Integer.parseInt(moduleStr);
 		if(module==SemAppConstants.COMMON_MODULE_ID) module=0;
+		logger.debug("moduleStr="+moduleStr+",module="+module);
 		return new Integer(module);		  
 	}
 	
@@ -127,5 +140,45 @@ public class BaseController {
 		SessionUserBean user = this.getSessionUser(request);
 		return user == null ? null : getSessionUser(request).getModule();
 	}
+	
+	protected void doDBLogger(Log dbLogger, HttpServletRequest request,String type ,String content,String remark){
+		SessionUserBean currentUser=getSessionUser(request);
+		CommonLogger logger=new CommonLogger(currentUser.getEmpIDInt(),type,
+				content,remark,currentUser.getIp());
+		dbLogger.info(logger);		
+	}	
+	@RequestMapping("/list")
+	public void list(
+			HttpServletRequest request, HttpServletResponse response) {
+		try {
+			PageList roleList = getDatas(request, response, true);
+			response.setContentType("text/json;charset=UTF-8");
+			String json = SemWebAppUtils.getJsonFromBean(roleList);
+			response.getWriter().write(json);
+			logger.debug("json=" + json);
+		} catch (Exception ee) {
+			this.handleException(ee, request, response);
+		}
+	}
+
+	protected PageList getDatas(
+			HttpServletRequest request, HttpServletResponse response,
+			boolean pagable) throws Exception {
+		return null;
+	}
+	
+	//Spring MVC字符串数据转 Calendar
+	@InitBinder  
+	public void initBinder(WebDataBinder binder){  
+	    binder.registerCustomEditor(Calendar.class, new DateEditor());  
+	} 
+	
+	public class DateEditor extends PropertyEditorSupport {  
+	    @Override  
+	    public void setAsText(String text) throws IllegalArgumentException {  
+	        Calendar cal=SemAppUtils.getCalendar(text);
+	        setValue(cal);  
+	    }  
+	}  
 
 }

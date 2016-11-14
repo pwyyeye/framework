@@ -32,7 +32,7 @@
 
 	</script>
 	<html:base />
-    <controls:grid recordLabel="定制信息" action="observerAction.do"
+    <controls:grid recordLabel="定制信息" action="observerController/"
      gridBody="module:模块名,moduleID,event:事件名称,empID:工号,empName:姓名,routeStr:提醒方式,beginDate:生效时间,endDate:失效时间" 
      searchFieldsString="moduleID,eventID,empID,route,beginDate,endDate"
      userFiledsString="empID"

@@ -35,7 +35,7 @@ public class OnlineDAOImpl extends BaseDAOImpl implements OnlineDAO {
 		List<Map<String, Object>> list=find_sql_toMap(sql,new Integer[]{empId});
 		if(list.size()==0) return token;
 		Map<String, Object> map=list.get(0);
-		token = (String) map.get("token");
+		token = (String) map.get("ol_authkey");
 		return token;
 		
 //		return (String) getHibernateTemplate().execute(new HibernateCallback() {

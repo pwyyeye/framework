@@ -60,7 +60,7 @@ public class NoticeController extends BaseController {
 	@Autowired
 	public AdminRemote adminRemote;
 
-	@RequestMapping("/add.do")
+	@RequestMapping("/add")
 	public void add(
 			HttpServletRequest request, HttpServletResponse response,NoticeVO vo) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -92,7 +92,7 @@ public class NoticeController extends BaseController {
 		}
 	}
 
-	@RequestMapping("/list.do")
+	@RequestMapping("/list")
 	public void list(HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
 		SessionUserBean currentUser = this.getSessionUser(request);
@@ -168,7 +168,7 @@ public class NoticeController extends BaseController {
 	}
 	
 
-	@RequestMapping("/update.do")
+	@RequestMapping("/update")
 	public void update(HttpServletRequest request, HttpServletResponse response,NoticeVO vo) {
 //		FormFile attachFile = theForm.getImportFile();
 		Integer attachID = new Integer(0);
@@ -200,7 +200,7 @@ public class NoticeController extends BaseController {
 			logger.error("业务逻辑层异常", ee);
 		}
 	}
-	@RequestMapping("/delete.do")
+	@RequestMapping("/delete")
 	public void delete(
 			HttpServletRequest request, HttpServletResponse response) {
 		response.setContentType("text/json;charset=UTF-8");
@@ -220,7 +220,7 @@ public class NoticeController extends BaseController {
 			}
 		}
 	}
-	@RequestMapping("/custom.do")
+	@RequestMapping("/custom")
 	public void custom(
 			HttpServletRequest request, HttpServletResponse response) {
 		// logger.debug("get online date");
@@ -324,7 +324,7 @@ public class NoticeController extends BaseController {
 		}
 
 	}
-	@RequestMapping("/save.do")
+	@RequestMapping("/save")
 	public void save(
 			HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("change online method");
@@ -339,7 +339,7 @@ public class NoticeController extends BaseController {
 		}
 
 	}
-	@RequestMapping("/cancel.do")
+	@RequestMapping("/cancel")
 	public void cancel(
 			HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("close online method");
@@ -360,6 +360,7 @@ public class NoticeController extends BaseController {
 		}
 		try{
 			method=SemAppUtils.getInteger(methodStr);
+			logger.debug("-----methodStr---"+methodStr +",method"+method);
 		}catch(Exception ee){
 			method=new Integer(0);
 		}

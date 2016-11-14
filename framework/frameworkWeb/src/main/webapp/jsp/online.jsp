@@ -3,7 +3,7 @@
 <html>
 	<%@ include file="common.jsp"%>
 	<html:base />
-    <controls:grid recordLabel="在线用户" action="onlineAction.do"
+    <controls:grid recordLabel="在线用户" action="onlineController/"
      gridBody="empId:工号,empName:姓名,ip:IP地址,loginDate:登录时间,onMethod:当前功能,moduleName:当前模块,rolename:当前角色,lastUpdateDate:最后更新时间,statusStr:状态" 
      searchFieldsString="empId"
      customRight="Y"
@@ -15,14 +15,14 @@
      formString="{xtype:'textfield',width : 200,name : 'message',fieldLabel:'message'}	"
 	customButtonImpl="	
 	    function publish(){
-	       dealMessage('onlineAction.do?action=custom');
+	       dealMessage('onlineController/custom');
 	    } 
 	    function sendMessage(){
 	       var idList = getIdList();
            var num = idList.length;
            if(num == 0){return;}
            var Ids = idList.join('-');
-           dealMessage('onlineAction.do?action=update&Ids='+Ids);
+           dealMessage('onlineController/update&Ids='+Ids);
 	    } 
 	    function dealMessage(url){
 	       Ext.Msg.prompt('提示','请输入要发布的信息',function callback(id,msg){

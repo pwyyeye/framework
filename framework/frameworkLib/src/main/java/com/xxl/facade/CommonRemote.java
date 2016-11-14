@@ -11,6 +11,7 @@ import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.os.vo.OrganiseVO;
 import common.os.vo.UsersVO;
+import common.value.MailMessage;
 import common.web.bean.SessionUserBean;
 
 public interface  CommonRemote {
@@ -92,11 +93,11 @@ public interface  CommonRemote {
 			String text, String from, String host, String[] attachFile)
 			throws Exception;
 
-//	public String sendMessageByMail(MailMessage message) throws Exception,
-//			RemoteException;
-//
-//	public void sendMail(MailMessage message) throws Exception,
-//			RemoteException;
+	public String sendMessageByMail(MailMessage message) throws Exception,
+			RemoteException;
+
+	public void sendMail(MailMessage message) throws Exception,
+			RemoteException;
 
 	public Integer registerUser(String username, String password)
 			throws BaseException, BaseBusinessException;

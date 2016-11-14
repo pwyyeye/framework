@@ -25,7 +25,7 @@ import common.value.PageList;
 @Service("sysUserService")  
 public class SysUserServiceImpl implements ISysUserService {
 	
-	public static Log logger = LogFactory.getLog(UserServiceImpl.class);
+	public static Log logger = LogFactory.getLog(SysUserServiceImpl.class);
 	
     @Resource
     private ISysUserDao sysUserDao;

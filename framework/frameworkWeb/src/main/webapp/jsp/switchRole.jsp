@@ -25,7 +25,7 @@
 			model: 'roles',
 		    proxy :{
 				type:'ajax',
-				url : 'switchRoleController/list.do',
+				url : 'switchRoleController/list',
 				method : 'POST',
 				reader:{
 					type:'json',

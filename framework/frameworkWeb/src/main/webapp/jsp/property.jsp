@@ -4,7 +4,7 @@
 	<%@ include file="common.jsp"%>
 
 	<html:base />
-    <controls:grid recordLabel="系统配置" action="propertyAction.do"
+    <controls:grid recordLabel="系统配置" action="propertyController/"
      gridBody="name:配置项,value:值,moduleID,remark:说明,defaultValue:默认值,leaf,parType,parTypeStr:类型,setUser:修改用户,setDate:修改日期,timeLimit:时间限制,startDate:生效日期,endDate:结束日期"
      searchFieldsString="moduleID,name,value,remark"
      needRightCheck="Y"
@@ -62,7 +62,7 @@
                      msg:'正在更新系统的配置值,请稍候......'
                     });			   
 			    Ext.Ajax.request({
-				url : 'propertyAction.do?action=custom',
+				url : 'propertyAController/custom',
 				method : 'POST',
 				success : function(response,options){
 					msgTip.hide();

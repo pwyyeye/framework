@@ -19,8 +19,10 @@ public class UserPropertiesVO extends BaseVO{
 		super(id);
 	}
 	public UserPropertiesVO() {
-		
+		super();
+
 	}
+
 	public Integer getUsId() {
 		return usId;
 	}

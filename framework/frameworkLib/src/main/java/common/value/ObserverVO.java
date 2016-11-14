@@ -20,7 +20,9 @@ public class ObserverVO extends BaseVO{
 	  public Calendar getBeginDate() {
 	    return beginDate;
 	  }
-
+	  public ObserverVO() {
+			super();
+		}
 	  public void setBeginDate(Calendar beginDate) {
 	    this.beginDate = beginDate;
 	  }

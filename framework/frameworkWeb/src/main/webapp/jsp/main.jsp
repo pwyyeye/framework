@@ -111,7 +111,7 @@ Ext.onReady(function() {
 				},
 				proxy : {
 					type : 'ajax',
-					url : 'menuController/custom.do?root=' + id,
+					url : 'menuController/custom?root=' + id,
 					method : 'POST',
 					reader : {
 						type : 'json',
@@ -371,7 +371,7 @@ Ext.onReady(function() {
 			autoLoad : false,
 			proxy : {
 				type : 'ajax',
-				url : 'noticeController/save.do',
+				url : 'noticeController/save',
 				reader : {
 					type : 'json',
 					totalProperty : 'results',
@@ -385,7 +385,7 @@ Ext.onReady(function() {
 			autoLoad : false,
 			proxy : {
 				type : 'ajax',
-				url : 'noticeController/custom.do',
+				url : 'noticeController/custom',
 				reader : {
 					type : 'json',
 					totalProperty : 'results',
@@ -408,7 +408,7 @@ Ext.onReady(function() {
 							if (records[0].get('message').indexOf(
 									'USER_OFFLINE_COMMAND') > -1) {
 								alert('当前用户已注销，请重新登录!');
-								window.location.href = 'logoutAction.do';
+								window.location.href = 'logoutController/';
 							} else {
 								Ext.Msg.alert('系统信息提示', records[0]
 										.get('message'));

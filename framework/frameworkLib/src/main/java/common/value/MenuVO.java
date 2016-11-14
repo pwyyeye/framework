@@ -111,6 +111,12 @@ public class MenuVO extends BaseVO {
 	public MenuVO(Integer id) {
 		super(id);
 	}
+	
+	
+
+	public MenuVO() {
+		super();
+	}
 
 	public MenuVO(Integer id, String module, Integer moduleID, String name,
 			String frame, int parentModule, int sortID, String link,int singleMode) {

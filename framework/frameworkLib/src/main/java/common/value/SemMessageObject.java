@@ -19,6 +19,10 @@ public class SemMessageObject extends BaseVO{
 		this.contentObj = contentObj;
 		this.subQueueID=subQueueID;
 	}
+	
+	public SemMessageObject() {
+		super();
+	}
 	public Object getContentObj() {
 		return contentObj;
 	}

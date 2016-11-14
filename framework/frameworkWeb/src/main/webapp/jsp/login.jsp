@@ -103,7 +103,7 @@ Ext.QuickTips.init();
                     handler: function(){
                         if(win.getComponent('logonForm').form.isValid()){
                         win.getComponent('logonForm').form.submit({
-                            url:'loginController/list.do', 
+                            url:'loginController/list', 
                             waitTitle:'提示',
                             method: 'POST',
                             waitMsg:'正在验证您的身份,请稍候.....',

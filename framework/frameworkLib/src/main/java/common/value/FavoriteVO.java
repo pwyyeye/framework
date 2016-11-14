@@ -88,6 +88,10 @@ public class FavoriteVO extends BaseVO {
 		this.name=name;
 	}
 
+	public FavoriteVO() {
+		super();
+	}
+
 	public String getMenuName() {
 		return menuName;
 	}
