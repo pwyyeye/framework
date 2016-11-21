@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/controls.tld" prefix="controls"%>
 <html>
 	<%@ include file="common.jsp"%>
-    <controls:grid recordLabel="系统事件" action="eventAction.do"
+    <controls:grid recordLabel="系统事件" action="eventController/"
      gridBody="id:id,module:模块名,name:事件名称,moduleID,typeName:触发类型,type"  
      searchFieldsString="moduleID,name,type"
      addForInitial="Y"

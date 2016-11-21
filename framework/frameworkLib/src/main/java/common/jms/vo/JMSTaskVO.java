@@ -187,6 +187,7 @@ public class JMSTaskVO extends BaseVO {
 	}
 
 	public String getStatusName() {
+		if(status==null)return "";
 		switch (status.intValue()) {
 		case 1:
 			return "成功执行";
@@ -219,8 +220,9 @@ public class JMSTaskVO extends BaseVO {
 	}
 
 	public String getEmpName() {
-		UsersVO user = SemAppUtils.getUserInfo(empID);
-		return user == null ? ""+empID : user.getName();
+//		UsersVO user = SemAppUtils.getUserInfo(empID);
+//		return user == null ? ""+empID : user.getName();
+		return "";
 	}
 
 	public String toString() {

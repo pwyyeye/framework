@@ -1,4 +1,4 @@
-package com.xxl.controller;
+package com.xxl.controller.task;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,19 +22,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xxl.facade.TimeTaskRemote;
+
 import common.controller.BaseController;
+import common.os.vo.DepartmentVO;
+import common.os.vo.OrganiseVO;
 import common.task.vo.ScheduleJobVo;
 import common.utils.SemAppUtils;
 import common.value.PageList;
 import common.vo.BaseResponseVO;
 
 @Controller
-@RequestMapping("/task")
+@RequestMapping("/taskController")
 public class TaskController extends BaseController {
 
 	public static Log logger = LogFactory.getLog(TaskController.class);
 
-//	@Resource
+	@Autowired
 	private TimeTaskRemote taskService;
 	
 	@InitBinder("scheduleJobVo")
@@ -77,6 +81,39 @@ public class TaskController extends BaseController {
 		
 	}
 	
+	@RequestMapping("/list")
+	public void list(
+			HttpServletRequest request, HttpServletResponse response) {
+		super.list(request, response);
+	}
+	
+	protected PageList getDatas(
+			HttpServletRequest request, HttpServletResponse response,
+			boolean pagable) throws Exception {
+		String startStr = request.getParameter("start");
+		String limitStr = request.getParameter("limit");
+		ScheduleJobVo vo = new ScheduleJobVo();
+		int start = 0, limit = 0;
+		try {
+			start = Integer.parseInt(startStr);
+			limit = Integer.parseInt(limitStr);
+		} catch (Exception ee) {
+			start = 0;
+			limit = 0;
+		}
+		try {
+			PageList plist = this.taskService.findByPage(vo,
+					pagable ? new Integer(start) : new Integer(0),
+					pagable ? new Integer(limit) : new Integer(0));
+			logger.debug("get dcp data" + plist.getResults());
+			return plist;
+		} catch (Exception e) {
+			this.handleException(e, request, response);
+			return null;
+		}
+
+	}
+	
 	/**
 	 * 添加定时任务（库表、运行时）
 	 * 
@@ -84,7 +121,7 @@ public class TaskController extends BaseController {
 	 * @param request
 	 * @param response
 	 */
-	@RequestMapping(value = "/addScheduleJob")
+	@RequestMapping(value = "/add")
 	@ResponseBody
 	// 传ScheduleJobVo参数时的用法
 	/*
@@ -96,8 +133,8 @@ public class TaskController extends BaseController {
 			response.setContentType("text/json;charset=UTF-8");
 			scheduleJobVo.setCreateTime(Calendar.getInstance());
 			String id = this.taskService.addScheduleJob(scheduleJobVo);
-			String json = SemAppUtils.getJsonFromBean(new BaseResponseVO("1", "添加定时任务成功", id), false);
-			response.getWriter().write(json);
+			response.getWriter().write("{success:true,message:" + id + "}");
+			logger.debug("{success:true,message:" + id + "}");
 		} catch (Exception e) {
 			logger.error("添加定时任务发生异常!", e);
 			this.handleException(new IOException("添加定时任务发生异常!"), request, response);
@@ -182,18 +219,33 @@ public class TaskController extends BaseController {
 	 * @param ScheduleJobVo
 	 * @throws SchedulerException
 	 */
-	@RequestMapping(value = "/deleteJob")
+	@RequestMapping(value = "/delete")
 	@ResponseBody
-	public void deleteJob(@ModelAttribute ScheduleJobVo scheduleJobVo, HttpServletRequest request,
+	public void deleteJob( HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
 			response.setContentType("text/json;charset=UTF-8");
-			taskService.deleteJob(scheduleJobVo);
+		
 			String json = SemAppUtils.getJsonFromBean(new BaseResponseVO("1", "删除定时任务成功", ""), false);
 			response.getWriter().write(json);
 		} catch (Exception e) {
 			logger.error("删除定时任务发生异常!", e);
 			this.handleException(new IOException("删除定时任务发生异常!"), request, response);
+		}
+		
+		try {
+			response.setContentType("text/json;charset=UTF-8");
+			String id=request.getParameter("Ids");
+			String[] ids=id.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				ScheduleJobVo vo=new ScheduleJobVo();
+				vo.setId(Integer.parseInt(ids[i]));
+				taskService.deleteJob(vo);
+			}			
+			response.getWriter().write("{'success':true,'message':'" + id + "'}");
+		} catch (Exception e) {
+			logger.error("delete a new record failer",e);
+			this.handleException(e, request, response);
 		}
 	}
 
@@ -224,7 +276,7 @@ public class TaskController extends BaseController {
 	 * @param ScheduleJobVo
 	 * @throws SchedulerException
 	 */
-	@RequestMapping(value = "/updateJobCron")
+	@RequestMapping(value = "/update")
 	@ResponseBody
 	// 调用方法
 	// http://127.0.0.1:8081/BaseProject/task/updateJobCron?scheduleJobVo.jobName=data_import1&&scheduleJobVo.jobGroup=dataWork&&scheduleJobVo.cronExpression=0/5 * * * * ?

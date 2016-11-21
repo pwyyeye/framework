@@ -393,6 +393,10 @@ public class BaseDAOImpl<T, ID extends Serializable> implements BaseDAO<T, ID> {
 			throw re;
 		}
 	}
+	
+	public T loadBoById( Class tableClass,Serializable id){
+		return this.loadBoById(id, tableClass);
+	}
 
 	public BaseVO loadVoById(final Integer id, final Class tableClass) {
 		logger.debug("loading" + tableClass.getName() + " instance with id: " + id);

@@ -1,4 +1,4 @@
-package com.xxl.baseService.service.impl;
+package com.xxl.baseService.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -170,7 +170,6 @@ public class CommonService implements CommonRemote {
 			return SemAppUtils.vo2User(eofficeDB.getUserInfo(empID.trim()));
 		} else {
 //			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-			System.out.println("---------------------------"+empID);
 //			return SemAppUtils.vo2User(eofficeDB.getUserInfo(empID.trim()));
 			return SemAppUtils.vo2User(frameworkDAO.getUserInfo(empID+""));
 		}
@@ -793,4 +792,6 @@ public class CommonService implements CommonRemote {
 			throw new BaseException("get sub organise fail", e);
 		}
 	}
+	
+	
 }

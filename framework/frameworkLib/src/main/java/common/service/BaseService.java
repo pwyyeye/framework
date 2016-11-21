@@ -3,14 +3,21 @@ package common.service;
 import java.io.Serializable;
 import java.util.Properties;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
+import javax.jms.QueueSender;
+import javax.jms.QueueSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -19,6 +26,8 @@ import com.xxl.facade.HelperRemote;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.exception.CommonException;
+import common.value.SemMessageObject;
+import common.web.bean.SessionUserBean;
 
 public abstract class BaseService implements Serializable{
 	/**
@@ -32,30 +41,39 @@ public abstract class BaseService implements Serializable{
 
 	@Autowired
 	protected HelperRemote helperRemote;
+	
+	@Autowired
+	@Qualifier("jmsQueueTemplate")
+	private JmsTemplate queueTemplate;
 
 	public static final String SESSION_CALLED_TIMES = "SESSION_CALLED_TIMES";
 
 	public static final String TRANSACTION_BINDED_THREAD = "TRANSACTION_BINDED_THREAD";
 
 	private Boolean sessionCreated = Boolean.FALSE;
+	
+	private static final String QUEUENAME = "com.xxl.queue";
 
-
-//	public String sendToQueue(QueueSession qSession, java.io.Serializable obj,
-//			QueueSender qSender, SessionUserBean user, Integer subQueueID)
-//			throws Exception {
-//		logger.debug("sendToQueue: " + obj.toString());
-//		try {
-//			SemMessageObject messageObject = new SemMessageObject(user, obj,
-//					subQueueID);
-//			ObjectMessage message = qSession.createObjectMessage(messageObject);
-//			qSender.send(message);
-//			logger.debug("Finished sending mnessage to queue");
-//			return message.getJMSMessageID();
-//		} catch (Exception e) {
-//			logger.error(e.getLocalizedMessage(), e);
-//			throw e;
-//		}
-//	}
+	public void sendToQueue(java.io.Serializable obj,SessionUserBean user, Integer subQueueID)
+			throws Exception {
+		logger.debug("sendToQueue: " + obj.toString());
+		try {
+			final SemMessageObject messageObject = new SemMessageObject(user, obj,
+					subQueueID);
+			
+			queueTemplate.send(QUEUENAME, new MessageCreator() {
+				@Override
+				public Message createMessage(javax.jms.Session session) throws JMSException {
+					// TODO Auto-generated method stub
+					return session.createObjectMessage(messageObject);
+				}
+			});  
+			logger.debug("Finished sending mnessage to queue");
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage(), e);
+			throw e;
+		}
+	}
 //
 //	public Document invokeXmlServices(Integer serviceId, String argments)
 //			throws CommonException, BaseBusinessException {

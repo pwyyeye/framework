@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="/WEB-INF/controls.tld" prefix="controls"%>
+<%@ taglib prefix="c" 
+           uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 	<%@ include file="common.jsp"%>
-	<html:base />
-    <controls:grid recordLabel="Background任务管理" action="jmsTaskAction.do"
+    <controls:grid recordLabel="Background任务管理" action="jmsTaskController/"
      gridBody="id:ID,module:模块名,queueName:队列名,messageID:messageID,moduleID,message:message,status,statusName:状态,empName:所有者,empID,createDateStr:产生日期,dealResult:处理结果,dealDateStr:处理日期"
      searchFieldsString="moduleID,empID,message,queueName,status,messageID,dealResult,createStartDate,createEndDate,dealStartDate,dealEndDate"
      formHeight="500"
@@ -41,11 +42,11 @@
 </html>
 	<script>
 	      var moduleData=[
-				     <logic:present  name="module_list">
-                        <logic:iterate id="module_item" name="module_list">
-					{id:'<bean:write name="module_item" property="id"/>',name:'<bean:write name="module_item" property="name"/>'},
-					   </logic:iterate>
-                   </logic:present>
+					<c:if test="${module_list!=null}">	
+						<c:forEach var="module_item" items="${module_list}">
+							{id:'<c:out value="${module_item.id}"/>',name:'<c:out value="${module_item.name}"/>'},
+						</c:forEach>
+					</c:if>
 				{id:'',name:''}];
 				var statusData=[
 				{id:'0',name:'待执行'},

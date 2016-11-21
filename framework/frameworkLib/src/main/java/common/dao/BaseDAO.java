@@ -86,6 +86,8 @@ public interface BaseDAO<T, ID extends Serializable> {
 	public T findBoById(Serializable id, Class tableClass);
 
 	public T loadBoById(Serializable id, Class tableClass);
+	
+	public T loadBoById( Class tableClass,Serializable id);
 
 	public List findByHql(String hql);
 

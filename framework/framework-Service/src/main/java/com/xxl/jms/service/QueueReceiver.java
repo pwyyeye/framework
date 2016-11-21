@@ -8,6 +8,7 @@ import javax.jms.ObjectMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.xxl.facade.CommonRemote;
@@ -23,6 +24,7 @@ public class QueueReceiver  implements MessageListener {
 
 	private MessageDrivenContext ctx;
 
+	@Autowired
 	private CommonRemote commonRemote;
 
 	private ReportRemote reportRemote;

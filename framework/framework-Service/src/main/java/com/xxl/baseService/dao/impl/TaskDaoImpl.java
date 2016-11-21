@@ -7,7 +7,7 @@ import com.xxl.task.bo.ScheduleJob;
 
 import common.dao.impl.BaseDAOImpl;
 
-@Repository
+@Repository("taskDao")
 public class TaskDaoImpl extends BaseDAOImpl<ScheduleJob, java.lang.String> implements ITaskDao {
 
 }

@@ -180,5 +180,16 @@ public class BaseController {
 	        setValue(cal);  
 	    }  
 	}  
+	
+	
+	protected void checkRightCode(HttpServletRequest request) {
+		String rightCode = this.getRightCode(request);
+		request.setAttribute(SemWebAppConstants.RIGHT_CODE, rightCode);
+		request.getSession().setAttribute(SemWebAppConstants.RIGHT_CODE,
+				rightCode);
+	}
+	protected String getRightCode(HttpServletRequest request) {
+		return (String) request.getParameter(SemWebAppConstants.RIGHT_CODE);
+	}
 
 }

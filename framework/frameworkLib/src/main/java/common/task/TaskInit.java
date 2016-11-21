@@ -24,14 +24,14 @@ public class TaskInit extends HttpServlet {
 
 	private static final Log logger = LogFactory.getLog(TaskInit.class);
 	
-	@Autowired
+//	@Autowired
 	private TimeTaskRemote timeTaskRemote;
 
 	public void init(ServletConfig config) throws ServletException {
 		
 		logger.info("－－－－－－开始添加定时任务 TaskInit－－－－－－");
 		super.init(config);  
-//	    timeTaskRemote = (TimeTaskRemote) SpringUtils.servletGetBean(this.getServletContext(), "timeTaskRemote");
+	    timeTaskRemote = (TimeTaskRemote) SpringUtils.servletGetBean(this.getServletContext(), "timeTaskRemote");
 		timeTaskRemote.initTask();
 		
 	}

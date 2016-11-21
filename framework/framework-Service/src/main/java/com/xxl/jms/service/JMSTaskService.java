@@ -54,7 +54,7 @@ import common.value.PageMap;
 import common.value.PushMessage;
 import common.value.SemMessageObject;
 
-@Service("jMSTaskRemote")
+@Service("jmsTaskRemote")
 public class JMSTaskService extends BaseService implements JMSTaskRemote {
 	public static Log logger = LogFactory.getLog(JMSTaskService.class);
 
@@ -72,9 +72,6 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 	private UserPushDAO userPushDAO;
 	@Autowired
 	private UserPushLogDAO userPushLogDAO;
-
-	Session hibernateSession;
-
 	
 	 /** 
      * 发送一条消息到指定的队列（目标） 
@@ -118,9 +115,8 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 	public PageList getJMSTaskList(Integer systemID, JMSTaskVO searchVO,
 			Integer firstResult, Integer fetchSize) throws CommonException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(JMSTask.class);
-			int size = fetchSize.intValue();
+			
+			DetachedCriteria criteria = DetachedCriteria.forClass(JMSTask.class);
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
 				system = 0;// 系统管理模块可以管理所有模块的权限
@@ -171,49 +167,45 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 					criteria.add(Expression.le("processDate",
 							searchVO.getDealEndDate()));
 				}
-				if (searchVO.getCloseFlag() != null) {
+				if (searchVO.getCloseFlag() != null && searchVO.getCloseFlag().intValue()!=0) {
 					criteria.add(Expression.le("closeFlag",
 							searchVO.getCloseFlag()));
 				}
 			}
 			if (system != 0) {
-				// List
-				// modules=SemAppUtils.getSubmodules(system,hibernateSession);
-				// criteria.add(Expression.in("module", modules));
 				ItModule module = new ItModule();
 				module.setId(new Integer(system));
 				criteria.add(Expression.eq("module", module));
 
 			}
-			Integer rowCount = (Integer) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+			//System.out.println(SemAppUtils.getJsonFromBean(searchVO));
+			//System.out.println("systemID="+systemID+"firstResult="+firstResult+"fetchSize="+fetchSize);
+//			Integer rowCount = (Integer) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-			List list = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				JMSTask alphaTask = (JMSTask) iter.next();
-				JMSTaskVO vo = (JMSTaskVO) alphaTask.toVO();
-				list.add(vo);
-			}
-			logger.debug("rowCount=" + rowCount + ",list" + list.size());
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(list);
+			PageList pageList=userPushDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+			System.out.println(pageList.getResults());
+//			List list = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				JMSTask alphaTask = (JMSTask) iter.next();
+//				JMSTaskVO vo = (JMSTaskVO) alphaTask.toVO();
+//				list.add(vo);
+//			}
+//			logger.debug("rowCount=" + rowCount + ",list" + list.size());
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(list);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new CommonException("����ϵͳ������" + ee.getMessage());
+			throw new CommonException("获取jms任务列表失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
@@ -234,10 +226,7 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 	public Integer addJMSTask(JMSTaskVO vo) throws CommonException {
 		Integer result = null;
 		logger.debug("add jms task" + vo);
-		Transaction tx = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
 			JMSTask task = new JMSTask();
 			task.setCreateDate(Calendar.getInstance());
 			task.setEmpID(vo.getEmpID());
@@ -248,76 +237,50 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 			task.setStatus(vo.getStatus());
 			ItModule module = null;
 			if (vo.getModuleID() != null) {
-				module = (ItModule) hibernateSession.load(ItModule.class,
+				module = (ItModule) userPushDAO.loadBoById(ItModule.class,
 						vo.getModuleID());
 			} else {
-				module = (ItModule) hibernateSession.load(ItModule.class,
+				module = (ItModule) userPushDAO.loadBoById(ItModule.class,
 						new Integer(0));
 			}
 			task.setModule(module);
-			hibernateSession.save(task);
-			tx.commit();
+			userPushDAO.saveOrUpdate(task);
 			result = (Integer) task.getId();
 		} catch (HibernateException ee) {
-			tx.rollback();
 			logger.error("数据库操作失败", ee);
 			throw new CommonException("数据库操作失败", ee);
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return result;
 	}
 
 	public void closeJMSTask(Integer id) throws CommonException {
-		Transaction tx = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			JMSTask jmsTask = (JMSTask) hibernateSession
-					.load(JMSTask.class, id);
+
+			JMSTask jmsTask = (JMSTask) userPushDAO.loadBoById(JMSTask.class, id);
 			jmsTask.setCloseFlag(new Integer(1));
-			hibernateSession.update(jmsTask);
-			tx.commit();
+			userPushDAO.saveOrUpdate(jmsTask);
 		} catch (HibernateException ee) {
-			tx.rollback();
 			logger.error(ee);
 			throw new CommonException("ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void updateJMSTask(JMSTaskVO vo) throws CommonException {
 		logger.debug("update  alpha Table" + vo);
-		Transaction tx = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			JMSTask jmsTask = (JMSTask) hibernateSession.load(JMSTask.class,
+
+			JMSTask jmsTask = (JMSTask) userPushDAO.loadBoById(JMSTask.class,
 					(Integer) vo.getId());
 			jmsTask.setDealDate(vo.getDealDate());
 			jmsTask.setDealResult(vo.getDealResult());
 			jmsTask.setStatus(vo.getStatus());
-			hibernateSession.update(jmsTask);
-			tx.commit();
+			userPushDAO.saveOrUpdate(jmsTask);
 		} catch (HibernateException ee) {
-			tx.rollback();
 			logger.error(ee);
 			throw new CommonException("ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
@@ -335,7 +298,6 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 			UserPush bo = (UserPush) userPushDAO.loadById(id, UserPush.class);
 			bo.setOn(new Integer(1));
 			userPushDAO.save(bo);
-
 		} catch (Exception e) {
 			logger.error("删除用户资料失败：", e);
 			throw new OSException("删除用户资料失败：", e);

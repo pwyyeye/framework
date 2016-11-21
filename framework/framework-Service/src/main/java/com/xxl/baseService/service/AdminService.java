@@ -1,4 +1,4 @@
-package com.xxl.baseService.service.impl;
+package com.xxl.baseService.service;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -78,7 +78,7 @@ public class AdminService extends BaseService implements AdminRemote{
 	@Autowired
 	private IFrameworkDao frameworkDAO;
 	
-	Session hibernateSession;
+//	Session hibernateSession;
 	
 	@Autowired
 	private HelperRemote helperRemote;
@@ -214,10 +214,12 @@ public class AdminService extends BaseService implements AdminRemote{
 			throws BaseException {
 		List menus = new ArrayList();
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(Menu.class);
+			//hibernateSession = HibernateUtil.currentSession();
+			//Criteria criteria = hibernateSession.createCriteria(Menu.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(Menu.class);
 			if (moduleID != null) {
-				ItModule rootModule = (ItModule) hibernateSession.load(
+				
+				ItModule rootModule = (ItModule)frameworkDAO.loadBoById(
 						ItModule.class, moduleID);
 				criteria.add(Expression.eq("module", rootModule));
 			}
@@ -225,7 +227,8 @@ public class AdminService extends BaseService implements AdminRemote{
 				root = new Integer(0);// 0表示第一层菜单
 			criteria.add(Expression.eq("parent", root));
 			criteria.addOrder(Order.asc("sortID"));
-			Iterator iter = criteria.list().iterator();
+			List list=frameworkDAO.findByCriteria(criteria, 0, 0);
+			Iterator iter = list.iterator();
 			while (iter.hasNext()) {
 				Menu menu = (Menu) iter.next();
 				MenuVO vo = (MenuVO) menu.toVO();
@@ -239,7 +242,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 		} finally {
 			try {
-				HibernateUtil.closeSession();
+				
 			} catch (HibernateException e) {
 			}
 		}
@@ -252,8 +255,8 @@ public class AdminService extends BaseService implements AdminRemote{
 	public ItModuleVO getSystemByID(Integer systemID) throws BaseException {
 		ItModuleVO moduleVO = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			//hibernateSession = HibernateUtil.currentSession();
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					systemID);
 			moduleVO = (ItModuleVO) module.toVO();
 		} catch (HibernateException ee) {
@@ -262,7 +265,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 		} finally {
 			try {
-				HibernateUtil.closeSession();
+				
 			} catch (HibernateException e) {
 			}
 		}
@@ -272,8 +275,8 @@ public class AdminService extends BaseService implements AdminRemote{
 	public MenuVO getMenuByID(Integer MenuID) throws BaseException {
 		MenuVO menuVO = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Menu menu = (Menu) hibernateSession.load(Menu.class, MenuID);
+			//hibernateSession = HibernateUtil.currentSession();
+			Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class, MenuID);
 			menuVO = (MenuVO) menu.toVO();
 		} catch (HibernateException ee) {
 			logger.error(ee);
@@ -281,7 +284,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 		} finally {
 			try {
-				HibernateUtil.closeSession();
+				
 			} catch (HibernateException e) {
 			}
 		}
@@ -290,11 +293,10 @@ public class AdminService extends BaseService implements AdminRemote{
 
 	public void updateSystem(ItModuleVO vo) throws BaseException {
 		logger.debug("update it system" + vo);
-		Transaction tx = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			ItModule system = (ItModule) hibernateSession.load(ItModule.class,
+			//hibernateSession = HibernateUtil.currentSession();
+//			
+			ItModule system = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getId());
 			system.setIndexPage(vo.getIndexPage());
 			system.setName(vo.getName());
@@ -306,91 +308,55 @@ public class AdminService extends BaseService implements AdminRemote{
 			system.setServiceHome(vo.getServiceHome());
 			system.setServiceRemote(vo.getServiceRemote());
 			system.setDirID(vo.getDirID());
-			hibernateSession.update(system);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(system);
 		} catch (HibernateException ee) {
-			tx.rollback();
 			logger.error("数据库操作失败", ee);
 			throw new BaseException("ϵͳ数据库操作失败:" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public void updateMenu(MenuVO vo) throws BaseException {
 		logger.debug("update it system" + vo);
-		Transaction tx = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			Menu menu = (Menu) hibernateSession.load(Menu.class, vo.getId());
+			//hibernateSession = HibernateUtil.currentSession();
+			Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class, vo.getId());
 			menu.setFrame(vo.getFrame());
 			menu.setLink(vo.getLink());
 			menu.setName(vo.getName());
 			menu.setSingleMode(vo.getSingleMode());
 			menu.setSortID(vo.getSortID());
-			tx.commit();
+			frameworkDAO.save(menu);
 		} catch (HibernateException ee) {
-			tx.rollback();
 			logger.error("数据库操作失败", ee);
 			throw new BaseException("ϵͳ数据库操作失败:" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public void deleteMenu(Integer menuID) throws BaseException {
-		Transaction tx = null;
 		try {
+			Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class, menuID);
+			frameworkDAO.delete(menu);
 
-			hibernateSession = HibernateUtil.currentSession();
-			Menu menu = (Menu) hibernateSession.load(Menu.class, menuID);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(menu);
-			tx.commit();
 		} catch (HibernateException ee) {
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
-
-		} finally {
-			if (tx != null)
-				tx.rollback();
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void updateSystemStatus(Integer systemID, Integer status)
 			throws BaseException {
 		logger.debug("update it system status" + systemID);
-		Transaction tx = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			ItModule system = (ItModule) hibernateSession.load(ItModule.class,
+
+			ItModule system = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					systemID);
 			system.setStatus(status.intValue());
-			hibernateSession.update(system);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(system);
 		} catch (HibernateException ee) {
-			tx.rollback();
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
@@ -412,8 +378,8 @@ public class AdminService extends BaseService implements AdminRemote{
 			throws  BaseException, RemoteException {
 		TreeControl treeControl = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			//hibernateSession = HibernateUtil.currentSession();
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					new Integer(systemID));
 			TreeControlNode treeRoot = new TreeControlNode("Module"
 					+ module.getId(), module.getName(), module.toVO(), true);
@@ -446,11 +412,6 @@ public class AdminService extends BaseService implements AdminRemote{
 			logger.error("数据库操作失败", ee);
 		} catch(RemoteException ee){
 			logger.error("数据库操作失败", ee);
-		}finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return treeControl;
 	}
@@ -503,12 +464,13 @@ public class AdminService extends BaseService implements AdminRemote{
 	private void createNode(TreeControlNode node, String parentID,
 			boolean containMenu, SessionUserBean theUser, boolean allow) {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(ItModule.class);
+			//hibernateSession = HibernateUtil.currentSession();
+			//Criteria criteria = hibernateSession.createCriteria(ItModule.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(ItModule.class);
 			criteria.add(Expression.eq("parentModule", new Integer(parentID)));
 			criteria.add(Expression.eq("status", new Integer(0)));// 表示有效的模块，转义，可表
 			criteria.addOrder(Order.asc("sortID"));
-			List childList = criteria.list();
+			List childList =frameworkDAO.findByCriteria(criteria, 0, 0);
 			Iterator iterator = childList.iterator();
 			while (iterator.hasNext()) {
 				ItModule module = (ItModule) iterator.next();
@@ -532,7 +494,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			logger.error("数据库操作失败", ee);
 		} finally {
 			try {
-				HibernateUtil.closeSession();
+				
 			} catch (HibernateException e) {
 			}
 		}
@@ -549,13 +511,13 @@ public class AdminService extends BaseService implements AdminRemote{
 			String parentID, SessionUserBean theUser, boolean allow,
 			String rightCode, boolean containAdminModule) {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(Menu.class);
-
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			//hibernateSession = HibernateUtil.currentSession();
+			//Criteria criteria = hibernateSession.createCriteria(Menu.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(Menu.class);
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					new Integer(parentID));
 			if (containAdminModule) {
-				ItModule managerModule = (ItModule) hibernateSession.load(
+				ItModule managerModule = (ItModule)frameworkDAO.loadBoById(
 						ItModule.class, new Integer(
 								SemAppConstants.COMMON_MODULE_ID));
 				criteria.add(Expression.or(Expression.eq("module", module),
@@ -565,7 +527,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 			criteria.add(Expression.eq("parent", new Integer(MenuParent)));// 根
 			criteria.addOrder(Order.asc("sortID"));
-			List childList = criteria.list();
+			List childList = frameworkDAO.findByCriteria(criteria, 0, 0);
 			Iterator iterator = childList.iterator();
 			boolean leaf = true;
 			while (iterator.hasNext()) {
@@ -574,15 +536,17 @@ public class AdminService extends BaseService implements AdminRemote{
 				boolean subAllow = allow;
 				String link = menu.getLink();
 				if (!allow) {// 如果还未授权访问
-					hibernateSession = HibernateUtil.currentSession();
-					Criteria criteria2 = hibernateSession
-							.createCriteria(MenuRole.class);
+					//hibernateSession = HibernateUtil.currentSession();
+					DetachedCriteria criteria2 = DetachedCriteria.forClass(MenuRole.class);
+//					Criteria criteria2 = hibernateSession
+//							.createCriteria(MenuRole.class);
 					RoleVO vo = theUser.getRole();
-					Role currentRole = (Role) hibernateSession.load(Role.class,
+					Role currentRole = (Role)frameworkDAO.loadBoById(Role.class,
 							vo.getId());
 					criteria2.add(Expression.eq("role", currentRole));
 					criteria2.add(Expression.eq("menu", menu));
-					Iterator iter = criteria2.list().iterator();
+					List list2=frameworkDAO.findByCriteria(criteria2, 0, 0);
+					Iterator iter =list2.iterator();
 					while (iter.hasNext()) {
 						MenuRole mr = (MenuRole) iter.next();
 
@@ -591,15 +555,17 @@ public class AdminService extends BaseService implements AdminRemote{
 						subAllow = true;
 					}
 				} else {
-					hibernateSession = HibernateUtil.currentSession();
-					Criteria criteria2 = hibernateSession
-							.createCriteria(MenuRole.class);
+					//hibernateSession = HibernateUtil.currentSession();
+//					Criteria criteria2 = hibernateSession
+//							.createCriteria(MenuRole.class);
+					DetachedCriteria criteria2 = DetachedCriteria.forClass(MenuRole.class);
 					RoleVO vo = theUser.getRole();
-					Role currentRole = (Role) hibernateSession.load(Role.class,
+					Role currentRole = (Role)frameworkDAO.loadBoById(Role.class,
 							vo.getId());
 					criteria2.add(Expression.eq("role", currentRole));
 					criteria2.add(Expression.eq("menu", menu));
-					Iterator iter = criteria2.list().iterator();
+					List list2=frameworkDAO.findByCriteria(criteria2, 0, 0);
+					Iterator iter = list2.iterator();
 					while (iter.hasNext()) {
 						MenuRole mr = (MenuRole) iter.next();
 						String subRightCode = mr.getRightCode();
@@ -647,7 +613,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			logger.error("数据库操作失败", ee);
 		} finally {
 			try {
-				HibernateUtil.closeSession();
+				
 			} catch (HibernateException e) {
 			}
 		}
@@ -657,17 +623,18 @@ public class AdminService extends BaseService implements AdminRemote{
 			String parentID, SessionUserBean theUser, boolean allow,
 			String rightCode) {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession
-					.createCriteria(ReportModule.class);
+			//hibernateSession = HibernateUtil.currentSession();
+//			Criteria criteria = hibernateSession
+//					.createCriteria(ReportModule.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(ReportModule.class);
 			if (!isSystemModule(Integer.parseInt(parentID))) {
-				ItModule module = (ItModule) hibernateSession.load(
+				ItModule module = (ItModule)frameworkDAO.loadBoById(
 						ItModule.class, new Integer(parentID));
 				criteria.add(Expression.eq("module", module));
 			}
 			criteria.add(Expression.eq("parent", new Integer(MenuParent)));// 根
 			criteria.addOrder(Order.asc("sortID"));
-			List childList = criteria.list();
+			List childList =frameworkDAO.findByCriteria(criteria, 0, 0);
 			Iterator iterator = childList.iterator();
 			while (iterator.hasNext()) {
 				ReportModule report = (ReportModule) iterator.next();
@@ -676,15 +643,17 @@ public class AdminService extends BaseService implements AdminRemote{
 					String link = null;
 					String raq = report.getReport();
 					if (!allow) {// 如果还未授权访问
-						hibernateSession = HibernateUtil.currentSession();
-						Criteria criteria2 = hibernateSession
-								.createCriteria(RaBinding.class);
+						//hibernateSession = HibernateUtil.currentSession();
+//						Criteria criteria2 = hibernateSession
+//								.createCriteria(RaBinding.class);
+						DetachedCriteria criteria2 = DetachedCriteria.forClass(RaBinding.class);
 						RoleVO vo = theUser.getRole();
-						Role currentRole = (Role) hibernateSession.load(
+						Role currentRole = (Role)frameworkDAO.loadBoById(
 								Role.class, vo.getId());
 						criteria2.add(Expression.eq("role", currentRole));
 						criteria2.add(Expression.eq("report", report));
-						Iterator iter = criteria2.list().iterator();
+						List list2=frameworkDAO.findByCriteria(criteria2, 0, 0);
+						Iterator iter =list2.iterator();
 						while (iter.hasNext()) {
 							RaBinding mr = (RaBinding) iter.next();
 
@@ -693,15 +662,17 @@ public class AdminService extends BaseService implements AdminRemote{
 							subAllow = true;
 						}
 					} else {
-						hibernateSession = HibernateUtil.currentSession();
-						Criteria criteria2 = hibernateSession
-								.createCriteria(RaBinding.class);
+						//hibernateSession = HibernateUtil.currentSession();
+//						Criteria criteria2 = hibernateSession
+//								.createCriteria(RaBinding.class);
+						DetachedCriteria criteria2 = DetachedCriteria.forClass(RaBinding.class);
 						RoleVO vo = theUser.getRole();
-						Role currentRole = (Role) hibernateSession.load(
+						Role currentRole = (Role)frameworkDAO.loadBoById(
 								Role.class, vo.getId());
 						criteria2.add(Expression.eq("role", currentRole));
 						criteria2.add(Expression.eq("report", report));
-						Iterator iter = criteria2.list().iterator();
+						List list2=frameworkDAO.findByCriteria(criteria2, 0, 0);
+						Iterator iter = list2.iterator();
 						while (iter.hasNext()) {
 							RaBinding mr = (RaBinding) iter.next();
 							String subRightCode = mr.getRightCode();
@@ -745,103 +716,82 @@ public class AdminService extends BaseService implements AdminRemote{
 
 		} catch (HibernateException ee) {
 			logger.error("数据库操作失败", ee);
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public Integer addMessageSubscibe(ObserverVO vo) throws BaseException {
 		Integer result = null;
-		Transaction tx = null;
+//		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+//			
 			MessageSubscibe subscibe = new MessageSubscibe();
 			subscibe.setEmpID(vo.getEmpID());
-			MessageEvent event = (MessageEvent) hibernateSession.load(
+			MessageEvent event = (MessageEvent)frameworkDAO.loadBoById(
 					MessageEvent.class, vo.getEventID());
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getModuleID());
 			subscibe.setEvent(event);
 			subscibe.setRoute(vo.getRoute());
 			subscibe.setBeginDate(vo.getBeginDate());
 			subscibe.setEndDate(vo.getEndDate());
 			subscibe.setModule(module);
-			hibernateSession.save(subscibe);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(subscibe);
 			result = (Integer) subscibe.getId();
 		} catch (HibernateException ee) {
-			tx.rollback();
 			logger.error(ee);
 			throw new BaseException("数据库操作错误：" + ee.getMessage());
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return result;
 	}
 
 	public void updateMessageSubscibe(ObserverVO vo) throws BaseException {
 		logger.debug("update  role" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			MessageSubscibe msBO = (MessageSubscibe) hibernateSession.load(
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			MessageSubscibe msBO = (MessageSubscibe)frameworkDAO.loadBoById(
 					MessageSubscibe.class, vo.getId());
 			msBO.setEmpID(vo.getEmpID());
 			msBO.setRoute(vo.getRoute());
 			msBO.setBeginDate(vo.getBeginDate());
 			msBO.setEndDate(vo.getEndDate());
-			hibernateSession.update(msBO);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(msBO);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("�޸�ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void deleteMessageSubscibe(Integer messageSubscibeID)
 			throws BaseException {
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			MessageSubscibe subscibe = (MessageSubscibe) hibernateSession.load(
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			MessageSubscibe subscibe = (MessageSubscibe)frameworkDAO.loadBoById(
 					MessageSubscibe.class, messageSubscibeID);
-			hibernateSession.delete(subscibe);
-			tx.commit();
+			frameworkDAO.delete(subscibe);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作错误：" + ee.getMessage());
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public PageList getMessageSubscibeList(Integer systemID,
 			ObserverVO searchVO, Integer firstResult, Integer fetchSize)
 			throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession
-					.createCriteria(MessageSubscibe.class);
+			//hibernateSession = HibernateUtil.currentSession();
+//			Criteria criteria = hibernateSession
+//					.createCriteria(MessageSubscibe.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(MessageSubscibe.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -858,7 +808,7 @@ public class AdminService extends BaseService implements AdminRemote{
 					criteria.add(Expression.eq("empID", searchVO.getEmpID()));
 				}
 				if (searchVO.getEventID() != null) {
-					MessageEvent event = (MessageEvent) hibernateSession.load(
+					MessageEvent event = (MessageEvent)frameworkDAO.loadBoById(
 							MessageEvent.class, searchVO.getEventID());
 					criteria.add(Expression.eq("event", event));
 				}
@@ -877,35 +827,29 @@ public class AdminService extends BaseService implements AdminRemote{
 				criteria.add(Expression.eq("module", module));
 			}
 
-			Integer rowCount = (Integer) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+//			Integer rowCount = (Integer) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("event"));
-			List subscibeList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				MessageSubscibe po = (MessageSubscibe) iter.next();
-				ObserverVO vo = (ObserverVO) po.toVO();
-				logger.debug("vo->" + vo);
-				subscibeList.add(vo);
-			}
-			logger.debug("row  Count is" + rowCount);
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(subscibeList);
+//			List subscibeList = new ArrayList();
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//			Iterator iter = list.iterator();
+//			while (iter.hasNext()) {
+//				MessageSubscibe po = (MessageSubscibe) iter.next();
+//				ObserverVO vo = (ObserverVO) po.toVO();
+//				logger.debug("vo->" + vo);
+//				subscibeList.add(vo);
+//			}
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(subscibeList);
 			return pageList;
 		} catch (HibernateException ee) {
-			throw new BaseException("����ϵͳ������数据库操作异常", ee);
-
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
+			throw new BaseException("数据库操作异常", ee);
 		}
 	}
 
@@ -925,9 +869,10 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getEventList(Integer systemID, EventVO searchVO,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession
-					.createCriteria(MessageEvent.class);
+			//hibernateSession = HibernateUtil.currentSession();
+//			Criteria criteria = hibernateSession
+//					.createCriteria(MessageEvent.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(MessageEvent.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -959,37 +904,33 @@ public class AdminService extends BaseService implements AdminRemote{
 
 			}
 
-			Integer rowCount = (Integer) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+//			Integer rowCount = (Integer) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-			List eventList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				MessageEvent event = (MessageEvent) iter.next();
-				EventVO roleVO = (EventVO) event.toVO();
-				eventList.add(roleVO);
-			}
-
-			logger.debug("rowCount=" + rowCount);
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(eventList);
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//			List eventList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				MessageEvent event = (MessageEvent) iter.next();
+//				EventVO roleVO = (EventVO) event.toVO();
+//				eventList.add(roleVO);
+//			}
+//
+//			logger.debug("rowCount=" + rowCount);
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(eventList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error("数据库查询失败", ee);
 			throw new BaseException(ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public PageList getEventList(Integer systemID) throws BaseException {
@@ -1002,83 +943,66 @@ public class AdminService extends BaseService implements AdminRemote{
 
 	public void updateEvent(EventVO vo) throws BaseException {
 		logger.debug("update  role" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			MessageEvent eventBO = (MessageEvent) hibernateSession.load(
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			MessageEvent eventBO = (MessageEvent)frameworkDAO.loadBoById(
 					MessageEvent.class, vo.getId());
 			eventBO.setName(vo.getName());
 			eventBO.setType(vo.getType());
 			eventBO.setStatus(vo.getStatus());
-			hibernateSession.update(eventBO);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(eventBO);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("�޸�ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void deleteEvent(Integer eventID) throws BaseException {
-		Transaction tx = null;
+		
 		try {
 
-			hibernateSession = HibernateUtil.currentSession();
-			MessageEvent event = (MessageEvent) hibernateSession.load(
+			//hibernateSession = HibernateUtil.currentSession();
+			MessageEvent event = (MessageEvent)frameworkDAO.loadBoById(
 					MessageEvent.class, eventID);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(event);
-			tx.commit();
+			
+			frameworkDAO.delete(event);
+			
 		} catch (HibernateException ee) {
 
 			logger.error(ee);
 			throw new BaseException("����ϵͳ������" + ee.getMessage());
 
-		} finally {
-			if (tx != null)
-				tx.rollback();
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public Integer addEvent(EventVO vo) throws BaseException {
 		Integer result = null;
 		logger.debug("add it UABinding" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			MessageEvent event = new MessageEvent();
 			event.setId((Integer) vo.getId());
 			event.setName(vo.getName());
 			event.setType(vo.getType());
 			event.setStatus(vo.getStatus());
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getModuleID());
 			event.setModule(module);
-			hibernateSession.save(event);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(event);
+			
 			result = (Integer) event.getId();
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return result;
 	}
@@ -1113,12 +1037,12 @@ public class AdminService extends BaseService implements AdminRemote{
 		RoleVO roleVO = null;
 		// Integer lastRoleID = null;
 		UserLogin login = null;
-//		Transaction tx = null;
+//		
 		Iterator iter;
 		try {
-//			hibernateSession = HibernateUtil.currentSession();
-//			tx = hibernateSession.beginTransaction();
-//			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+//			//hibernateSession = HibernateUtil.currentSession();
+//			
+//			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 //					systemID);
 			ItModule module = (ItModule) frameworkDAO.loadBoById(systemID,ItModule.class
 					);
@@ -1183,7 +1107,7 @@ public class AdminService extends BaseService implements AdminRemote{
 						login.setLastRole(role);
 						login.setModule(module);
 						login.setLastLoginDate(Calendar.getInstance());
-//						hibernateSession.update(login);
+//						frameworkDAO.saveOrUpdate(login);
 						frameworkDAO.saveOrUpdate(login);
 					} else {
 						login = new UserLogin();
@@ -1191,13 +1115,13 @@ public class AdminService extends BaseService implements AdminRemote{
 						login.setModule(module);
 						login.setLastRole(role);
 						login.setLastLoginDate(Calendar.getInstance());
-//						hibernateSession.save(login);
+//						frameworkDAO.saveOrUpdate(login);
 						frameworkDAO.saveOrUpdate(login);
 					}
 					// logon OA system
 					commonRemote.logonOASystem((Integer) theUser.getId(), ip);
 					// logon
-//					tx.commit();
+//					
 				} else {
 					if (roleID != null) {
 						// if (lastRoleID == null
@@ -1211,7 +1135,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 			if (!hasFoundRole) {
 				logger.debug("has not found role,enter the unallow role");
-//				Role unallowRole = (Role) hibernateSession.load(Role.class,
+//				Role unallowRole = (Role)frameworkDAO.loadBoById(Role.class,
 //						new Integer(UNALLOW_USER_ID));
 				
 				Role unallowRole = (Role) frameworkDAO.loadBoById(new Integer(UNALLOW_USER_ID),Role.class
@@ -1261,17 +1185,9 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 
 		} catch (Exception ee) {
-//			if (tx != null)
-//				tx.rollback();
 			logger.error("数据库操作失败", ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
-
 		return currentUser;
 
 	}
@@ -1288,8 +1204,9 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getRoleList(Integer systemID, RoleVO searchVO,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(Role.class);
+			//hibernateSession = HibernateUtil.currentSession();
+			//Criteria criteria = hibernateSession.createCriteria(Role.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(Role.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -1325,26 +1242,27 @@ public class AdminService extends BaseService implements AdminRemote{
 
 			}
 
-			Long rowCount = (Long) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+//			Long rowCount = (Long) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-			List roleList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				Role role = (Role) iter.next();
-				RoleVO roleVO = (RoleVO) role.toVO();
-				roleList.add(roleVO);
-			}
-
-			logger.debug("rowCount=" + rowCount);
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(roleList);
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//			List roleList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				Role role = (Role) iter.next();
+//				RoleVO roleVO = (RoleVO) role.toVO();
+//				roleList.add(roleVO);
+//			}
+//
+//			logger.debug("rowCount=" + rowCount);
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(roleList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
@@ -1356,7 +1274,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 		} finally {
 			try {
-				HibernateUtil.closeSession();
+				
 			} catch (HibernateException e) {
 			}
 		}
@@ -1365,19 +1283,14 @@ public class AdminService extends BaseService implements AdminRemote{
 	public RoleVO getRoleByID(Integer roleID) throws BaseException {
 		RoleVO roleVO = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Role role = (Role) hibernateSession.load(Role.class, roleID);
+			//hibernateSession = HibernateUtil.currentSession();
+			Role role = (Role)frameworkDAO.loadBoById(Role.class, roleID);
 			roleVO = (RoleVO) role.toVO();
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("����ϵͳ������" + ee.getMessage());
+			throw new BaseException("getRoleByID：" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 		return roleVO;
 	}
 
@@ -1390,31 +1303,34 @@ public class AdminService extends BaseService implements AdminRemote{
 			throws BaseException {
 		if (user == null || systemID == null)
 			throw new BaseException("调用参数有误");
-		hibernateSession = HibernateUtil.currentSession();
-		Criteria criteria = hibernateSession.createCriteria(UABinding.class);
+		//hibernateSession = HibernateUtil.currentSession();
+		//Criteria criteria = hibernateSession.createCriteria(UABinding.class);
 		// if (systemID.intValue() != 0) {
-		// ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+		// ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 		// systemID);
 		// criteria.add(Expression.eq("module", module));
 		// }
+		
+		DetachedCriteria criteria = DetachedCriteria.forClass(UABinding.class);
 		criteria.add(Expression.or(Expression.or(Expression.eq("empID",
 				(Integer) user.getId()), Expression.eq("deptID", user
 				.getDepartment())), Expression.eq("levelID", user.getLevel())));
 		criteria.addOrder(Order.asc("module"));
 		List resultList = new ArrayList();
-		Long rowCount = (Long) criteria.setProjection(
-				Projections.rowCount()).uniqueResult();
-		criteria.setProjection(null);
-		Iterator iter = criteria.list().iterator();
+//		Long rowCount = (Long) criteria.setProjection(
+//				Projections.rowCount()).uniqueResult();
+//		criteria.setProjection(null);
+		List list=frameworkDAO.findByCriteria(criteria, 0, 0);
+		Iterator iter = list.iterator();
 		while (iter.hasNext()) {
 			UABinding ub = (UABinding) iter.next();
 			resultList.add(ub.getRole().toVO());
 		}
-		Role role = (Role) hibernateSession.load(Role.class, new Integer(
+		Role role = (Role)frameworkDAO.loadBoById(Role.class, new Integer(
 				UNALLOW_USER_ID));
 		resultList.add(role.toVO());
 		PageList pageList = new PageList();
-		pageList.setResults(rowCount.intValue());
+		pageList.setResults(resultList.size());
 		pageList.setItems(resultList);
 		return pageList;
 	}
@@ -1422,9 +1338,10 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getUABindingList(Integer systemID, UABindingVO searchVO,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession
-					.createCriteria(UABinding.class);
+			//hibernateSession = HibernateUtil.currentSession();
+//			Criteria criteria = hibernateSession
+//					.createCriteria(UABinding.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(UABinding.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -1440,7 +1357,7 @@ public class AdminService extends BaseService implements AdminRemote{
 					criteria.add(Expression.eq("organise",organise));
 				}
 				if (searchVO.getRoleID() != null) {
-					Role role = (Role) hibernateSession.load(Role.class,
+					Role role = (Role)frameworkDAO.loadBoById(Role.class,
 							searchVO.getRoleID());
 					criteria.add(Expression.eq("role", role));
 				}
@@ -1464,48 +1381,38 @@ public class AdminService extends BaseService implements AdminRemote{
 
 			}
 			criteria.addOrder(Order.desc("module"));
-			Long rowCount = (Long) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
+//			Long rowCount = (Long) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
 
-			// if (system != 0) {
-			// List modules = getSubmodules(system, hibernateSession);
-			// criteria.add(Expression.in("module", modules));
-			// }
+	
 			if (system != 0) {
 				ItModule module=new ItModule();
 				module.setId(new Integer(system));
 				criteria.add(Expression.eq("module", module));
-//				List modules = SemAppUtils.getSubmodules(system,
-//						hibernateSession);
-//				criteria.add(Expression.in("module", modules));
 
 			}
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 
-			List uaList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				UABinding po = (UABinding) iter.next();
-				uaList.add(po.toVO());
-			}
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(uaList);
+//			List uaList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				UABinding po = (UABinding) iter.next();
+//				uaList.add(po.toVO());
+//			}
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(uaList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("����ϵͳ������" + ee.getMessage());
+			throw new BaseException("getUABindingList异常" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public PageList getUABindingList(Integer systemID, Integer firstResult,
@@ -1524,38 +1431,33 @@ public class AdminService extends BaseService implements AdminRemote{
 	public Integer addUABinding(UABindingVO ubVO) throws BaseException {
 		Integer result = null;
 		logger.debug("add it UABinding" + ubVO);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			UABinding ub = new UABinding();
 			ub.setId((Integer) ubVO.getId());
 			ub.setEmpID(ubVO.getEmpID());
 			ub.setDeptID(ubVO.getDeptID());
 			ub.setLevelID(ubVO.getLevelID());
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					ubVO.getModuleID());
 			ub.setModule(module);
 		
-			Role role = (Role) hibernateSession.load(Role.class, ubVO
+			Role role = (Role)frameworkDAO.loadBoById(Role.class, ubVO
 					.getRoleID());
 			ub.setRole(role);
 			SyOrganise organise =role.getOrganise();
-			//	(SyOrganise) hibernateSession.load(SyOrganise.class,ubVO.getOrganise());
+			//	(SyOrganise)frameworkDAO.loadBoById(SyOrganise.class,ubVO.getOrganise());
 			ub.setOrganise(organise);
-			hibernateSession.save(ub);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(ub);
+			
 			result = (Integer) ub.getId();
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return result;
 
@@ -1563,143 +1465,117 @@ public class AdminService extends BaseService implements AdminRemote{
 
 	public void updateUABinding(UABindingVO uaBinding) throws BaseException {
 		logger.debug("update it system" + uaBinding);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			UABinding uab = (UABinding) hibernateSession.load(UABinding.class,
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			UABinding uab = (UABinding)frameworkDAO.loadBoById(UABinding.class,
 					uaBinding.getId());
 			uab.setEmpID(uaBinding.getEmpID());
 			uab.setLevelID(uaBinding.getLevelID());
-			Role role = (Role) hibernateSession.load(Role.class, uaBinding
+			Role role = (Role)frameworkDAO.loadBoById(Role.class, uaBinding
 					.getRoleID());
 			uab.setRole(role);
-			hibernateSession.update(uab);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(uab);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("�޸�ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public void deleteUABinding(Integer bindingID) throws BaseException {
-		Transaction tx = null;
+		
 		try {
 			
-			hibernateSession = HibernateUtil.currentSession();
-			UABinding uaBinding = (UABinding) hibernateSession.load(
+			//hibernateSession = HibernateUtil.currentSession();
+			UABinding uaBinding = (UABinding)frameworkDAO.loadBoById(
 					UABinding.class, bindingID);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(uaBinding);
-			tx.commit();
+			
+			frameworkDAO.delete(uaBinding);
+			
 		} catch (HibernateException ee) {
-			if(tx!=null) tx.rollback();
 			logger.error(ee);
 			throw new BaseException("����ϵͳ������" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void deleteRole(Integer roleID) throws BaseException {
-		Transaction tx = null;
+		
 		try {
 
-			hibernateSession = HibernateUtil.currentSession();
-			Role role = (Role) hibernateSession.load(Role.class, roleID);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(role);
-			tx.commit();
+			//hibernateSession = HibernateUtil.currentSession();
+			Role role = (Role)frameworkDAO.loadBoById(Role.class, roleID);
+			
+			frameworkDAO.delete(role);
+			
 		} catch (HibernateException ee) {
 
 			logger.error("delete role fail",ee);
 			throw new BaseException("����ϵͳ������" + ee.getMessage());
 
-		} finally {
-			  try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public Integer addRole(RoleVO roleVO) throws BaseException {
 		Integer result = null;
 		logger.debug("add it UABinding" + roleVO);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			Role role = new Role();
 			role.setId((Integer) roleVO.getId());
 			role.setRolename(roleVO.getName());
 			role.setDescription(roleVO.getDescription());
 			role.setValid(roleVO.getValid());
 			//role.setOrganise(organise)
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					roleVO.getModuleID());
 			role.setModule(module);
-			SyOrganise organise = (SyOrganise) hibernateSession.load(SyOrganise.class,
+			SyOrganise organise = (SyOrganise)frameworkDAO.loadBoById(SyOrganise.class,
 					roleVO.getOrganise());
 			role.setOrganise(organise);
-			hibernateSession.save(role);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(role);
+			
 			result = (Integer) role.getId();
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 		return result;
 
 	}
 
 	public void updateRole(RoleVO role) throws BaseException {
 		logger.debug("update  role" + role);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			Role roleBO = (Role) hibernateSession
-					.load(Role.class, role.getId());
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			Role roleBO = (Role)frameworkDAO.loadBoById(Role.class, role.getId());
 			roleBO.setRolename(role.getName());
 			roleBO.setDescription(role.getDescription());
-			hibernateSession.update(roleBO);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(roleBO);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			throw new BaseException("�޸�ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public PageList getMenuRoleList(Integer systemID, MenuRoleVO searchVO,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(MenuRole.class);
+			//hibernateSession = HibernateUtil.currentSession();
+			//Criteria criteria = hibernateSession.createCriteria(MenuRole.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(MenuRole.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -1715,12 +1591,12 @@ public class AdminService extends BaseService implements AdminRemote{
 				}
 
 				if (searchVO.getRoleID() != null) {
-					Role role = (Role) hibernateSession.load(Role.class,
+					Role role = (Role)frameworkDAO.loadBoById(Role.class,
 							searchVO.getRoleID());
 					criteria.add(Expression.eq("role", role));
 				}
 				if (searchVO.getMenuID() != null) {
-					Menu menu = (Menu) hibernateSession.load(Menu.class,
+					Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class,
 							searchVO.getMenuID());
 					criteria.add(Expression.eq("menu", menu));
 				}
@@ -1734,36 +1610,34 @@ public class AdminService extends BaseService implements AdminRemote{
 				criteria.add(Expression.eq("module", module));
 
 			}
-			Long rowCount = (Long) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			logger.debug("size=" + size + ",start=" + firstResult);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+			
+			
+//			Long rowCount = (Long) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			logger.debug("size=" + size + ",start=" + firstResult);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-
-			List uaList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				MenuRole po = (MenuRole) iter.next();
-				uaList.add(po.toVO());
-			}
-			logger.debug("report admin EJB rowCount=" + rowCount);
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(uaList);
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//
+//			List uaList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				MenuRole po = (MenuRole) iter.next();
+//				uaList.add(po.toVO());
+//			}
+//			logger.debug("report admin EJB rowCount=" + rowCount);
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(uaList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
@@ -1783,40 +1657,33 @@ public class AdminService extends BaseService implements AdminRemote{
 	public Integer addMenuRole(MenuRoleVO vo) throws BaseException {
 		Integer result = null;
 		logger.debug("add it UABinding" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			MenuRole po = new MenuRole();
 			po.setId((Integer) vo.getId());
 			po.setRightCode(vo.getRightCode());
-			Menu menu = (Menu) hibernateSession
-					.load(Menu.class, vo.getMenuID());
+			Menu menu = (Menu) frameworkDAO.loadBoById(Menu.class, vo.getMenuID());
 			po.setMenu(menu);
-			Role role = (Role) hibernateSession
-					.load(Role.class, vo.getRoleID());
+			Role role = (Role) frameworkDAO.loadBoById(Role.class, vo.getRoleID());
 			po.setRole(role);
 			
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getModuleID());
 			po.setModule(module);
 			SyOrganise organise=role.getOrganise();
-			//SyOrganise organise = (SyOrganise) hibernateSession.load(SyOrganise.class,
+			//SyOrganise organise = (SyOrganise)frameworkDAO.loadBoById(SyOrganise.class,
 			//		vo.getOrganise());
 			po.setOrganise(organise);
-			hibernateSession.save(po);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(po);
+			
 			result = (Integer) po.getId();
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return result;
 
@@ -1824,51 +1691,39 @@ public class AdminService extends BaseService implements AdminRemote{
 
 	public void updateMenuRole(MenuRoleVO vo) throws BaseException {
 		logger.debug("update it system" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			MenuRole po = (MenuRole) hibernateSession.load(MenuRole.class, vo
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			MenuRole po = (MenuRole)frameworkDAO.loadBoById(MenuRole.class, vo
 					.getId());
-			Menu menu = (Menu) hibernateSession
-					.load(Menu.class, vo.getMenuID());
+			Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class, vo.getMenuID());
 			po.setMenu(menu);
-			Role role = (Role) hibernateSession
-					.load(Role.class, vo.getRoleID());
+			Role role = (Role) frameworkDAO.loadBoById(Role.class, vo.getRoleID());
 			po.setRole(role);
 			po.setRightCode(vo.getRightCode());
-			hibernateSession.update(po);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(po);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("�޸�ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public void deleteMenuRole(Integer id) throws BaseException {
 		try {
-			Transaction tx = null;
-			hibernateSession = HibernateUtil.currentSession();
-			MenuRole po = (MenuRole) hibernateSession.load(MenuRole.class, id);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(po);
-			tx.commit();
+			
+			//hibernateSession = HibernateUtil.currentSession();
+			MenuRole po = (MenuRole)frameworkDAO.loadBoById(MenuRole.class, id);
+			
+			frameworkDAO.delete(po);
+			
 		} catch (HibernateException ee) {
 			logger.error(ee);
 			throw new BaseException("����ϵͳ������" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
@@ -1883,8 +1738,9 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getNoticeList(Integer systemID, NoticeVO searchVO,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(Notice.class);
+			//hibernateSession = HibernateUtil.currentSession();
+			//Criteria criteria = hibernateSession.createCriteria(Notice.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(Notice.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -1920,47 +1776,43 @@ public class AdminService extends BaseService implements AdminRemote{
 				criteria.add(Expression.eq("module", module));
 
 			}
-			Integer rowCount = (Integer) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+//			Integer rowCount = (Integer) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-			List resultList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				Notice bo = (Notice) iter.next();
-				NoticeVO vo = (NoticeVO) bo.toVO();
-				resultList.add(vo);
-			}
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
 
-			// logger.debug("rowCount=" + rowCount);
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(resultList);
+//			List resultList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				Notice bo = (Notice) iter.next();
+//				NoticeVO vo = (NoticeVO) bo.toVO();
+//				resultList.add(vo);
+//			}
+//
+//			// logger.debug("rowCount=" + rowCount);
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(resultList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error("数据库查询失败", ee);
 			throw new BaseException(ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public void updateNotice(NoticeVO vo) throws BaseException {
 		logger.debug("update  role" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			Notice bo = (Notice) hibernateSession
-					.load(Notice.class, vo.getId());
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			Notice bo = (Notice)frameworkDAO.loadBoById(Notice.class, vo.getId());
 			bo.setContent(vo.getContent());
 			bo.setSubject(vo.getSubject());
 			bo.setStartDate(SemAppUtils
@@ -1969,52 +1821,40 @@ public class AdminService extends BaseService implements AdminRemote{
 			bo.setValid(vo.getValid());
 			bo.setAttach(vo.getAttach());
 			bo.setAttachName(vo.getAttachName());
-			hibernateSession.update(bo);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(bo);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("�޸�ITϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void deleteNotice(Integer noticeID) throws BaseException {
-		Transaction tx = null;
+		
 		try {
 
-			hibernateSession = HibernateUtil.currentSession();
-			Notice bo = (Notice) hibernateSession.load(Notice.class, noticeID);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(bo);
-			tx.commit();
+			//hibernateSession = HibernateUtil.currentSession();
+			Notice bo = (Notice)frameworkDAO.loadBoById(Notice.class, noticeID);
+			
+			frameworkDAO.delete(bo);
+			
 		} catch (HibernateException ee) {
 
 			logger.error(ee);
 			throw new BaseException("����ϵͳ������" + ee.getMessage());
 
-		} finally {
-			if (tx != null)
-				tx.rollback();
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public Integer addNotice(NoticeVO vo) throws BaseException {
 		Integer result = null;
 		logger.debug("add it UABinding" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			Notice bo = new Notice();
 			bo.setId((Integer) vo.getId());
 			bo.setContent(vo.getContent());
@@ -2025,11 +1865,11 @@ public class AdminService extends BaseService implements AdminRemote{
 			bo.setValid(vo.getValid());
 			bo.setAttach(vo.getAttach());
 			bo.setAttachName(vo.getAttachName());
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getModuleID());
 			bo.setModule(module);
-			hibernateSession.save(bo);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(bo);
+			
 			result = (Integer) bo.getId();
 			vo.setId(result);
 			try {
@@ -2038,15 +1878,10 @@ public class AdminService extends BaseService implements AdminRemote{
 				logger.error("更新提醒失败", ee);
 			}
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return result;
 	}
@@ -2068,9 +1903,10 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getProperties(Integer systemID, SystemPropertyVO searchVO,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession
-					.createCriteria(SystemProperties.class);
+			//hibernateSession = HibernateUtil.currentSession();
+//			Criteria criteria = hibernateSession
+//					.createCriteria(SystemProperties.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(SystemProperties.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			// if (this.isSystemModule(system)) {
@@ -2110,36 +1946,32 @@ public class AdminService extends BaseService implements AdminRemote{
 				itModule.setId(new Integer(system));
 				criteria.add(Expression.eq("module", itModule));
 			}
-			Long rowCount = (Long) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+//			Long rowCount = (Long) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-			List resultList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				SystemProperties bo = (SystemProperties) iter.next();
-				SystemPropertyVO vo = (SystemPropertyVO) bo.toVO();
-				resultList.add(vo);
-			}
-		logger.debug("rowCount=" + rowCount);
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(resultList);
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//			List resultList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				SystemProperties bo = (SystemProperties) iter.next();
+//				SystemPropertyVO vo = (SystemPropertyVO) bo.toVO();
+//				resultList.add(vo);
+//			}
+//		logger.debug("rowCount=" + rowCount);
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(resultList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error("数据库查询失败", ee);
 			throw new BaseException(ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void resetProperties() throws BaseException {
@@ -2162,64 +1994,55 @@ public class AdminService extends BaseService implements AdminRemote{
 
 	public void updateProperties(SystemPropertyVO vo) throws BaseException {
 		logger.debug("update  role" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			SystemProperties bo = (SystemProperties) hibernateSession.load(
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			SystemProperties bo = (SystemProperties)frameworkDAO.loadBoById(
 					SystemProperties.class, vo.getId());
 			SemAppUtils.beanCopy(vo, bo);
-			hibernateSession.update(bo);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(bo);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public Object addPropertyVO(SystemPropertyVO vo) throws BaseException {
 		java.io.Serializable result = null;
 		logger.debug("add it UABinding" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			SystemProperties bo = new SystemProperties();
 			SemAppUtils.beanCopy(vo, bo);
 			bo.setId(vo.getId());
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getModuleID());
 			bo.setModule(module);
-			hibernateSession.save(bo);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(bo);
+			
 			result = bo.getId();
 			vo.setId(result);
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 		return result;
 	}
 
 	public PageList getFavorites(Integer systemID, Integer empID,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession.createCriteria(Favorite.class);
+			//hibernateSession = HibernateUtil.currentSession();
+			//Criteria criteria = hibernateSession.createCriteria(Favorite.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(Favorite.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -2238,94 +2061,78 @@ public class AdminService extends BaseService implements AdminRemote{
 				criteria.add(Expression.eq("module", module));
 
 			}
-			Integer rowCount = (Integer) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+//			Integer rowCount = (Integer) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-			List resultList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				Favorite bo = (Favorite) iter.next();
-				FavoriteVO vo = (FavoriteVO) bo.toVO();
-				resultList.add(vo);
-			}
-
-			// logger.debug("rowCount=" + rowCount);
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(resultList);
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//			List resultList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				Favorite bo = (Favorite) iter.next();
+//				FavoriteVO vo = (FavoriteVO) bo.toVO();
+//				resultList.add(vo);
+//			}
+//
+//			// logger.debug("rowCount=" + rowCount);
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(resultList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error("数据库查询失败", ee);
 			throw new BaseException(ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public void deleteFavorite(Integer noticeID) throws BaseException {
-		Transaction tx = null;
+		
 		try {
 
-			hibernateSession = HibernateUtil.currentSession();
-			Favorite bo = (Favorite) hibernateSession.load(Favorite.class,
+			//hibernateSession = HibernateUtil.currentSession();
+			Favorite bo = (Favorite)frameworkDAO.loadBoById(Favorite.class,
 					noticeID);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(bo);
-			tx.commit();
+			
+			frameworkDAO.delete(bo);
+			
 		} catch (HibernateException ee) {
 
 			logger.error(ee);
-			throw new BaseException("����ϵͳ������" + ee.getMessage());
+			throw new BaseException("deleteFavorite:" + ee.getMessage());
 
-		} finally {
-			if (tx != null)
-				tx.rollback();
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public Integer addFavorite(FavoriteVO vo) throws BaseException {
 		Integer result = null;
 		logger.debug("add it UABinding" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			Favorite bo = new Favorite();
 			bo.setId((Integer) vo.getId());
 			bo.setEmpID(vo.getEmpID());
 			bo.setCreateDate(vo.getCreateDate());
 			bo.setMenuID(vo.getMenuID());
 			bo.setName(vo.getName());
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getModuleID());
 			bo.setModule(module);
-			hibernateSession.save(bo);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(bo);
+			
 			result = (Integer) bo.getId();
 			vo.setId(result);
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 		return result;
 	}
@@ -2333,9 +2140,10 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getRaBindingList(Integer systemID, RaBindingVO searchVO,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			Criteria criteria = hibernateSession
-					.createCriteria(RaBinding.class);
+			//hibernateSession = HibernateUtil.currentSession();
+//			Criteria criteria = hibernateSession
+//					.createCriteria(RaBinding.class);
+			DetachedCriteria criteria = DetachedCriteria.forClass(RaBinding.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
@@ -2346,12 +2154,12 @@ public class AdminService extends BaseService implements AdminRemote{
 					system = searchVO.getModuleID().intValue();
 				}
 				if (searchVO.getRoleID() != null) {
-					Role role = (Role) hibernateSession.load(Role.class,
+					Role role = (Role)frameworkDAO.loadBoById(Role.class,
 							searchVO.getRoleID());
 					criteria.add(Expression.eq("role", role));
 				}
 				if (searchVO.getReportID() != null) {
-					Menu menu = (Menu) hibernateSession.load(Menu.class,
+					Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class,
 							searchVO.getReportID());
 					criteria.add(Expression.eq("report", menu));
 				}
@@ -2365,122 +2173,101 @@ public class AdminService extends BaseService implements AdminRemote{
 				criteria.add(Expression.eq("module", module));
 
 			}
-			if (size > 0) {
-				criteria.setFirstResult(firstResult.intValue());
-				criteria.setMaxResults(size);
-			}
+//			if (size > 0) {
+//				criteria.setFirstResult(firstResult.intValue());
+//				criteria.setMaxResults(size);
+//			}
 			criteria.addOrder(Order.desc("module"));
-			Integer rowCount = (Integer) criteria.setProjection(
-					Projections.rowCount()).uniqueResult();
-			criteria.setProjection(null);
-			List uaList = new ArrayList();
-			Iterator iter = criteria.list().iterator();
-			while (iter.hasNext()) {
-				RaBinding po = (RaBinding) iter.next();
-				uaList.add(po.toVO());
-			}
-			PageList pageList = new PageList();
-			pageList.setResults(rowCount.intValue());
-			pageList.setItems(uaList);
+			PageList pageList=frameworkDAO.findByCriteriaByPage(criteria, firstResult, fetchSize);
+//			Integer rowCount = (Integer) criteria.setProjection(
+//					Projections.rowCount()).uniqueResult();
+//			criteria.setProjection(null);
+//			List uaList = new ArrayList();
+//			Iterator iter = criteria.list().iterator();
+//			while (iter.hasNext()) {
+//				RaBinding po = (RaBinding) iter.next();
+//				uaList.add(po.toVO());
+//			}
+//			PageList pageList = new PageList();
+//			pageList.setResults(rowCount.intValue());
+//			pageList.setItems(uaList);
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
 			throw new BaseException("数据库操作异常" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public Integer addRaBinding(RaBindingVO vo) throws BaseException {
 		Integer result = null;
 		logger.debug("add it UABinding" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
+			//hibernateSession = HibernateUtil.currentSession();
+			
 			RaBinding po = new RaBinding();
 			po.setId((Integer) vo.getId());
 			po.setRightCode(vo.getRightCode());
-			ReportModule report = (ReportModule) hibernateSession.load(
+			ReportModule report = (ReportModule)frameworkDAO.loadBoById(
 					ReportModule.class, vo.getReportID());
 			po.setReport(report);
-			Role role = (Role) hibernateSession
-					.load(Role.class, vo.getRoleID());
+			Role role = (Role)frameworkDAO.loadBoById(Role.class, vo.getRoleID());
 			po.setRole(role);
-			ItModule module = (ItModule) hibernateSession.load(ItModule.class,
+			ItModule module = (ItModule)frameworkDAO.loadBoById(ItModule.class,
 					vo.getModuleID());
 			po.setModule(module);
-			hibernateSession.save(po);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(po);
+			
 			result = (Integer) po.getId();
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 		return result;
 
 	}
 
 	public void updateRaBinding(RaBindingVO vo) throws BaseException {
 		logger.debug("update it system" + vo);
-		Transaction tx = null;
+		
 		try {
-			hibernateSession = HibernateUtil.currentSession();
-			tx = hibernateSession.beginTransaction();
-			RaBinding po = (RaBinding) hibernateSession.load(RaBinding.class,
+			//hibernateSession = HibernateUtil.currentSession();
+			
+			RaBinding po = (RaBinding)frameworkDAO.loadBoById(RaBinding.class,
 					vo.getId());
-			ReportModule report = (ReportModule) hibernateSession.load(
+			ReportModule report = (ReportModule)frameworkDAO.loadBoById(
 					ReportModule.class, vo.getReportID());
 			po.setReport(report);
-			Role role = (Role) hibernateSession
-					.load(Role.class, vo.getRoleID());
+			Role role = (Role)frameworkDAO.loadBoById(Role.class, vo.getRoleID());
 			po.setRole(role);
 			po.setRightCode(vo.getRightCode());
-			hibernateSession.update(po);
-			tx.commit();
+			frameworkDAO.saveOrUpdate(po);
+			
 		} catch (HibernateException ee) {
-			tx.rollback();
+			
 			logger.error(ee);
 			throw new BaseException("ϵͳ数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
 		}
 	}
 
 	public void deleteRaBinding(Integer id) throws BaseException {
 		try {
-			Transaction tx = null;
-			hibernateSession = HibernateUtil.currentSession();
-			RaBinding po = (RaBinding) hibernateSession.load(RaBinding.class,
+			
+			//hibernateSession = HibernateUtil.currentSession();
+			RaBinding po = (RaBinding)frameworkDAO.loadBoById(RaBinding.class,
 					id);
-			tx = hibernateSession.beginTransaction();
-			hibernateSession.delete(po);
-			tx.commit();
+			
+			frameworkDAO.delete(po);
+			
 		} catch (HibernateException ee) {
 			logger.error(ee);
 			throw new BaseException("数据库操作失败" + ee.getMessage());
 
-		} finally {
-			try {
-				HibernateUtil.closeSession();
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 	}
 
 	public void setUserProperties(UserPropertiesVO vo) throws

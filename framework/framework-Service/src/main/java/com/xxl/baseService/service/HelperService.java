@@ -1,4 +1,4 @@
-package com.xxl.baseService.service.impl;
+package com.xxl.baseService.service;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -14,10 +14,12 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xxl.HibernateUtil;
@@ -398,12 +400,13 @@ public class HelperService implements HelperRemote,InitializingBean{
 //	
 //
 //	}
-	
+	@Autowired
+	SessionFactory sessionFactory;
 	public void setPropertiesAndNotices(){
 		noticeList = new ArrayList();
-		Session hibernateSession;
+		Session hibernateSession = null;
 		try {
-			hibernateSession = HibernateUtil.currentSession();
+			hibernateSession =sessionFactory.openSession(); //HibernateUtil.currentSession();
 			Criteria criteria = hibernateSession
 					.createCriteria(SystemProperties.class);
 			Iterator iter = criteria.list().iterator();
@@ -433,7 +436,9 @@ public class HelperService implements HelperRemote,InitializingBean{
 
 		} finally {
 			try {
-				HibernateUtil.closeSession();
+//				HibernateUtil.closeSession();
+				if (hibernateSession != null)
+					hibernateSession.close();
 			} catch (HibernateException e) {
 			}
 		}

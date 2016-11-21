@@ -11,13 +11,14 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	
-    
+    <context:property-placeholder location="classpath:jdbc.properties,classpath:dubboConfig.properties,classpath:activeMQ.properties"/>
    <!-- <context:component-scan base-package="com.xxl.springsecurity" /> -->  
-    <!-- 引入配置文件 -->  
+   
+    <!-- 引入配置文件 
     <bean id="propertyConfigurer"  
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="location" value="classpath:jdbc.properties" />  
-    </bean>
+    </bean> --> 
     
     <!-- 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
@@ -56,15 +57,18 @@
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
-       <!-- <property name="packagesToScan" >
+       <property name="packagesToScan" >
             <list>
-                <value>com.xxl.baseService.bo</value>
+                <value>com.xxl.task.bo</value>
             </list>
-        </property>--> 
-        <!-- --><property name="mappingDirectoryLocations">  
+        </property><!-- --> 
+        <!-- -->
+        <property name="mappingDirectoryLocations">  
             <list>  
                 <value>classpath:/com/xxl/baseService/bo/</value>
-                <value>classpath:/com/xxl/os/bo/</value>    
+                <value>classpath:/com/xxl/os/bo/</value>
+                <value>classpath:/com/xxl/task/bo/</value>    
+                <value>classpath:/com/xxl/jms/bo/</value>      
             </list>  
         </property>
        <!-- <property name="mappingResources">
@@ -95,6 +99,7 @@
                 <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                 <!--<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>-->
+                <!----> <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop> 
             </props>
         </property>
     </bean>
@@ -135,11 +140,8 @@
     <!-- 配置事务切面 -->  
     <aop:config>  
         <aop:pointcut id="serviceOperation"  
-            expression="execution(* com.xxl.baseService.service..*.*(..))" />  
-        <aop:pointcut id="serviceOperation_os"  
-            expression="execution(* com.xxl.os.service..*.*(..))" />  
+            expression="execution(* com.xxl.*.service..*.*(..))" />  
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />  
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation_os" />  
     </aop:config>  
     
     <!-- quartz配置  动态配置所以我们将 Factory 作为一个service一样的接口 QuartzJobFactory.java-->
