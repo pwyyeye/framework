@@ -53,7 +53,7 @@ public class TaskServiceImpl implements TimeTaskRemote {
     	criteria.addOrder(Order.asc("id"));
     	PageList pageList = taskDao.findByCriteriaByPage(criteria, 0, 0);
 		List<ScheduleJobVo> jobList = pageList.getItems();
-
+		
 		System.out.println("－－－－－－开始添加定时任务 TaskServiceImpl－－－－－－");
 		for (ScheduleJobVo job : jobList) {
 			try {

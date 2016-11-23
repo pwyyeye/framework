@@ -19,5 +19,6 @@
     	<artifactId>frameworkLib</artifactId>
     	<version>${project.version}</version>
     </dependency>
+    
   </dependencies>
 </project> 

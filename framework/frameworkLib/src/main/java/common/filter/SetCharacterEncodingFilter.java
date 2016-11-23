@@ -14,7 +14,7 @@ public class SetCharacterEncodingFilter
     implements Filter {
 
 
-  protected String encoding = encoding = "UTF-8";;
+  protected String encoding = "UTF-8";;
 
 
   protected FilterConfig filterConfig = null;

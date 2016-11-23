@@ -51,6 +51,10 @@ public class PropertyController extends BaseController {
 //					theForm.getName(), theForm.getValue(), theForm.getRemark(),
 //					null, new Integer(theForm.getModuleID()));
 //			SemAppUtils.formToVo(theForm, vo);
+			String[] ids=(String[]) vo.getId();
+			vo.setId(ids[0]);
+			String[] parents=vo.getParent().split(",");
+			vo.setParent(parents[0]);
 			vo.setSetDate(Calendar.getInstance());
 			vo.setSetUser("" + this.getSessionUser(request).getEmpID());
 			Object noticeID = adminRemote.addPropertyVO(vo);
@@ -134,6 +138,10 @@ public class PropertyController extends BaseController {
 //					theForm.getName(), theForm.getValue(), theForm.getRemark(),
 //					null, null);
 //			SemAppUtils.formToVo(theForm, vo);
+			String[] ids=(String[]) vo.getId();
+			vo.setId(ids[0]);
+			String[] parents=vo.getParent().split(",");
+			vo.setParent(parents[0]);
 			String tableID = (String) vo.getId();
 			vo.setSetDate(Calendar.getInstance());
 			vo.setSetUser("" + this.getSessionUser(request).getEmpID());

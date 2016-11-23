@@ -1100,7 +1100,7 @@ public class GridTag extends TagSupport {
 				out
 						.println("var recs = grid.getSelectionModel().getSelection()");
 				out.println("var id = recs[0].id;");
-				out.println("form.getForm().findField('" + parentField
+				out.println("if(id!=null&&typeof(id)!=\"undefined\") form.getForm().findField('" + parentField
 						+ "').setValue(id);");
 			}
 			out.println("form.form.submit({");
