@@ -460,6 +460,12 @@
 		    <version>0.5</version>
 		</dependency>
 		
+		<!-- 7牛依赖包 -->
+	    <dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>qiniu-java-sdk</artifactId>
+			<version>[7.2.0, 7.2.99]</version>
+		</dependency>
 		
 		<!-- activemq 支持 -->
 		<dependency>

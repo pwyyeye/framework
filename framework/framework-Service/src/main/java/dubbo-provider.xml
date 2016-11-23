@@ -28,5 +28,5 @@
 	
 	<dubbo:service interface="com.xxl.facade.TimeTaskRemote" ref="timeTaskRemote" timeout="30000"/>
 	
-	
+	<dubbo:service interface="com.xxl.facade.FileRemote" ref="fileRemote" timeout="30000"/>
 </beans>  

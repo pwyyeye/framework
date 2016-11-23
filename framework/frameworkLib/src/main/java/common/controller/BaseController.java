@@ -192,4 +192,6 @@ public class BaseController {
 		return (String) request.getParameter(SemWebAppConstants.RIGHT_CODE);
 	}
 
+	
+	
 }

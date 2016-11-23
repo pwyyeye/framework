@@ -165,6 +165,7 @@ public class MenuController extends BaseController {
 //				vo.setSingleMode(new Integer(theForm.getSingleMode())
 //						.intValue());
 //			}
+			logger.debug("-----------------------------"+vo.getName());
 			adminRemote.updateMenu(vo);
 			response.getWriter().write(
 					"{success:true,id:" + vo.getId() + "}");

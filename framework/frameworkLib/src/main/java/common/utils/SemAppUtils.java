@@ -743,4 +743,14 @@ public class SemAppUtils {
 			return systemID == 0 || systemID == SemAppConstants.COMMON_MODULE_ID;
 		}
 
+		
+		public static String getFilename(String filename) {
+			if (filename == null)
+				return null;
+			int i = filename.lastIndexOf(".");
+			if (i < 0 || i >= filename.length() - 1) {
+				return filename;
+			}
+			return filename.substring(0, i);
+		}
 }
