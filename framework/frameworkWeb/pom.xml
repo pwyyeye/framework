@@ -21,7 +21,7 @@
   <dependencies>
      <dependency>
     	<groupId>com.xxl</groupId>
-    	<artifactId>frameworkLib</artifactId>
+    	<artifactId>frameworkLib</artifactId> 
     	<version>${project.version}</version>
     </dependency>
     <dependency>  
