@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -92,7 +93,63 @@ public class LoginController extends BaseController {
             binder.setFieldDefaultPrefix("userVo.");    
     } 
 	
+	public void validate(
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String switchStr=request.getParameter("switchRole");
+		if(session.getAttribute(SemWebAppConstants.USER_KEY)!=null&&!"y".equalsIgnoreCase(switchStr)){
+			return ;
+		}
+		String sessionModule = (String) session
+				.getAttribute(SemWebAppConstants.SESSION_MODULE_ID);
+		logger.debug("1.session module ["+sessionModule+"]");
+		String moduleStr;
+		if(SemWebAppUtils.isNotEmpty(request.getParameter("moduleID"))){
+			moduleStr=request.getParameter("moduleID");
+		}else{
+			moduleStr = request.getParameter(SemWebAppConstants.SESSION_MODULE_ID);
+		}
+		String switchRoleID=request.getParameter(SemWebAppConstants.SWITCH_ROLE_ID); 
 
+//		if(SemAppUtils.isTest()){
+//			request.setAttribute("TEST_FLAG","Y");
+//		}
+//		
+		
+		boolean need = (sessionModule == null);
+		int sessionModuleID=6;
+		try{
+			sessionModuleID=Integer.parseInt(sessionModule);
+		}catch(Exception ee){
+			need=true;
+		}
+		int moduleID = 0;
+		try {
+			moduleID = Integer.parseInt(moduleStr);
+			need = true;
+		} catch (Exception ee) {
+			moduleID = sessionModuleID;
+		}
+		logger.debug("need =" + need+",modue="+moduleStr);
+		if (need) {
+			logger.debug("put moduleID =" + moduleID + " to session");
+			session.setAttribute(SemWebAppConstants.SESSION_MODULE_ID, "" + moduleID);
+			logger.debug("get mdouleID["+session.getAttribute(SemWebAppConstants.SESSION_MODULE_ID)+"]from session");
+			if(switchRoleID!=null&&session.getAttribute(SemWebAppConstants.USER_KEY)!=null){
+				request.setAttribute(SemWebAppConstants.SWITCH_ROLE_ID,switchRoleID);
+				return ;
+			}			
+		}
+		if(moduleID==0||moduleID==6){
+			request.setAttribute("SELECT_MODULE","Y");
+		}
+		String lastAccessUrl=request.getParameter(SemWebAppConstants.LAST_ACCESS_PAGE);
+		//remove ()
+		//if(SemWebAppUtils.isNotEmpty(lastAccessUrl)) lastAccessUrl=lastAccessUrl.substring(1,lastAccessUrl.length()-1);
+		//logger.debug("lastAccessUrl="+lastAccessUrl);
+		request.setAttribute(SemWebAppConstants.LAST_ACCESS_PAGE,lastAccessUrl);
+
+	}
 	
 	@RequestMapping(value = "/logon")
 	private void logon(HttpServletRequest request, HttpServletResponse response)
@@ -138,6 +195,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/")
 	public void defaultMethod(
 			HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr) {
+		validate(request);
 		String lastAccessUrl = request
 				.getParameter(SemWebAppConstants.LAST_ACCESS_PAGE);
 		logger.debug("lastAccessUrl=" + lastAccessUrl);
@@ -165,11 +223,11 @@ public class LoginController extends BaseController {
 			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";  
 			String requestURI=request.getRequestURI();  
 			
-			logger.debug("basePath="+basePath);
+			logger.debug("basePath="+basePath+",request.getQueryString()="+request.getQueryString()+"request.getRequestURI()="+request.getRequestURI());
 			String split = requestURI.indexOf("?") == -1 ? "?" : "&";
 			logger.debug("go to main page" +"redirect:"+requestURI+ split + "theme=" + theme);
 			attr.addAttribute("theme", theme);
-			response.sendRedirect(basePath+"indexController/"+ split + "theme=" + theme);
+			response.sendRedirect(basePath+"indexController/"+ split +"theme=" + theme);
 //			return "redirect:"+basePath+path+"/indexController/"+ split + "theme=" + theme;
 
 		} catch (Exception ee) {

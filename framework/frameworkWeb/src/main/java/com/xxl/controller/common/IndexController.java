@@ -59,6 +59,7 @@ public class IndexController extends BaseController {
 			lastAccessUrl = URLDecoder.decode(lastAccessUrl);
 			logger.debug("lastAccessUrl=" + lastAccessUrl);
 			response.sendRedirect(lastAccessUrl);
+			return null;
 			// return new ActionForward(lastAccessUrl,true);
 		}
 

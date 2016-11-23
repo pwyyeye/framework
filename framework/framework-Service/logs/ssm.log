@@ -13230,4 +13230,11 @@ Caused by: com.alibaba.druid.pool.GetConnectionTimeoutException: wait millis 100
   [ERROR] [2016-11-23 00:47:39][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
   [ERROR] [2016-11-23 00:49:11][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
   [ERROR] [2016-11-23 01:52:06][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-11-23 14:55:19][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-11-23 15:11:25][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-11-23 15:11:28][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-11-23 18:57:01][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-11-23 18:58:06][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-11-23 18:58:56][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-11-23 19:01:34][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
   

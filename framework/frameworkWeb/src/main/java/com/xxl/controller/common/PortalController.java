@@ -1,6 +1,9 @@
 package com.xxl.controller.common;
 
 
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +28,10 @@ public class PortalController extends BaseController {
 		logger.debug("switch role page");
 		String theme=this.getSessionUser(request).getProperty("USER_DEFAULT_THEME");
 		
-		attr.addAttribute("theme", theme);
+		attr.addAttribute("theme", theme+"&");
+		Map params=request.getParameterMap();
+		attr.mergeAttributes(params);
+		
 		return  "portal";
 	}
 

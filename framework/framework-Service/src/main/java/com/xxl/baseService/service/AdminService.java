@@ -318,6 +318,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 	public void updateMenu(MenuVO vo) throws BaseException {
 		logger.debug("update it system" + vo);
+		System.out.println(vo.getName());
 		try {
 			//hibernateSession = HibernateUtil.currentSession();
 			Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class, vo.getId());
