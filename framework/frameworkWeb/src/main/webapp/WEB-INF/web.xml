@@ -46,7 +46,7 @@
     </init-param>
     <init-param>
       <param-name>needlessFilterPages</param-name>
-      <param-value>tempOrderController,loginController,login.jsp,moduleController,appAction.do,logonJumpController,error.jsp,medaigou.jsp</param-value>
+      <param-value>tempOrderController,loginController,login.jsp,moduleController,appAction.do,logonJumpController,error.jsp,medaigou.jsp,finish.jsp,frameworkWeb</param-value>
     </init-param>
     <init-param>
       <param-name>SESSION_USER_CLASS</param-name>

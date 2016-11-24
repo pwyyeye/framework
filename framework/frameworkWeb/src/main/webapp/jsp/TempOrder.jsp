@@ -4,7 +4,7 @@
 	<%@ include file="common.jsp"%>	
 	<controls:grid recordLabel="订单" action="tempOrderController/"
 		gridBody="id:ID,name:名称,address:地址,tel:电话,amount:数量,createdate:下单时间,color:颜色,size:尺码,remark:备注"
-		searchFieldsString="barname" needRightCheck="Y" pageSize="30"
+		searchFieldsString="name" needRightCheck="Y" 
 		 needUpdateAfterAdd="Y" 
 		  rightString="142356"
      needUpdate="Y"

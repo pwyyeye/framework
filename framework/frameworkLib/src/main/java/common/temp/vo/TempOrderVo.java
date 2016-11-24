@@ -7,10 +7,7 @@ import common.value.BaseVO;
 
 public class TempOrderVo extends BaseVO{
 	
-	private static final long serialVersionUID = -6016261688962890417L;
-
-	private Integer id;
-
+	private static final long serialVersionUID =1L;
 
 	private Calendar createdate;
 	
@@ -30,13 +27,6 @@ public class TempOrderVo extends BaseVO{
 	
 	private String size;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Calendar getCreatedate() {
 		return createdate;

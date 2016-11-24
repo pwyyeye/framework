@@ -2,6 +2,7 @@ package com.xxl.controller.temp;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,22 +38,28 @@ public class TempOrderController extends BaseController {
 	}
 	
 	@RequestMapping("/add")
-	public void add(HttpServletRequest request, HttpServletResponse response,TempOrderVo vo) {
+	public String add(HttpServletRequest request, HttpServletResponse response,TempOrderVo vo) {
 //		response.setContentType("text/json;charset=UTF-8");
 		try {
 			vo.setCreatedate(Calendar.getInstance());
 			Integer id=tempRemote.addTempOrder(vo);
 //			response.getWriter().write("{success:true,id:" + id + "}");
-			String path = request.getContextPath();  
-			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";  
-			response.sendRedirect(basePath+"finish.html");
+			vo.setId(id);
+			request.setAttribute("vo", vo);
+			
+			return "finish";
 		} catch (Exception e) {
 //			this.handleException(e, request, response);
 			try {
 				response.getWriter().write("抱歉已无货，订单失败！");
+				String path = request.getContextPath();  
+				String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/"; 
+				response.sendRedirect(basePath+"index.html?error=抱歉已无货，订单失败！");
 			} catch (IOException e1) {
 				
 			}
+			
+			return null;
 		}
 		
 	}

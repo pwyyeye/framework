@@ -138,7 +138,9 @@ public class TempOrder extends BaseBusinessObject {
 
 	public Object toVO() {
 		TempOrderVo vo = new TempOrderVo();
+		System.out.println(this.getId());
 		SemAppUtils.BO2VO(this, vo);
+		System.out.println(vo.getId());
 		return vo;
 	}
 
