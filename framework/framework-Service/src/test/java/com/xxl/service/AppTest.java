@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.xxl.task.service.XxlGenericService;
+import com.xxl.temp.service.TempService;
 
 import common.os.vo.UsersVO;
 import common.utils.SpringUtils;
@@ -92,6 +93,28 @@ public class AppTest
 //		System.out.println(page4);
 
     }
+    
+    public void testBo(){
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     private String getReqPage(String filename) {

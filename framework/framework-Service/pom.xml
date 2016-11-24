@@ -10,6 +10,7 @@
   <artifactId>framework-Service</artifactId>
   <name>framework-Service</name>
   <url>http://maven.apache.org</url>
+  <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -21,4 +22,105 @@
     </dependency>
     
   </dependencies>
+  <build>
+  
+  <resources>  
+        <resource>  
+            <targetPath>${project.build.directory}/classes</targetPath>  
+            <directory>src/main/resources</directory>  
+            <filtering>true</filtering>  
+            <includes>  
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>   
+            </includes>  
+        </resource>
+        <resource>  
+            <targetPath>${project.build.directory}/classes</targetPath>  
+            <directory>src/main/java</directory>  
+            <filtering>true</filtering>  
+            <includes>  
+                <include>**/*.xml</include>
+            </includes>  
+        </resource>
+        <!--结合dubbo配置要求-->
+        <resource>  
+            <targetPath>${project.build.directory}/classes/META-INF/spring</targetPath>  
+            <directory>src/main/resources/spring</directory>  
+            <filtering>true</filtering>  
+            <includes>  
+                <include>applicationContext.xml</include>
+            </includes>  
+        </resource>   
+    </resources>  
+  	<plugins>
+  	 		<!-- 设置源文件编码方式 -->  
+            <plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-compiler-plugin</artifactId>  
+                <configuration>  
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>  
+                    <source>1.6</source>  
+                    <target>1.6</target>  
+                    <encoding>UTF-8</encoding>  
+                </configuration>  
+            </plugin>
+  		 <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->  
+            <plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-jar-plugin</artifactId>  
+                <configuration>  
+                <classesDirectory>target/classes/</classesDirectory>
+                    <archive>  
+                        <manifest>
+                        	<useUniqueVersions>false</useUniqueVersions>  
+                            <addClasspath>true</addClasspath>  
+                            <classpathPrefix>lib/</classpathPrefix>  
+                            <mainClass>com.alibaba.dubbo.container.Main</mainClass>  
+                        </manifest>
+                        <manifestEntries>
+                        	<Class-Path>.</Class-Path>
+                        </manifestEntries>  
+                    </archive>  
+                </configuration>  
+            </plugin>  
+            <!-- 拷贝依赖的jar包到lib目录 -->  
+            <plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-dependency-plugin</artifactId>  
+                <executions>  
+                    <execution>  
+                        <id>copy</id>  
+                        <phase>package</phase>  
+                        <goals>  
+                            <goal>copy-dependencies</goal>  
+                        </goals>  
+                        <configuration>  
+                            <outputDirectory>  
+                                ${project.build.directory}/lib  
+                            </outputDirectory>  
+                        </configuration>  
+                    </execution>  
+                </executions>  
+            </plugin> 
+             <!-- 打包source文件为jar文件  
+            <plugin>  
+                <artifactId>maven-source-plugin</artifactId>  
+                <version>2.1</version>  
+                <configuration>  
+                    <attach>true</attach>  
+                    <encoding>UTF-8</encoding>  
+                </configuration>  
+                <executions>  
+                    <execution>  
+                        <phase>compile</phase>  
+                        <goals>  
+                            <goal>jar</goal>  
+                        </goals>  
+                    </execution>  
+                </executions>  
+            </plugin> --> 
+  	</plugins>
+  	
+  	<finalName>frameworService</finalName>
+  </build>
 </project> 

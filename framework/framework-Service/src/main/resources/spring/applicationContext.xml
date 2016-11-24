@@ -57,41 +57,20 @@
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
+        <!-- hibernate xml注解方式 -->
        <property name="packagesToScan" >
             <list>
-                <value>com.xxl.task.bo</value>
+                <value>com.xxl.*.bo</value>
             </list>
-        </property><!-- --> 
-        <!-- -->
-        <property name="mappingDirectoryLocations">  
+        </property>
+        <!-- hibernate xml配置方式  不要用mappingDirectoryLocations dubbo执行会找不到文件 -->
+        <property name="mappingLocations">  
             <list>  
-                <value>classpath:/com/xxl/baseService/bo/</value>
-                <value>classpath:/com/xxl/os/bo/</value>
-                <value>classpath:/com/xxl/task/bo/</value>    
-                <value>classpath:/com/xxl/jms/bo/</value>      
+                <value>classpath*:com/xxl/*/bo/*.xml</value>
+    
             </list>  
         </property>
-       <!-- <property name="mappingResources">
-			<list>
-				<value>com/xxl/baseService/bo/ItModule.hbm.xml</value>
-				<value>com/xxl/baseService/bo/Favorite.hbm.xml</value>
-				<value>com/xxl/baseService/bo/MessageEvent.hbm.xml</value>
-				<value>com/xxl/baseService/bo/MessageSubscibe.hbm.xml</value>
-				<value>com/xxl/baseService/bo/Role.hbm.xml</value>
-				<value>com/xxl/baseService/bo/Menu.hbm.xml</value>
-				<value>com/xxl/baseService/bo/MenuRole.hbm.xml</value>
-				<value>com/xxl/baseService/bo/UABinding.hbm.xml</value>
-				<value>com/xxl/baseService/bo/UserLogin.hbm.xml</value>
-				<value>com/xxl/baseService/bo/ReportModule.hbm.xml</value>
-				<value>com/xxl/baseService/bo/Notice.hbm.xml</value>
-    			<value>com/xxl/baseService/bo/RaBinding.hbm.xml</value>
-				<value>com/xxl/baseService/bo/SystemProperties.hbm.xml</value>
-				<value>com/xxl/baseService/bo/UserProperties.hbm.xml</value>
-				
-				<value>com/xxl/baseService/bo/ReportSchedule.hbm.xml</value> 
-
-			</list>
-		</property> -->
+     
         <property name="hibernateProperties">
             <props>
                 <prop key="dialect">${hibernate.dialect}</prop>
@@ -149,7 +128,7 @@
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     </bean>
     
-    <import resource="ActiveMQ.xml" />
+    <import resource="classpath:spring/ActiveMQ.xml" />
     
      <!-- 自动扫描 -->  
     <context:component-scan base-package="common.dao" />
@@ -161,5 +140,5 @@
     <context:component-scan base-package="common.bussiness"/>
     
     
-    <import resource="dubbo-provider.xml" />
+    <import resource="classpath:spring/dubbo-provider.xml" />
 </beans>

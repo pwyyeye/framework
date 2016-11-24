@@ -154,7 +154,7 @@ public class LoginController extends BaseController {
 	@RequestMapping(value = "/logon")
 	private void logon(HttpServletRequest request, HttpServletResponse response)
 			throws BaseException {
-
+		validate(request);
 		String theRole = request.getParameter("ROLE_ID");
 
 		ip = request.getRemoteAddr();

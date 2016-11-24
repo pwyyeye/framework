@@ -21,6 +21,7 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
+import com.xxl.baseService.dao.IFrameworkDao;
 import com.xxl.facade.FileRemote;
 import com.xxl.facade.HelperRemote;
 
@@ -60,7 +61,7 @@ public class FileService extends BaseService implements FileRemote,InitializingB
 	private String callbackUrl = "";
 	private String callbackHost = "";
 	private String fileServerUrl = "";
-	
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		// TODO Auto-generated method stub

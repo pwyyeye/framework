@@ -20,4 +20,5 @@
 	<dubbo:reference interface="com.xxl.facade.JMSTaskRemote" id="jmsTaskRemote" check="false" />
 	<dubbo:reference interface="com.xxl.facade.TimeTaskRemote" id="timeTaskRemote" check="false"/>
 	<dubbo:reference interface="com.xxl.facade.FileRemote" id="fileRemote" check="false"/>
+	<dubbo:reference interface="com.xxl.facade.TempRemote" id="tempRemote" check="false"/>
 </beans>  
