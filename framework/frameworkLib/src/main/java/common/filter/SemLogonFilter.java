@@ -434,8 +434,8 @@ public class SemLogonFilter implements Filter {
 //		
 //	}
 	 private String getReqPage(String filename) {
-			if (filename == null)
-				return null;
+			if (SemAppUtils.isEmpty(filename))
+				return "";
 			int i = filename.lastIndexOf("/");
 			int j = filename.indexOf("?");
 			if (i < 0 || i > filename.length() - 1) {
@@ -443,7 +443,11 @@ public class SemLogonFilter implements Filter {
 			}else if(i == (filename.length() - 1)){
 				//情况二
 				String temp="";
-				temp= filename.substring(0, i-1);
+				try {
+					temp= filename.substring(0, i-1);
+				} catch (Exception e) {
+					return "";
+				}
 				filename=filename.substring(temp.lastIndexOf("/")+1, i);
 				return filename;
 			}
