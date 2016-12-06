@@ -10,7 +10,7 @@
 
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<!-- 注册中心地址 -->
-	<dubbo:registry protocol="zookeeper" address="121.40.77.171:2181" />
+	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" />
 	
 	<!-- 用户服务接口 -->
 	<dubbo:reference interface="com.xxl.facade.CommonRemote" id="commonRemote" check="false" />

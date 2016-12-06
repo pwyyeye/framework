@@ -6,7 +6,6 @@
      gridBody="module:模块名,menu:菜单名,role:角色名,rightCode,otherRightCode:rightCode,moduleID,roleID,menuID,listRight,addRight,updateRight,deleteRight,exportRight,listRightStr:查询权限,addRightStr:新增权限,updateRightStr:修改权限,deleteRightStr:删除权限,deleteAllRightStr:删除全部权限,exportRightStr:导出权限,importRightStr:导入权限,customRight,customRightStr:自定义功能权限"
      searchFieldsString="moduleID,roleID,menuID"
      pageSize="30"
-
     extContent="Ext.define('MenuTree', {extend : 'Ext.data.TreeModel',idProperty : 'id',
 				fields : [ {sortable : true,name : 'id',type : 'string'}, {name : 'text',type : 'string'},
 				           {name : 'href',type : 'string'}, {name : 'leaf',	type : 'boolean'} ]
@@ -39,7 +38,7 @@
 					},
 					proxy : {
 						type : 'ajax',
-						url : 'menuAction.do?action=custom&root=' + id,
+						url : 'menuController/custom?root=' + id,
 						method : 'POST',
 						reader : {
 							type : 'json',
@@ -91,7 +90,7 @@
 			    ['id','name']
 			 ),	
 			proxy: new Ext.data.HttpProxy({
-				url : 'roleAController/list'
+				url : 'roleController/list'
 			})
 		  });  		
 				

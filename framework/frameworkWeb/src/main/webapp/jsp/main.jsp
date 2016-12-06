@@ -301,7 +301,7 @@ Ext.onReady(function() {
 							modal : 'true',
 							items : [ {
 								region : 'center',
-								html : '<IFRAME frameBorder="0" width="100%" height="100%"  src="uithemes.jsp" > </IFRAME>'
+								html : '<IFRAME frameBorder="0" width="100%" height="100%"  src="jsp/uithemes.jsp" > </IFRAME>'
 							} ],
 							width : 480,
 							height : 400,

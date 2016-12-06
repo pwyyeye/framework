@@ -14026,4 +14026,18 @@ Caused by: java.net.ConnectException: Connection timed out: connect
   [ERROR] [2016-11-25 02:12:36][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
   [ERROR] [2016-11-25 02:16:24][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
   [ERROR] [2016-11-25 03:28:14][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-05 13:49:11][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-05 13:50:03][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-05 13:54:39][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 13:54:41][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 14:00:52][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 14:22:28][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 14:22:53][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 14:23:32][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 22:15:50][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 23:03:52][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 23:09:36][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 23:10:37][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 23:16:36][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-05 23:16:47][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
   

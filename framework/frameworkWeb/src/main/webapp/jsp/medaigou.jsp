@@ -6,7 +6,7 @@
 	 <script src="Ext\ux\form\ueditor\ueditor.all.min.js" charset="utf-8" language="javascript"></script>
 	 <script src="Ext\ux\form\UEditorExtPlugin.js" charset="utf-8" language="javascript"></script>	
 	
-	<controls:grid recordLabel="酒吧" action=""
+	<controls:grid recordLabel="产品" action="medaigouController/"
 		gridBody="id:ID,barname:酒吧名称,bartype,bartypename:酒吧类型"
 		searchFieldsString="barname" needRightCheck="Y" pageSize="30"
 		 needUpdateAfterAdd="Y" fileField="imageUrl" 
