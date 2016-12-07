@@ -1,0 +1,71 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<title>Enabling Axis Administracion and SOAP monitoring features</title>
+<style type="text/css">
+BODY {
+	background-color : White;
+	color : Black;
+
+}
+
+H1 {
+	color : Navy;
+	font-family : sans-serif;
+ text-align : center;
+}
+DIV {
+	color : Navy;
+	font-family : sans-serif;
+ text-align : center;
+}
+</style>
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<h1>Enabling Axis administration and SOAP monitoring features</h1>
+
+<p>To enable <b>Axis administration,</b></p>
+<ol>
+<li>Add the following servlet mapping to web.xml:
+
+  <pre>
+    &lt;servlet-mapping&gt;
+      &lt;servlet-name&gt;AdminServlet&lt;/servlet-name&gt;
+      &lt;url-pattern&gt;/servlet/AdminServlet&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+  </pre>
+</li>
+<li>Rebuild the project, restart the server or redeploy for the changes to take effect.</li>
+</ol>
+<p>To enable <b>SOAP monitoring,</b></p>
+<ol>
+<li>
+Add the following under the root element to <i><b>any one</b></i> of the deploy.wsdd files in the project source path:
+
+  <pre>
+  &lt;globalConfiguration&gt;
+    &lt;requestFlow&gt;
+      &lt;handler type="java:org.apache.axis.handlers.JWSHandler"&gt;
+        &lt;parameter name="scope" value="session"/&gt;
+      &lt;/handler&gt;
+      &lt;handler type="java:org.apache.axis.handlers.JWSHandler"&gt;
+        &lt;parameter name="scope" value="request"/&gt;
+        &lt;parameter name="extension" value=".jwr"/&gt;
+      &lt;/handler&gt;
+      &lt;handler type="java:org.apache.axis.handlers.SOAPMonitorHandler"/&gt;
+    &lt;/requestFlow&gt;
+    &lt;responseFlow&gt;
+      &lt;handler type="java:org.apache.axis.handlers.SOAPMonitorHandler"/&gt;
+   &lt;/responseFlow&gt;
+ &lt;/globalConfiguration&gt;
+  </pre>
+
+</li>
+<li>Rebuild the project, restart the server or redeploy for the changes to take effect.</li>
+</ol>
+</body>
+</html>

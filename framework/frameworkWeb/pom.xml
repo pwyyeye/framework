@@ -19,13 +19,42 @@
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>  
     </properties> 
   <dependencies>
-    <dependency>
+     <dependency>
     	<groupId>com.xxl</groupId>
-    	<artifactId>framework-Service</artifactId>
+    	<artifactId>frameworkLib</artifactId> 
     	<version>${project.version}</version>
     </dependency>
+    <dependency>  
+            <groupId>com.ueditor</groupId>  
+            <artifactId>ueditor</artifactId>  
+            <version>1.1.2</version>  
+            <scope>system</scope>  
+            <systemPath>${basedir}\src\main\webapp\WEB-INF\lib\ueditor-1.1.2-forQiniu.jar</systemPath>  
+    </dependency>  
+    <!-- https://mvnrepository.com/artifact/javax.servlet/jstl 
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.1.2</version>
+	</dependency>-->
+    <!-- https://mvnrepository.com/artifact/taglibs/standard 
+	<dependency>
+	    <groupId>taglibs</groupId>
+	    <artifactId>standard</artifactId>
+	    <version>1.1.2</version>
+	</dependency>
+    -->
+    
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+	<dependency>
+	    <groupId>org.json</groupId>
+	    <artifactId>json</artifactId>
+	    <version>20160810</version>
+	</dependency>
+    
   </dependencies>
   <build>
     <finalName>frameworkWeb</finalName>
   </build>
+ 
 </project>

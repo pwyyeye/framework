@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+
+<hibernate-mapping>
+    <class name="com.xxl.baseService.bo.UserProperties" table="EIA_USER_PROPERTIES">
+        <id name="id" type="java.lang.String">
+              <column name="ID" sql-type="varchar(64)" not-null="true"/>
+              <generator class="assigned"/>
+        </id>
+        <property name="usId" type="java.lang.Integer">
+            <column name="US_ID" />
+        </property>
+
+        <property name="value" type="java.lang.String">
+            <column name="VALUE" length="256" />
+        </property>
+        <property name="setDate" type="java.util.Calendar">
+            <column name="SETDATE" />
+        </property>
+        <property name="setUser" type="java.lang.String">
+            <column name="SETUSER" length="8" />
+        </property>
+        <property name="timeLimit" type="java.lang.Integer">
+            <column name="ISTIMELIMIT" />
+        </property>
+        <property name="startTime" type="java.util.Calendar">
+            <column name="STARTTIME"  />
+        </property>
+        <property name="endTime" type="java.util.Calendar">
+            <column name="ENDTIME" />
+        </property>
+     <many-to-one name="name" class="com.xxl.baseService.bo.SystemProperties" column="name" />
+    </class>
+</hibernate-mapping>

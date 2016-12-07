@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+ <class name="com.xxl.jms.bo.UserPushLog"  table="eia_user_push_log" >
+	  <id name="id"  column="id" type="integer">  
+              <generator class="identity"/>
+        </id>  
+  <property  name="userId" type="integer">
+   <column length="7" name="userId"/>
+  </property>
+  <many-to-one name="type" class="com.xxl.jms.bo.UserPushType"
+  	column="type" />
+  <property  name="title" type="string">
+   <column  name="title"  sql-type="varchar(1024)" />
+  </property>
+    <property  name="content" type="string">
+   <column  name="content"  sql-type="varchar(1024)" />
+  </property>      
+    <property  name="createUser" type="integer">
+   <column length="7" name="createUser"/>
+  </property> 
+    <property  name="createDate" type="java.util.Calendar">
+   <column length="7" name="createDate"/>
+  </property>
+    <property  name="result" type="integer">
+   <column length="7" name="result"/>
+  </property>
+      <property  name="read" type="integer">
+   <column length="1" name="hasRead"/>
+  </property>
+      <property  name="readDate" type="java.util.Calendar">
+   <column length="7" name="readDate"/>
+  </property>
+      <property  name="remark" type="string">
+   <column  name="remark"  sql-type="varchar(1024)" />
+  </property>
+    <many-to-one name="module" class="common.businessObject.ItModule"
+  	column="SYSTEMID" /> 
+  <property  name="bzId" type="integer">
+   <column length="7" name="bzId"/>
+  </property> 
+ </class>
+</hibernate-mapping>

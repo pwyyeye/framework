@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+    
+<hibernate-mapping>
+
+    <class name="com.xxl.os.bo.EiaOnline" table="EIA_ONLINE">
+        <id name="id" column="OL_USERID" type="integer">
+            <generator class="assigned" />
+        </id>
+ 
+        <property name="loginTime" column="OL_LOGINTIME" type="java.util.Calendar" />
+        <property name="activeTime" column="OL_ACTIVETIME" type="java.util.Calendar" />
+        <property name="lastloginTime" column="OL_LASTLOGINTIME" type="java.util.Calendar" />
+        <property name="activeNum" column="OL_ACTIVENUM" type="integer" />
+        <property name="loginNum" column="OL_LOGINNUM" type="integer" />
+        <property name="ip" column="OL_IP" type="string" />
+        <property name="authkey" column="OL_AUTHKEY" type="string" />
+       <!--  <property name="rowId" column="rowid" type="string" />--> 
+        <property name="activeNodeId" column="OL_ACTIVENODEID" type="integer" />
+        <property name="rightType" column="OL_RIGHTTYPE" type="string" />
+        <property name="rightId" column="OL_RIGHTID" type="string" />
+        <property name="desc" column="OL_DESC" type="string" />
+        <property name="status" column="OL_STATUS" type="string" />
+    </class>
+    
+</hibernate-mapping>

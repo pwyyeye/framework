@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  <hibernate-mapping>
+     <class name="com.xxl.jms.bo.JMSTask" table="JMS_TASK">
+        <id name="id" column="TASKID">
+         <generator class="identity"/>
+        </id>
+        <property name="messageID">
+        <column name="MESSAGEID" sql-type="varchar(64)" />
+        </property>
+        <property name="message">
+        <column name="MESSAGE" sql-type="varchar(1024)" />
+        </property>
+         <property name="queueName">
+        <column name="QUEUENAME" sql-type="varchar(64)" />
+        </property>
+         <property name="empID">
+        <column name="EMPID" sql-type="int" />
+        </property>
+         <property name="status">
+        <column name="STATUS" sql-type="int" />
+        </property>
+        <property name="closeFlag">
+        <column name="CLOSEFLAG" sql-type="int" />
+        </property>
+        <property name="createDate">
+        <column name="CREATEDATE" sql-type="date" />
+        </property>
+         <property name="dealDate">
+        <column name="FINISHDATE" sql-type="date" />
+        </property>
+          <property name="remark">
+        <column name="REMARK" sql-type="64" />
+        </property>
+          <property name="dealResult">
+        <column name="DEALRESULT" sql-type="varchar(512)" />
+        </property>
+       <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+
+
+     </class>
+  </hibernate-mapping>

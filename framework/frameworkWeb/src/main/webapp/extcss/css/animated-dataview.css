@@ -1,0 +1,118 @@
+#phones {
+    background-color: #fff;
+    text-shadow: #fff 0 1px 0;
+    position: relative;
+    display: block;
+    height: auto;
+}
+
+#phones div.phone img {
+    margin-bottom: 1px;
+}
+
+#phones div.phone {
+    float: left;
+    padding: 8px 17px;
+    margin: 5px;
+/*    margin: 10px 0 0 25px;*/
+    text-align: center;
+    line-height: 14px;
+    color: #333;
+    font-size: 10px;
+    font-family: "Helvetica Neue",sans-serif;
+    height: 130px;
+    width: 140px;
+    overflow: hidden;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.x-ie6 #phones div.phone,
+.x-ie7 #phones div.phone,
+.x-ie8 #phones div.phone {
+    border-top: none;
+    padding: 3px 2px;
+    margin: 2px;
+}
+
+#phones div.phone-hover {
+    background-color: #eee;
+}
+
+#phones .x-item-selected {
+    background-color: #D3E1F1 !important;
+}
+
+#phones div.phone strong {
+    color: #000;
+    display: block;
+}
+
+#phones div.phone span {
+    color: #999;
+}
+
+
+#seleltItems {
+    background-color: #fff;
+    text-shadow: #fff 0 1px 0;
+    position: relative;
+    display: block;
+    height: auto;
+}
+
+#seleltItems div.phone img {
+    margin-bottom: 1px;
+}
+
+#seleltItems div.phone {
+    float: left;
+    padding: 2px 2px;
+    margin: 2px;
+/*    margin: 10px 0 0 25px;*/
+    text-align: center;
+    line-height: 14px;
+    color: #333;
+    font-size: 10px;
+    font-family: "Helvetica Neue",sans-serif;
+    height: 80px;
+    width: 64px;
+    overflow: hidden;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.x-ie6 #seleltItems div.phone,
+.x-ie7 #seleltItems div.phone,
+.x-ie8 #seleltItems div.phone {
+    border-top: none;
+    padding: 3px 2px;
+    margin: 2px;
+}
+
+#seleltItems div.phone-hover {
+    background-color: #eee;
+}
+
+#seleltItems .x-item-selected {
+    background-color: #D3E1F1 !important;
+}
+
+#seleltItems div.phone strong {
+    color: #000;
+    display: block;
+}
+
+#seleltItems div.phone span {
+    color: #999;
+}
+
+
+.btn {
+    font: 14px/21px Arial;
+    border: 1px solid #DDD;
+    padding: 30px 26px;
+    background: #FFF;
+    color: blue;
+    text-decoration: none;
+}

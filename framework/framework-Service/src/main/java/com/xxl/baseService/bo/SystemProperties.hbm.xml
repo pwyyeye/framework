@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+
+  <hibernate-mapping>
+     <class name="com.xxl.baseService.bo.SystemProperties"  table="EIA_PROPERTIES">
+        <id name="id">
+        <column name="NAME" sql-type="varchar(64)" not-null="true"/>
+        <generator class="assigned"/>
+        </id>
+        <property name="value">
+        <column name="VALUE" sql-type="varchar(256)" />
+        </property>
+        <property name="defaultValue">
+        <column name="DEFAULTVALUE" sql-type="varchar(256)" />
+        </property>
+         <property name="remark">
+        <column name="REMARK" sql-type="varchar(100)" />
+        </property>
+         <property name="parType">
+        <column name="parType" sql-type="int" />
+        </property>
+       <property name="parent">
+        <column name="PARENTNAME" sql-type="varchar(64)" />
+        </property>
+         <property name="setUser">
+        <column name="SETUSER" sql-type="int" />
+        </property>
+         <property name="setDate">
+        <column name="SETDATE" sql-type="date" />
+        </property>
+         <property name="timeLimit">
+        <column name="TIMELIMIT" sql-type="varchar(100)" />
+        </property>
+         <property name="startDate">
+        <column name="STARTTIME" sql-type="date" />
+        </property>
+          <property name="endDate">
+        <column name="ENDTIME" sql-type="date" />
+        </property>
+         <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+     </class>
+  </hibernate-mapping>

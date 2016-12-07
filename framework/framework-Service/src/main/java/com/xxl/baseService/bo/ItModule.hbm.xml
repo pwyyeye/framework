@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+
+  <hibernate-mapping>
+     <class name="common.businessObject.ItModule" table="eia_system">
+        <id name="id" type="int" >
+         <column name="SYSTEMID" sql-type="int" not-null="true"/>
+            <generator class="identity"/>
+        </id>
+        <property name="name">
+        <column name="SYSTEMNAME" sql-type="varchar(64)"/>
+        </property>
+        <property name="status">
+        <column name="VALID" sql-type="varchar(64)"/>
+        </property>
+        <property name="createDate">
+        <column name="CREATEDATE" sql-type="date"/>
+        </property>
+        <property name="indexPage">
+        <column name="INDEX_PAGE" sql-type="varchar(64)"/>
+        </property>
+         <property name="parentModule">
+        <column name="PARENTID" sql-type="int"/>
+        </property>
+        <property name="lastModifyDate">
+        <column name="LAST_MODIFY_DATE" sql-type="date"/>
+        </property>
+        <property name="lastModifyUser">
+        <column name="LAST_MODIFY_USER" sql-type="varchar(20)"/>
+        </property>
+        <property name="sortID">
+        <column name="SORDID" sql-type="int"/>
+        </property>
+        <property name="messageID">
+        <column name="MESSAGE_ID" sql-type="int"/>
+        </property>
+        <property name="serviceJndi">
+        <column name="SERVICE_JNDI" sql-type="varchar(64)"/>
+        </property>
+        <property name="deployServer">
+        <column name="DEPLOY_SERVER" sql-type="varchar(64)"/>
+        </property>
+         <property name="serviceHome">
+        <column name="SERVICE_HOME" sql-type="varchar(64)"/>
+        </property>
+         <property name="serviceRemote">
+        <column name="SERVICE_Remote" sql-type="varchar(64)"/>
+        </property>
+        <property name="dirID">
+           <column name="FILE_DIR_ID" sql-type="int"/>
+        </property>
+        
+     </class>
+  </hibernate-mapping>
+

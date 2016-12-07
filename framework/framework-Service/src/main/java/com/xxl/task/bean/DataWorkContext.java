@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.xxl.hnust.bo.ScheduleJob;
+import com.xxl.task.bo.ScheduleJob;
 
 /**
  * 计划任务测试数据，后面改为从数据库中读取
@@ -32,7 +32,7 @@ public class DataWorkContext {
 			job.setDescription("数据导入任务");
 			job.setIsConcurrent("1");
 			//job.setSpringId("userService");
-			job.setBeanClass("com.cn.hnust.service.impl.UserServiceImpl");
+			job.setBeanClass("com.xxl.baseService.service.impl.UserServiceImpl");
 			job.setMethodName("testTaskJob"+i);
 			addJob(job);
 		}

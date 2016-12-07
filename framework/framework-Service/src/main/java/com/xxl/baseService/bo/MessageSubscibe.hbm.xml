@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+
+  <hibernate-mapping>
+     <class name="common.businessObject.MessageSubscibe" table="EIA_SUBSCIBE" dynamic-update="true">
+        <id name="id" type="int" >
+         <column name="SU_ID" sql-type="int" not-null="true"/>
+          <generator class="identity"/>
+        </id>
+        <property name="empID">
+        <column name="SU_EMP_ID" sql-type="varchar(10)"/>
+        </property>
+        <property name="route">
+        <column name="SU_ROUTE" sql-type="int" />
+        </property>
+        <property name="beginDate">
+        <column name="SU_START_DATE" sql-type="date" />
+        </property>
+        <property name="endDate">
+        <column name="SU_END_DATE" sql-type="date" />
+        </property>
+         <property name="status">
+        <column name="SU_STATUS" sql-type="int" />
+        </property>
+      <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+      <many-to-one name="event" class="common.businessObject.MessageEvent" column="SE_ID"/>
+     </class>
+  </hibernate-mapping>
+

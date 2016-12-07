@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+    
+<hibernate-mapping>
+
+    <class name="com.xxl.os.bo.SyOrganise" table="SY_ORGANISE">
+        <id name="id" column="OR_ID" type="integer">
+            <generator class="identity"/>  
+        </id>
+ 
+        <property name="code" column="OR_CODE" type="string" />
+        <property name="name" column="OR_NAME" type="string"  not-null="true" />
+        <property name="abbr" column="OR_ABBR" type="string"  not-null="true" />
+        <property name="parentId" column="OR_PARENTID" type="integer" />
+        <property name="tel" column="OR_TEL" type="string" />
+        <property name="fax" column="OR_FAX" type="string" />
+        <property name="addr" column="OR_ADDR" type="string" />
+        <property name="postcode" column="OR_POSTCODE" type="string" />
+        <property name="orgalevel" column="OR_ORGALEVEL" type="integer"  not-null="true" />
+        <property name="remark" column="OR_REMARK" type="string" />
+        <property name="region" column="OR_REGION" type="string" />
+        <property name="regionabbr" column="OR_REGIONABBR" type="string" />
+        <property name="status" column="OR_STATUS" type="string"  not-null="true" />
+        <property name="registerDate" column="OR_REGISTERDATE" type="java.util.Calendar"  not-null="true" />
+        <property name="logoutdate" column="OR_LOGOUTDATE" type="java.util.Calendar" />
+ 
+        <set name="syDepartmentSet" inverse="true">
+            <key column="OR_ID"/>
+            <one-to-many class="com.xxl.os.bo.SyDepartment"/>
+        </set>
+    </class>
+    
+</hibernate-mapping>
