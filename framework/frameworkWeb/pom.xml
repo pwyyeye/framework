@@ -29,7 +29,7 @@
             <artifactId>ueditor</artifactId>  
             <version>1.1.2</version>  
             <scope>system</scope>  
-            <systemPath>${basedir}\src\main\webapp\WEB-INF\lib\ueditor-1.1.2-forQiniu.jar</systemPath>  
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ueditor-1.1.2-forQiniu.jar</systemPath>  
     </dependency>  
     <!-- https://mvnrepository.com/artifact/javax.servlet/jstl 
 	<dependency>
