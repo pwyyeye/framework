@@ -9,6 +9,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		try {
 			ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext.xml");
+			System.out.println(123);
 			context.start();
 		} catch (Exception e) {
 //			log.error("== DubboProvider context start error:",e);

@@ -1140,7 +1140,7 @@ public class StructureService extends BaseService implements StructureRemote {
 	public String getCaptchas(String mobile, final SessionUserBean user)
 			throws Exception {
 		// 看是否异步发送短信
-		final String modelmes = this.getProperty("SEND_MOBILE_MODE");
+		final String modelmes = helperRemote.getProperty("SEND_MOBILE_MODE");
 		try {
 			// 随机获取验证码
 			String vcode = "";

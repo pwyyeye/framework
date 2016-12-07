@@ -14040,4 +14040,12 @@ Caused by: java.net.ConnectException: Connection timed out: connect
   [ERROR] [2016-12-05 23:10:37][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
   [ERROR] [2016-12-05 23:16:36][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
   [ERROR] [2016-12-05 23:16:47][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-07 14:45:26][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-07 16:17:31][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-07 16:51:21][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-07 16:52:04][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-07 16:53:15][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-07 17:08:45][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-07 17:36:44][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2016-12-07 17:37:45][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
   

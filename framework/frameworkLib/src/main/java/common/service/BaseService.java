@@ -39,12 +39,12 @@ public abstract class BaseService implements Serializable{
 
 //	protected AlphaUddi alpha;
 
-	@Autowired
-	protected HelperRemote helperRemote;
+//	@Autowired
+//	protected HelperRemote helperRemote;
 	
-	@Autowired
-	@Qualifier("jmsQueueTemplate")
-	private JmsTemplate queueTemplate;
+//	@Autowired
+//	@Qualifier("jmsQueueTemplate")
+//	private JmsTemplate queueTemplate;
 
 	public static final String SESSION_CALLED_TIMES = "SESSION_CALLED_TIMES";
 
@@ -54,26 +54,26 @@ public abstract class BaseService implements Serializable{
 	
 	private static final String QUEUENAME = "com.xxl.queue";
 
-	public void sendToQueue(java.io.Serializable obj,SessionUserBean user, Integer subQueueID)
-			throws Exception {
-		logger.debug("sendToQueue: " + obj.toString());
-		try {
-			final SemMessageObject messageObject = new SemMessageObject(user, obj,
-					subQueueID);
-			
-			queueTemplate.send(QUEUENAME, new MessageCreator() {
-				@Override
-				public Message createMessage(javax.jms.Session session) throws JMSException {
-					// TODO Auto-generated method stub
-					return session.createObjectMessage(messageObject);
-				}
-			});  
-			logger.debug("Finished sending mnessage to queue");
-		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(), e);
-			throw e;
-		}
-	}
+//	public void sendToQueue(java.io.Serializable obj,SessionUserBean user, Integer subQueueID)
+//			throws Exception {
+//		logger.debug("sendToQueue: " + obj.toString());
+//		try {
+//			final SemMessageObject messageObject = new SemMessageObject(user, obj,
+//					subQueueID);
+//			
+//			queueTemplate.send(QUEUENAME, new MessageCreator() {
+//				@Override
+//				public Message createMessage(javax.jms.Session session) throws JMSException {
+//					// TODO Auto-generated method stub
+//					return session.createObjectMessage(messageObject);
+//				}
+//			});  
+//			logger.debug("Finished sending mnessage to queue");
+//		} catch (Exception e) {
+//			logger.error(e.getLocalizedMessage(), e);
+//			throw e;
+//		}
+//	}
 //
 //	public Document invokeXmlServices(Integer serviceId, String argments)
 //			throws CommonException, BaseBusinessException {
@@ -180,29 +180,29 @@ public abstract class BaseService implements Serializable{
 //		SemAppUtils.sendAppBroadcast(title, message);
 //	}
 
-	protected Properties getProperties() {
-		Properties properties = null;
-		try {
-		
-			properties = helperRemote.getProperties();
-
-		} catch (Exception e) {
-			doException("创建Helper对象失败", e);
-		}
-		return properties;
-	}
-
-	public String getProperty(String name) {
-		String property = null;
-		try {
-			
-			property = helperRemote.getProperty(name);
-
-		} catch (Exception e) {
-			doException("创建Helper对象失败", e);
-		}
-		return property;
-	}
+//	protected Properties getProperties() {
+//		Properties properties = null;
+//		try {
+//		
+//			properties = helperRemote.getProperties();
+//
+//		} catch (Exception e) {
+//			doException("创建Helper对象失败", e);
+//		}
+//		return properties;
+//	}
+//
+//	public String getProperty(String name) {
+//		String property = null;
+//		try {
+//			
+//			property = helperRemote.getProperty(name);
+//
+//		} catch (Exception e) {
+//			doException("创建Helper对象失败", e);
+//		}
+//		return property;
+//	}
 
 	protected void doException(String errorMsg, Exception e)
 			throws CommonException {

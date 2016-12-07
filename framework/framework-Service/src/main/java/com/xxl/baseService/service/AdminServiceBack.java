@@ -1238,7 +1238,7 @@ public class AdminServiceBack extends BaseService implements AdminRemote{
 				String image=organise.getRegion();
 				//if(!image.startsWith("http")){
 				
-				String fullImage=this.getProperty("FILESERVER_URL")+image;
+				String fullImage=helperRemote.getProperty("FILESERVER_URL")+image;
 				logger.debug("fullImage="+fullImage);
 				organise.setRegion(fullImage);
 				//}
