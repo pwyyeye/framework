@@ -29,8 +29,8 @@ import org.springframework.stereotype.Repository;
 import com.xxl.baseService.dao.IFrameworkDao;
 import com.xxl.bussiness.NewEofficeDB;
 
-import common.bussiness.CommException;
 import common.dao.impl.BaseDAOImpl;
+import common.exception.CommException;
 import common.os.vo.DepartmentVO;
 import common.os.vo.UsersVO;
 import common.utils.SemAppUtils;

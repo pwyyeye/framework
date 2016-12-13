@@ -72,27 +72,6 @@ public class LogonImpl implements SemLogonInterface{
 		return true;
 	}
 
-	private InitialContext initContext() throws NamingException{
-//		 String url=(String) servlet.getServletConfig()
-//		.getInitParameter("ejbServer");
-//		 if(url!=null){
-//			String weblogicuser = null;
-//			String password = null;
-//			Properties properties = null;
-//			properties = new Properties();
-//			properties.put(Context.INITIAL_CONTEXT_FACTORY,
-//					"weblogic.jndi.WLInitialContextFactory");
-//			properties.put(Context.PROVIDER_URL, url);
-//			if (weblogicuser != null) {
-//				properties.put(Context.SECURITY_PRINCIPAL, weblogicuser);
-//				properties.put(Context.SECURITY_CREDENTIALS,
-//						password == null ? "" : password);
-//			}
-//			return new InitialContext(properties);
-//		 }else{
-			 return new InitialContext();
-//		 }
-	}
 
 	public boolean performLogon(UsersVO user, HttpServletRequest request) {
 		return performLogon(user,request,null);

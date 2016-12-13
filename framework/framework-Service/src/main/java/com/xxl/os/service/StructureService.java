@@ -23,6 +23,7 @@ import com.xxl.baseService.bo.SystemProperties;
 import com.xxl.baseService.bo.UserProperties;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
+import com.xxl.facade.JMSTaskRemote;
 import com.xxl.facade.StructureRemote;
 import com.xxl.os.bo.EiaOnline;
 import com.xxl.os.bo.SyDepartment;
@@ -80,6 +81,10 @@ public class StructureService extends BaseService implements StructureRemote {
 	
 	@Autowired
 	CommonRemote commonRemote;
+	
+	@Autowired
+	JMSTaskRemote jmsTaskRemote;
+	
 	
 	@Autowired
 	UserPropertiesDAO userPropertiesDAO;
@@ -1122,21 +1127,6 @@ public class StructureService extends BaseService implements StructureRemote {
 		return null;
 	}
 
-	// 调用启动接口发送短信验证码然后把验证码跟手机绑定在一个地方
-	public void sendMessageByMobile(String destMobile, String content)
-			throws BaseException, BaseBusinessException {
-		try {
-			String[] contents = new String[1];
-			contents[0] = content;
-			commonRemote.sendMessageByMobile(destMobile, contents);
-
-		} catch (Exception e) {
-			logger.error("发送验证码失败", e);
-			this.handleException(e);
-			// throw new LieyuException("发送验证码失败", e);
-		}
-	}
-
 	public String getCaptchas(String mobile, final SessionUserBean user)
 			throws Exception {
 		// 看是否异步发送短信
@@ -1153,7 +1143,7 @@ public class StructureService extends BaseService implements StructureRemote {
 			contents[0] = content;
 			// 放队列中，发送短信验证码
 			if (modelmes != null && modelmes.equals("0")) {
-				commonRemote.sendMessageByMobile(mobile, contents);
+				jmsTaskRemote.sendMessageByMobile(mobile, contents);
 				// return vcode;
 			}
 

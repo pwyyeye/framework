@@ -6,12 +6,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import common.bussiness.Department;
+import common.bussiness.Message;
 import common.bussiness.User;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.os.vo.OrganiseVO;
 import common.os.vo.UsersVO;
 import common.value.MailMessage;
+import common.value.MobileMessage;
 import common.web.bean.SessionUserBean;
 
 public interface  CommonRemote {
@@ -19,7 +21,6 @@ public interface  CommonRemote {
 	public User verifyUser(String loginid, String password)
 			throws BaseException;
 	
-//
 	public User getDeptTopDirector(String deptID) throws Exception,
 			RemoteException;
 
@@ -33,7 +34,6 @@ public interface  CommonRemote {
 
 	public User getUserInfo(String empID) throws Exception;
 
-
 	public UsersVO verifyUsersVO(String loginid, String password)
 			throws BaseException;
 
@@ -46,31 +46,7 @@ public interface  CommonRemote {
 	public UsersVO getEofficeLoginUserVO(String openId)
 	 throws BaseException, BaseBusinessException, RemoteException;
 
-	public UsersVO getEofficeLoginUserByEmpID(Integer empID, String ip)
-			throws Exception;
-
-	public User getEofficeLoginUserByEmpID(String empID, String ip)
-			throws Exception;
-
-	public String sendMessageByOA(String content, String sendUser,
-			String[] receiveUsers, String type) throws Exception;
-
-	public String sendMessageByMail(String to, String cc, String subject,
-			String text, String from, String host) throws Exception;
-
-	public String sendMessageByMail(String[] to, String[] cc, String subject,
-			String text, String from, String host) throws Exception;
-
-	public void sendMessageByMobile(String destMobile, String[] content)
-			throws BaseException, BaseBusinessException;
-
-//	public void sendMessageByMobile(MobileMessage mobileMessage)
-//			throws Exception;
-
 	public List getUserOfDept(String deptID) throws Exception;
-
-//	public String publishMessage(Message message) throws Exception,
-//			RemoteException;
 
 	public String getUserToken(Integer empID) throws Exception;
 
@@ -89,15 +65,7 @@ public interface  CommonRemote {
 
 	public void logonOASystem(String empID, String ip) throws Exception;
 
-	public String sendMessageByMail(String[] to, String[] cc, String subject,
-			String text, String from, String host, String[] attachFile)
-			throws Exception;
-
-	public String sendMessageByMail(MailMessage message) throws Exception,
-			RemoteException;
-
-	public void sendMail(MailMessage message) throws Exception,
-			RemoteException;
+	
 
 	public Integer registerUser(String username, String password)
 			throws BaseException, BaseBusinessException;
@@ -120,10 +88,6 @@ public interface  CommonRemote {
 
 	public String decrytor(String data, String key) throws BaseException,
 			BaseBusinessException;
-	
-	
-	public void sendMessageByMobile(String destMobile, String[] message,
-			String customSenderId) throws BaseException, BaseBusinessException;
 
 	public Integer addOrganise(OrganiseVO vo) throws BaseException,
 			BaseBusinessException;
@@ -134,9 +98,6 @@ public interface  CommonRemote {
 	public void changeName(String username, String nick, String icon,
 			String sex, Calendar birthday) throws BaseException,
 			BaseBusinessException;
-
-//	public Integer addFriend(FriendsVO vo) throws BaseException,
-//			BaseBusinessException;
 
 //	public void sendAppPushMessage(Integer type, String users, String title,
 //			String message,Integer bzId) throws BaseException ;

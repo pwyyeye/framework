@@ -165,9 +165,6 @@ public interface StructureRemote {
 	public String getCaptchas(String mobile, final SessionUserBean user)
 			throws Exception;
 
-	public void sendMessageByMobile(String destMobile, String content)
-			throws BaseException, BaseBusinessException, RemoteException;
-
 //	public Integer registerUser(final LyuserVO vo, final String captchas)
 //			throws Exception;
 //

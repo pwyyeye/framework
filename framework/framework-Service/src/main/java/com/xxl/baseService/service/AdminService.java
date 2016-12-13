@@ -2041,8 +2041,6 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getFavorites(Integer systemID, Integer empID,
 			Integer firstResult, Integer fetchSize) throws BaseException {
 		try {
-			//hibernateSession = HibernateUtil.currentSession();
-			//Criteria criteria = hibernateSession.createCriteria(Favorite.class);
 			DetachedCriteria criteria = DetachedCriteria.forClass(Favorite.class);
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();

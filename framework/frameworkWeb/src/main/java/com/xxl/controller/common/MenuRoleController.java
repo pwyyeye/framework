@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import common.controller.BaseController;
+import common.utils.SemAppUtils;
 import common.value.MenuRoleVO;
 import common.value.PageList;
 import common.web.utils.SemWebAppUtils;
@@ -40,6 +41,7 @@ public class MenuRoleController extends BaseController {
 //					null, new Integer(theForm.getRoleID()),null, new Integer(
 //							theForm.getMenuID()),theForm.getRightCode());
 			vo.setOrganise(this.getSessionUser(request).getOrganise().getId());
+			vo.setRightCode(getRightCode(request));
 			Integer roleID = adminRemote.addMenuRole(vo);
 			response.getWriter().write("{success:true,id:" + roleID + "}");
 		} catch (Exception ee) {
@@ -125,7 +127,7 @@ public class MenuRoleController extends BaseController {
 //			MenuRoleVO vo = new MenuRoleVO(new Integer(id), null, null, null,
 //					new Integer(theForm.getRoleID()), null, new Integer(theForm
 //							.getMenuID()), theForm.getRightCode());
-			
+			vo.setRightCode(getRightCode(request));
 			adminRemote.updateMenuRole(vo);
 			response.getWriter().write("{success:true,id:" + id + "}");
 		} catch (Exception ee) {
@@ -169,4 +171,36 @@ public class MenuRoleController extends BaseController {
 		return "menuRole";
 	}
 
+	
+	public String getRightCode(HttpServletRequest request) {
+		StringBuffer rightCodeSB=new StringBuffer();
+		if((SemAppUtils.isNotEmpty(request.getParameter("addRight")))){
+			rightCodeSB.append(request.getParameter("addRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("listRight"))){
+			rightCodeSB.append(request.getParameter("listRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("updateRight"))){
+			rightCodeSB.append(request.getParameter("updateRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("deleteRight"))){
+			rightCodeSB.append(request.getParameter("deleteRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("exportRight"))){
+			rightCodeSB.append(request.getParameter("exportRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("importRight"))){
+			rightCodeSB.append(request.getParameter("importRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("customRight"))){
+			rightCodeSB.append(request.getParameter("customRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("deleteAllRight"))){
+			rightCodeSB.append(request.getParameter("deleteAllRight"));
+		}
+		if(SemAppUtils.isNotEmpty(request.getParameter("otherRightCode"))){
+			rightCodeSB.append(request.getParameter("otherRightCode"));		
+		}
+		return new String(rightCodeSB);
+	}
 }

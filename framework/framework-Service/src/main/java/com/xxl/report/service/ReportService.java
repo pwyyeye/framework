@@ -24,8 +24,9 @@ import com.xxl.baseService.bo.ReportSchedule;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
 import com.xxl.facade.ReportRemote;
+
 import common.businessObject.ItModule;
-import common.bussiness.CommException;
+import common.exception.CommException;
 import common.exception.CommonException;
 import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;

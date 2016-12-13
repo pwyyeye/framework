@@ -1,4 +1,4 @@
-package common.bussiness;
+package common.exception;
 
 import java.io.Serializable;
 

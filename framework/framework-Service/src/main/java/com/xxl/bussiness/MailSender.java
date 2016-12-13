@@ -18,7 +18,7 @@ import javax.mail.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import common.bussiness.CommException;
+import common.exception.CommException;
 import common.utils.SemAppUtils;
 import common.value.MailMessage;
 
@@ -42,6 +42,9 @@ public class MailSender {
 	public Log logger = LogFactory.getLog(this.getClass());
 
 	public static MailSender getTheInstance() {
+		if (theInstance == null) {
+			theInstance = new MailSender();
+		}
 		return theInstance;
 	}
 
@@ -58,22 +61,24 @@ public class MailSender {
 	public MailSender() {
 		try {
 			InitialContext ic = new InitialContext();
-			user = SemAppUtils.getProperty("smtp.mail.user");
-			password = SemAppUtils.getProperty("smtp.mail.password");
-			mailHost = SemAppUtils.getProperty("smtp.mail.Host");
-			mailFrom = SemAppUtils.getProperty("smtp.mail.from");
-			mailPort = SemAppUtils.getProperty("smtp.mail.port");
-			mailProtocol = SemAppUtils.getProperty("smtp.mail.protocol");
-			attachPath = SemAppUtils.getProperty("smtp.mail.attachPath");
-			File file = new File(attachPath);
-			if (!file.exists())
-				file.mkdir();
-			// user = "semit";
-			// password = "Sys123!";
-			// mailHost = "172.16.1.111";
-			// mailFrom = "semit@soueast-motor.com";
-			// mailPort = "25";
-			// mailProtocol = "SMTP";
+//			user = SemAppUtils.getProperty("smtp.mail.user");
+//			password = SemAppUtils.getProperty("smtp.mail.password");
+//			mailHost = SemAppUtils.getProperty("smtp.mail.Host");
+//			mailFrom = SemAppUtils.getProperty("smtp.mail.from");
+//			mailPort = SemAppUtils.getProperty("smtp.mail.port");
+//			mailProtocol = SemAppUtils.getProperty("smtp.mail.protocol");
+//			attachPath = SemAppUtils.getProperty("smtp.mail.attachPath");
+			if(attachPath!=null){
+				File file = new File(attachPath);
+				if (!file.exists())
+					file.mkdir();
+			}
+			 user = "linyaoetk@163.com";
+			 password = "linyao01";
+			 mailHost = "smtp.163.com";
+			 mailFrom = "linyaoetk@163.com";
+			 mailPort = "25";
+			 mailProtocol = "SMTP";
 		} catch (Exception ex) {
 			logger.error("初始化MailSender失败", ex);
 		}

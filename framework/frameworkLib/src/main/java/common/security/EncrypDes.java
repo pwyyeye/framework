@@ -1,4 +1,4 @@
-package common.bussiness;
+package common.security;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

@@ -30,10 +30,11 @@ public class QueueReceiver  implements MessageListener {
 	private ReportRemote reportRemote;
 
 //	private TaskRemote taskRemote;
-
+	@Autowired
 	private JMSTaskRemote jMSTaskRemote;
 
 	public void onMessage(Message msg) {
+		System.out.println("-------------pass--------------");
 		ObjectMessage message = (javax.jms.ObjectMessage) msg;
 		SemMessageObject messageObject = null;
 		try {
@@ -43,12 +44,13 @@ public class QueueReceiver  implements MessageListener {
 		}
 		int subQueue = messageObject.getSubQueueID().intValue();
 		logger.debug("subQUEQUE=[" + subQueue + "]");
+		System.out.println("subQUEQUE=[" + subQueue + "]");
 		switch (subQueue) {
 		case SemAppConstants.MAIL_QUEUE: {
 			try {
 				MailMessage mailMessage = (MailMessage) messageObject
 						.getContentObj();
-				commonRemote.sendMessageByMail(mailMessage);
+				jMSTaskRemote.sendMessageByMail(mailMessage);
 			} catch (Exception e) {
 				logger.error("异步发送邮件失败", e);
 			}

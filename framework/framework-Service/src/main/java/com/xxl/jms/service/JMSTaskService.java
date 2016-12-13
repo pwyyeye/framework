@@ -2,7 +2,6 @@ package com.xxl.jms.service;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -13,21 +12,18 @@ import javax.jms.Message;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
-import com.xxl.HibernateUtil;
+import com.xxl.bussiness.MailSender;
+import com.xxl.bussiness.MessageObservable;
 import com.xxl.facade.JMSTaskRemote;
 import com.xxl.jms.bo.JMSTask;
 import com.xxl.jms.bo.UserPush;
@@ -35,10 +31,11 @@ import com.xxl.jms.bo.UserPushLog;
 import com.xxl.jms.bo.UserPushType;
 import com.xxl.jms.dao.UserPushDAO;
 import com.xxl.jms.dao.UserPushLogDAO;
+
 import common.businessObject.ItModule;
-import common.bussiness.CommException;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
+import common.exception.CommException;
 import common.exception.CommonException;
 import common.jms.vo.JMSTaskVO;
 import common.jms.vo.UserPushLogVO;
@@ -49,6 +46,7 @@ import common.service.BaseService;
 import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;
 import common.value.MailMessage;
+import common.value.MobileMessage;
 import common.value.PageList;
 import common.value.PageMap;
 import common.value.PushMessage;
@@ -73,6 +71,10 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 	@Autowired
 	private UserPushLogDAO userPushLogDAO;
 	
+	
+	// for mobile message
+	private String smsSenderId;
+
 	 /** 
      * 发送一条消息到指定的队列（目标） 
      * @param queueName 队列名称 
@@ -98,19 +100,6 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 		logger.debug("start send app message end");
 	}
 	
-    public void sendMail(MailMessage message) throws CommException {
-		logger.debug("start send mail");
-		SemMessageObject messageObject = new SemMessageObject(null, message,
-				new Integer(SemAppConstants.MAIL_QUEUE));
-		try {
-			this.send("com.xxl.queue", messageObject);
-		} catch (JMSException e) {
-			logger.error("后台发送邮件失败", e);
-			throw new CommException(e);
-		}
-		logger.debug("start send mail end");
-	}
-
 	
 	public PageList getJMSTaskList(Integer systemID, JMSTaskVO searchVO,
 			Integer firstResult, Integer fetchSize) throws CommonException {
@@ -532,5 +521,106 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 
 	private boolean isSystemModule(int systemID) {
 		return systemID == 0 || systemID == SemAppConstants.COMMON_MODULE_ID;
+	}
+	
+	/**------------------------------------发送邮件 短信--------------------------------------------*/
+	
+	
+	public String sendMessageByMail(String to, String cc, String subject,
+			String text, String from, String host) throws CommException {
+		logger.debug("send mail from Service:to" + to);
+		MailMessage message = new MailMessage(new String[] { to },
+				new String[] { cc }, subject, text, from, host, null);
+		this.sendMail(message);
+		logger.debug("send mail end from Service:to" + to);
+		return null;
+	}
+
+	public String sendMessageByMail(String[] to, String[] cc, String subject,
+			String text, String from, String host) throws CommException {
+		logger.debug("send mail from Service:to" + to);
+		MailMessage message = new MailMessage(to, cc, subject, text, from,
+				host, null);
+		this.sendMail(message);
+		logger.debug("send mail end from Service:to" + to);
+		return null;
+	}
+
+	public String sendMessageByMail(String[] to, String[] cc, String subject,
+			String text, String from, String host, String[] attachFile)
+			throws CommException {
+		logger.debug("send mail from Service:to" + to);
+		// MailSender sender = MailSender.getTheInstance();
+		// sender.sendMail(to, cc, subject, text, from, host,attachFile);
+		MailMessage message = new MailMessage(to, cc, subject, text, from,
+				host, attachFile);
+		this.sendMail(message);
+		logger.debug("send mail end from Service:to" + to);
+		return null;
+	}
+
+	public void sendMessageByMail(MailMessage message) throws CommException {
+		MailSender sender = MailSender.getTheInstance();
+		sender.sendMail(message);
+	}
+
+	
+	public void sendMail(MailMessage message) throws CommException {
+		logger.debug("start send mail");
+		SemMessageObject messageObject = new SemMessageObject(null, message,
+				new Integer(SemAppConstants.MAIL_QUEUE));
+		try {
+			this.send("com.xxl.queue", messageObject);
+		} catch (JMSException e) {
+			logger.error("后台发送邮件失败", e);
+			throw new CommException(e);
+		}
+		logger.debug("start send mail end");
+	}
+
+	
+	public String publishMessage(common.bussiness.Message message) throws CommException {
+		logger.debug("publist message,messageID:[" + message.getType() + "]");
+		MessageObservable obserable = new MessageObservable();
+		obserable.sendMessage(message);
+		return "0";
+	}
+
+	public void sendMessageByMobile(MobileMessage message) throws CommException {
+//		try {
+//			MobileDB.init();
+//			MobileDB sender = MobileDB.getTheInstance();
+//			sender
+//					.sentMobileMsg(message.getDestMobiles(), message
+//							.getContent());
+//		} catch (NamingException ex) {
+//			throw new CommException(ex);
+//		} catch (SQLException ex) {
+//			throw new CommException(ex);
+//		} finally {
+//			MobileDB.end();
+//		}
+	}
+
+	public void sendMessageByMobile(String destMobile, String[] message)
+			throws BaseException, BaseBusinessException {
+		this.sendMessageByMobile(destMobile, message, smsSenderId);
+	}
+
+	public void sendMessageByMobile(String destMobile, String[] message,
+			String customSenderId) throws BaseException, BaseBusinessException {
+		if (SemAppUtils.isEmpty(destMobile)) {
+			throw new BaseBusinessException("电话号码不存在或短信内容为空");
+		}
+//		HashMap result = null;
+//		CCPRestSmsSDK restAPI = new CCPRestSmsSDK();
+//		restAPI.init(smsUrl, smsPort);
+//		restAPI.setAccount(smsUsername, smsPassword);
+//		restAPI.setAppId(smsAppId);
+//		result = restAPI.sendTemplateSMS(destMobile, customSenderId, message);
+//		logger.info("SDKTestGetSubAccounts result=" + result);
+//		if (!"000000".equals(result.get("statusCode")))
+//			throw new BaseException("错误码=" + result.get("statusCode")
+//					+ " 错误信息= " + result.get("statusMsg"));
 	}
 }

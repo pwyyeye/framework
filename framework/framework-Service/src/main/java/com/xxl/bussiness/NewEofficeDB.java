@@ -12,7 +12,7 @@ import oracle.jdbc.driver.OracleTypes;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import common.bussiness.CommException;
+import common.exception.CommException;
 import common.os.vo.DepartmentVO;
 import common.os.vo.UsersVO;
 import common.utils.SemAppUtils;
@@ -584,62 +584,7 @@ public class NewEofficeDB {
 		return returnId;
 	}
 
-	public int sendMessageByOA(String content, String sendUser,
-			String[] receiveUsers, String type) throws CommException {
-		int returnId = -1;
-		float transcatID = -1;
-		try {
-			conn = ds.getConnection();
-			stmt = conn.createStatement();
-
-			CallableStatement statement = conn
-					.prepareCall("{call PACK_API.API_SEND_MESSAGE(?,?,?,?,?)}");
-			statement.registerOutParameter(1, Types.FLOAT);
-			statement.setString(2, content);
-			statement.setString(3, sendUser);
-			statement.setString(4, type);
-			statement.setInt(5, 99); // 99��ʾ4Դ���ⲿ�ӿڵ���
-			statement.execute();
-			ResultSet set = statement.getResultSet();
-			// �������ID��
-			transcatID = statement.getInt(1);
-			returnId = 0;
-			for (int i = 0; receiveUsers != null && i < receiveUsers.length; i++) {
-				statement = conn
-						.prepareCall("{call PACK_API.API_MESSAGE_RECEIVE(?,?,?,?)}");
-				statement.registerOutParameter(1, Types.FLOAT);
-				statement.setFloat(2, transcatID);
-				statement.setString(3, receiveUsers[i]);
-				statement.setString(4, type);
-				returnId++;
-				statement.execute();
-			}
-
-		} catch (SQLException ex2) {
-			logger.error("数据库操作失败", ex2);
-			throw new CommException("数据库操作失败");
-		} catch (Exception ex2) {
-			logger.error("数据库操作失败", ex2);
-			throw new CommException("数据库操作失败");
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException ex1) {
-				logger.error("数据库操作失败", ex1);
-				throw new CommException("数据库操作失败");
-			}
-		}
-		return returnId;
-	}
-
+	
 	private UsersVO getUserFromResultSet(ResultSet rs) throws Exception {
 
 		UsersVO user = new UsersVO();
@@ -676,47 +621,6 @@ public class NewEofficeDB {
 		return user;
 	}
 
-	public Integer sendQgateInfoToOA(String title, String dpnoNo,
-			String itemNo, String userCode, String strType) throws Exception {
-		logger.info("here come in Send");
-		try {
-			conn = ds.getConnection();
-			stmt = conn.createStatement();
-			String sql = "{call EOFFICE.p_qgate(?,?,?,?,?,?,?,?)}";
-			CallableStatement cs = conn.prepareCall(sql);
-			logger.debug(dpnoNo + "--" + itemNo + "--" + userCode);
-			cs.setString(1, title);
-			cs.setString(2, formatEmpID(userCode));
-			cs.setString(3, dpnoNo);
-			cs.setString(4, strType);
-			cs.setString(5, itemNo);
-			cs.registerOutParameter(6, Types.INTEGER);
-			cs.registerOutParameter(7, Types.VARCHAR);
-			cs.registerOutParameter(8, Types.VARCHAR);
-			cs.execute();
-			logger.info("sendQgateInfoToOA done");
-			Integer sErrorCode = new Integer(cs.getInt(6));
-			return sErrorCode;
-		} catch (Exception e) {
-			logger.error("sendQgateInfoToOA error!", e);
-			throw e;
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (stmt != null) {
-					stmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException ex1) {
-				logger.error("数据库操作失败", ex1);
-				throw new CommException("数据库操作失败");
-			}
-		}
-	}
 
 	private String formatEmpID(String empID) {
 		return (empID.length() == 5) ? "0" + empID : empID;

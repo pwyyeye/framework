@@ -2,6 +2,7 @@ package com.xxl.facade;
 
 import java.rmi.RemoteException;
 
+import common.bussiness.Message;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.exception.CommonException;
@@ -10,6 +11,8 @@ import common.jms.vo.UserPushLogVO;
 import common.jms.vo.UserPushVO;
 import common.os.vo.exception.OSBussinessException;
 import common.os.vo.exception.OSException;
+import common.value.MailMessage;
+import common.value.MobileMessage;
 import common.value.PageList;
 import common.value.PageMap;
 
@@ -70,4 +73,34 @@ public interface JMSTaskRemote{
 
 	public PageMap getUnReadPush(Integer userId) throws BaseException,
 			BaseBusinessException, RemoteException;
+	
+	
+	public String sendMessageByMail(String to, String cc, String subject,
+			String text, String from, String host) throws Exception;
+
+	public String sendMessageByMail(String[] to, String[] cc, String subject,
+			String text, String from, String host) throws Exception;
+	
+	public String sendMessageByMail(String[] to, String[] cc, String subject,
+			String text, String from, String host, String[] attachFile)
+			throws Exception;
+
+	public void sendMessageByMail(MailMessage message) throws Exception,
+			RemoteException;
+
+	public void sendMail(MailMessage message) throws Exception,
+			RemoteException;
+	
+	public String publishMessage(Message message) throws Exception,
+			RemoteException;
+	
+	public void sendMessageByMobile(String destMobile, String[] content)
+			throws BaseException, BaseBusinessException;
+
+	public void sendMessageByMobile(MobileMessage mobileMessage)
+			throws Exception;
+	
+	public void sendMessageByMobile(String destMobile, String[] message,
+			String customSenderId) throws BaseException, BaseBusinessException;
+	
 }

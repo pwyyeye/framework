@@ -8,11 +8,14 @@ import java.util.Map;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.xxl.bussiness.MailSender;
 import com.xxl.task.service.XxlGenericService;
 import com.xxl.temp.service.TempService;
 
+import common.exception.CommException;
 import common.os.vo.UsersVO;
 import common.utils.SpringUtils;
+import common.value.MailMessage;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -99,24 +102,26 @@ public class AppTest
     }
     
     
+    public void testMail(){
+    	
+    	MailSender sender=MailSender.getTheInstance();
+    	System.out.println(sender);
+    	String[] to={"316000177@qq.com"};
+    	MailMessage message=new MailMessage(to, null, "测试", "这是一封测试邮件！", null, null, null) ;
+    	try {
+			sender.sendMail(message);
+		} catch (CommException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    			
+    	
+    }
     
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     private String getReqPage(String filename) {
 		if (filename == null)
 			return null;
