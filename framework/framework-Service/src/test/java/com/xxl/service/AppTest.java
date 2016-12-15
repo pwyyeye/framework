@@ -107,7 +107,7 @@ public class AppTest
     	MailSender sender=MailSender.getTheInstance();
     	System.out.println(sender);
     	String[] to={"316000177@qq.com"};
-    	MailMessage message=new MailMessage(to, null, "测试", "这是一封测试邮件！", null, null, null) ;
+    	MailMessage message=new MailMessage(to, null, "??????", "???????????????????????????", null, null, null) ;
     	try {
 			sender.sendMail(message);
 		} catch (CommException e) {
@@ -130,7 +130,7 @@ public class AppTest
 		if (i < 0 || i > filename.length() - 1) {
 			return "";
 		}else if(i == (filename.length() - 1)){
-			//情况二
+			//?????????
 			String temp="";
 			temp= filename.substring(0, i-1);
 			filename=filename.substring(temp.lastIndexOf("/")+1, i);
@@ -138,9 +138,9 @@ public class AppTest
 		}
 		
 		/**
-			例如：filename =  情况1、"/frameworkWeb/loginController/home";
-							情况2、/frameworkWeb/loginController/
-							情况3、/frameworkWeb/loginController/login.do
+			?????????filename =  ??????1???"/frameworkWeb/loginController/home";
+							??????2???/frameworkWeb/loginController/
+							??????3???/frameworkWeb/loginController/login.do
 			
 		*/
 		

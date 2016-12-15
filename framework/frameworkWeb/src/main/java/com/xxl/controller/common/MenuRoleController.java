@@ -45,7 +45,7 @@ public class MenuRoleController extends BaseController {
 			Integer roleID = adminRemote.addMenuRole(vo);
 			response.getWriter().write("{success:true,id:" + roleID + "}");
 		} catch (Exception ee) {
-			logger.error("业务逻辑层异常", ee);
+			logger.error("?????????????????????", ee);
 			try {
 				response.getWriter().write("{success:false}");
 			} catch (IOException e) {
@@ -62,7 +62,7 @@ public class MenuRoleController extends BaseController {
         String roleID=request.getParameter("roleID");
         String menuID=request.getParameter("menuID");
     	String organise = request.getParameter("organise");
-		// 处理检索条件
+		// ??????????????????
 		boolean filter = false;
 		MenuRoleVO vo = new MenuRoleVO();
 		if (SemWebAppUtils.isNotEmpty(moduleStr)) {
@@ -90,7 +90,7 @@ public class MenuRoleController extends BaseController {
 			start = Integer.parseInt(startStr);
 			limit = Integer.parseInt(limitStr);
 		} catch (Exception ee) {
-			logger.error("格式转换失败",ee);
+			logger.error("??????????????????",ee);
 			start = 0;
 			limit = 0;
 		}
@@ -113,7 +113,7 @@ public class MenuRoleController extends BaseController {
 			String json = SemWebAppUtils.getJsonFromBean(mrList);
 			response.getWriter().write(json);
 		} catch (Exception ee) {
-			logger.error("业务逻辑层异常", ee);
+			logger.error("?????????????????????", ee);
 		}
 	}
 	@RequestMapping("/update")
@@ -135,7 +135,7 @@ public class MenuRoleController extends BaseController {
 				response.getWriter().write("{success:false}");
 			} catch (IOException e) {
 			}
-			logger.error("业务逻辑层异常", ee);
+			logger.error("?????????????????????", ee);
 		}
 	}
 	@RequestMapping("/delete")
@@ -151,7 +151,7 @@ public class MenuRoleController extends BaseController {
 			}
 			response.getWriter().write("{success:true}");
 		} catch (Exception ee) {
-			logger.error("业务逻辑层异常", ee);
+			logger.error("?????????????????????", ee);
 			try {
 				response.getWriter().write("{success:false}");
 			} catch (IOException e) {
@@ -166,7 +166,7 @@ public class MenuRoleController extends BaseController {
 			List moduleList = adminRemote.getSystemList(getSessionModuleID(request));
 			request.setAttribute("module_list", moduleList);
 		} catch (Exception ee) {
-			logger.error("业务逻辑层异常", ee);
+			logger.error("?????????????????????", ee);
 		}
 		return "menuRole";
 	}

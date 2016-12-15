@@ -40,7 +40,7 @@ public class QueueReceiver  implements MessageListener {
 		try {
 			messageObject = (SemMessageObject) message.getObject();
 		} catch (JMSException e1) {
-			logger.error("Message处理失败", e1);
+			logger.error("Message????????????", e1);
 		}
 		int subQueue = messageObject.getSubQueueID().intValue();
 		logger.debug("subQUEQUE=[" + subQueue + "]");
@@ -52,7 +52,7 @@ public class QueueReceiver  implements MessageListener {
 						.getContentObj();
 				jMSTaskRemote.sendMessageByMail(mailMessage);
 			} catch (Exception e) {
-				logger.error("异步发送邮件失败", e);
+				logger.error("????????????????????????", e);
 			}
 			break;
 		}
@@ -62,7 +62,7 @@ public class QueueReceiver  implements MessageListener {
 						.getContentObj();
 //				taskRemote.excuteTask(reportScheduleID);
 			} catch (Exception e) {
-				logger.error("报表调度失败", e);
+				logger.error("??????????????????", e);
 			}
 			break;
 		}
@@ -72,7 +72,7 @@ public class QueueReceiver  implements MessageListener {
 						.getContentObj();
 //				reportAdmin.scheduleOneReport(reportScheduleID, true);
 			} catch (Exception e) {
-				logger.error("报表调度失败", e);
+				logger.error("??????????????????", e);
 			}
 			break;
 		}
@@ -82,7 +82,7 @@ public class QueueReceiver  implements MessageListener {
 //						.getContentObj();
 //				commonRemote.sendAppPushMessage(pushMessage);
 			} catch (Exception e) {
-				logger.error("报表调度失败", e);
+				logger.error("??????????????????", e);
 			}
 			break;
 		}
