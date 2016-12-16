@@ -34,7 +34,6 @@ public class QueueReceiver  implements MessageListener {
 	private JMSTaskRemote jMSTaskRemote;
 
 	public void onMessage(Message msg) {
-		System.out.println("-------------pass--------------");
 		ObjectMessage message = (javax.jms.ObjectMessage) msg;
 		SemMessageObject messageObject = null;
 		try {
