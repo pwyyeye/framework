@@ -56,17 +56,17 @@ public class LogonImpl implements SemLogonInterface{
 			ItModuleVO module = adminRemote.getSystemByID(moduleID);
 			request.setAttribute(SemWebAppConstants.SESSION_MODULE, module);
 			if (userBean == null) {
-				return false;// 非法用户
+				return false;// ????????????
 			}
 			request.setAttribute(SemWebAppConstants.USER_KEY, userBean);
 
 			
-			CommonLogger log = new CommonLogger((Integer)user.getId(), "01", "以"
-					+ userBean.getRole().getName() + "登录系统", "moduleID="
+			CommonLogger log = new CommonLogger((Integer)user.getId(), "01", "???"
+					+ userBean.getRole().getName() + "????????????", "moduleID="
 					+ moduleID, "");
 			logger.info(log);
 		} catch (Exception e) {
-			logger.error("登录失败", e);
+			logger.error("????????????", e);
 			return false;
 		} 
 		return true;

@@ -145,7 +145,7 @@ public class CommonService implements CommonRemote {
 				logger.debug(SemAppUtils.getJsonFromBean(vo));
 				return vo;
 			} else {
-				throw new CommException("非法用户");
+				throw new CommException("????????????");
 			}
 		} catch (BaseException be) {
 			throw be;
@@ -212,7 +212,7 @@ public class CommonService implements CommonRemote {
 		String rowid = "";
 		String authKey = key;
 		boolean systemAuth = false;
-		// 特殊处理
+		// ????????????
 		try {
 			String systemAuthKey = helperRemote
 					.getProperty("SYSTEM.SSO.AUTHKEY");
@@ -225,7 +225,7 @@ public class CommonService implements CommonRemote {
 				systemAuth = true;
 			}
 		} catch (Exception ee) {
-			logger.error("系统配置错误", ee);
+			logger.error("??????????????????", ee);
 		}
 		try {
 			if (userExternalOS) {
@@ -241,7 +241,7 @@ public class CommonService implements CommonRemote {
 				return vo;
 			}
 		} catch (Exception e) {
-			throw new CommException("获取用户token失败", e);
+			throw new CommException("????????????token??????", e);
 		}
 
 	}
@@ -267,11 +267,11 @@ public class CommonService implements CommonRemote {
 			return adminRemote
 					.getSessionUserBean(theUser, systemID, ip, token);
 		} catch (RemoteException e) {
-			logger.error("调用ADMIN EJB服务失败", e);
-			throw new CommException("调用ADMIN EJB服务失败", e);
+			logger.error("??????ADMIN EJB????????????", e);
+			throw new CommException("??????ADMIN EJB????????????", e);
 		} catch (Exception e) {
-			logger.error("调用ADMIN EJB服务失败", e);
-			throw new CommException("调用ADMIN EJB服务失败", e);
+			logger.error("??????ADMIN EJB????????????", e);
+			throw new CommException("??????ADMIN EJB????????????", e);
 		}
 	}
 
@@ -317,8 +317,8 @@ public class CommonService implements CommonRemote {
 			return null;
 //		} catch (RemoteException e) {
 		} catch (Exception e) {
-			logger.error("调用UDDI EJB服务失败", e);
-			throw new CommonException("调用UDDI EJB服务失败", e);
+			logger.error("??????UDDI EJB????????????", e);
+			throw new CommonException("??????UDDI EJB????????????", e);
 		}
 	}
 
@@ -344,7 +344,7 @@ public class CommonService implements CommonRemote {
 			des = new EncrypDes(secretKey);
 			return des;
 		} catch (Exception e) {
-			logger.error("initDes失败", e);
+			logger.error("initDes??????", e);
 		} 
 		return des;
 	}
@@ -486,8 +486,8 @@ public class CommonService implements CommonRemote {
 		} else if (ee instanceof BaseBusinessException) {
 			throw (BaseBusinessException) ee;
 		} else {
-			logger.error("服务器异常", ee);
-			throw new BaseException("服务器异常", ee);
+			logger.error("???????????????", ee);
+			throw new BaseException("???????????????", ee);
 		}
 	}
 
