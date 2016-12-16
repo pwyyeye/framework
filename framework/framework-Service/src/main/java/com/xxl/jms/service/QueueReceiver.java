@@ -43,7 +43,6 @@ public class QueueReceiver  implements MessageListener {
 		}
 		int subQueue = messageObject.getSubQueueID().intValue();
 		logger.debug("subQUEQUE=[" + subQueue + "]");
-		System.out.println("subQUEQUE=[" + subQueue + "]");
 		switch (subQueue) {
 		case SemAppConstants.MAIL_QUEUE: {
 			try {

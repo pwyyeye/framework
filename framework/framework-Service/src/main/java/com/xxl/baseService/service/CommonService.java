@@ -29,11 +29,12 @@ import common.os.vo.DepartmentVO;
 import common.os.vo.OrganiseVO;
 import common.os.vo.UsersVO;
 import common.security.EncrypDes;
+import common.service.BaseService;
 import common.utils.SemAppUtils;
 import common.web.bean.SessionUserBean;
 
 @Service("commonRemote")
-public class CommonService implements CommonRemote {
+public class CommonService extends BaseService implements CommonRemote {
 
 	public Log logger = LogFactory.getLog(this.getClass());
 
@@ -145,7 +146,7 @@ public class CommonService implements CommonRemote {
 				logger.debug(SemAppUtils.getJsonFromBean(vo));
 				return vo;
 			} else {
-				throw new CommException("????????????");
+				throw new CommException("非法用户");
 			}
 		} catch (BaseException be) {
 			throw be;
@@ -212,7 +213,7 @@ public class CommonService implements CommonRemote {
 		String rowid = "";
 		String authKey = key;
 		boolean systemAuth = false;
-		// ????????????
+		//  特殊处理
 		try {
 			String systemAuthKey = helperRemote
 					.getProperty("SYSTEM.SSO.AUTHKEY");
@@ -225,7 +226,7 @@ public class CommonService implements CommonRemote {
 				systemAuth = true;
 			}
 		} catch (Exception ee) {
-			logger.error("??????????????????", ee);
+			logger.error("系统配置错误", ee);
 		}
 		try {
 			if (userExternalOS) {
@@ -241,7 +242,7 @@ public class CommonService implements CommonRemote {
 				return vo;
 			}
 		} catch (Exception e) {
-			throw new CommException("????????????token??????", e);
+			throw new CommException("获取用户token失败", e);
 		}
 
 	}
@@ -267,11 +268,11 @@ public class CommonService implements CommonRemote {
 			return adminRemote
 					.getSessionUserBean(theUser, systemID, ip, token);
 		} catch (RemoteException e) {
-			logger.error("??????ADMIN EJB????????????", e);
-			throw new CommException("??????ADMIN EJB????????????", e);
+			logger.error("调用ADMIN EJB服务失败", e);
+			throw new CommException("调用ADMIN EJB服务失败", e);
 		} catch (Exception e) {
-			logger.error("??????ADMIN EJB????????????", e);
-			throw new CommException("??????ADMIN EJB????????????", e);
+			logger.error("调用ADMIN EJB服务失败", e);
+			throw new CommException("调用ADMIN EJB服务失败", e);
 		}
 	}
 
@@ -317,8 +318,8 @@ public class CommonService implements CommonRemote {
 			return null;
 //		} catch (RemoteException e) {
 		} catch (Exception e) {
-			logger.error("??????UDDI EJB????????????", e);
-			throw new CommonException("??????UDDI EJB????????????", e);
+			logger.error("调用UDDI EJB服务失败", e);
+			throw new CommonException("调用UDDI EJB服务失败", e);
 		}
 	}
 
@@ -344,7 +345,7 @@ public class CommonService implements CommonRemote {
 			des = new EncrypDes(secretKey);
 			return des;
 		} catch (Exception e) {
-			logger.error("initDes??????", e);
+			logger.error("initDes失败", e);
 		} 
 		return des;
 	}
@@ -478,18 +479,6 @@ public class CommonService implements CommonRemote {
 		}
 	}
 
-	public void handleException(Exception ee) throws BaseException,
-			BaseBusinessException {
-		if (ee instanceof BaseException) {
-			logger.error(((BaseException) ee).getErrMsg(), ee);
-			throw (BaseException) ee;
-		} else if (ee instanceof BaseBusinessException) {
-			throw (BaseBusinessException) ee;
-		} else {
-			logger.error("???????????????", ee);
-			throw new BaseException("???????????????", ee);
-		}
-	}
 
 	public Integer addOrganise(OrganiseVO vo) throws BaseException,
 			BaseBusinessException {

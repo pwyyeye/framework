@@ -91,9 +91,9 @@ public class AdminService extends BaseService implements AdminRemote{
 	
 	@Autowired
 	private ReportRemote reportRemote;
-	private final static int IT_SUPER_ADMIN_ID = 1;// ??????????????????????????????????????????????????????
+	private final static int IT_SUPER_ADMIN_ID = 1;//表示超级管理，拥有所有系统的所有权限
 
-	private final static int UNALLOW_USER_ID = 2;// ??????????????????????????????????????????
+	private final static int UNALLOW_USER_ID = 2;//表示未授权登录其它系统的用户
 
 	private final static int WEB_USER_ID = 888;
 	
@@ -121,7 +121,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			result = system.getId();
 		} catch (Exception ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		}
 		return result;
@@ -144,8 +144,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			frameworkDAO.save(menu);
 			result = (Integer) menu.getId();
 		} catch (Exception ee) {
-			logger.error("?????????????????????",ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		} 
 		return result;
@@ -158,13 +157,13 @@ public class AdminService extends BaseService implements AdminRemote{
 	/**
 	 * 
 	 * @param root
-	 *            ?????????ID
+	 *            根目录ID
 	 * @param containRoot
-	 *            ?????????????????????????????????
+	 *            是否需要包含根目录本身
 	 * @param renameModuleID
-	 *            ?????????????????????MODULE???ID???????????????MENU???????????????ID?????????
+	 *            是否需要重命名MODULE的ID号，避免与MENU或者其它的ID号重复
 	 * @return
-	 * @throws BaseException
+	 * @throws CommonException
 	 */
 	public List getSystemList(Integer root, Boolean containRoot,
 			Boolean renameModuleID) throws BaseException {
@@ -238,7 +237,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			return menus;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库异常" + ee.getMessage());
 
 		} finally {
 			try {
@@ -261,7 +260,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			moduleVO = (ItModuleVO) module.toVO();
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????", ee);
+			throw new BaseException("数据库异常", ee);
 
 		} finally {
 			try {
@@ -280,7 +279,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			menuVO = (MenuVO) menu.toVO();
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库异常" + ee.getMessage());
 
 		} finally {
 			try {
@@ -310,8 +309,8 @@ public class AdminService extends BaseService implements AdminRemote{
 			system.setDirID(vo.getDirID());
 			frameworkDAO.saveOrUpdate(system);
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
-			throw new BaseException("?????????????????????????:" + ee.getMessage());
+			logger.error("数据库操作失败", ee);
+			throw new BaseException("数据库操作失败:" + ee.getMessage());
 
 		}
 	}
@@ -329,8 +328,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			menu.setSortID(vo.getSortID());
 			frameworkDAO.save(menu);
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
-			throw new BaseException("?????????????????????????:" + ee.getMessage());
+			throw new BaseException("数据库操作失败:" + ee.getMessage());
 
 		}
 	}
@@ -342,7 +340,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 		} 
 	}
 
@@ -357,13 +355,13 @@ public class AdminService extends BaseService implements AdminRemote{
 			frameworkDAO.saveOrUpdate(system);
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 		}
 	}
 
 	public TreeControl getSystemTree(String rootStr) throws BaseException {
 		TreeControl treeControl = null;
-		TreeControlNode treeRoot = new TreeControlNode("0", "SEM??????????", null,
+		TreeControlNode treeRoot = new TreeControlNode("0", "SEM系统ϵͳ", null,
 				true);
 		treeControl = new TreeControl(treeRoot);
 		createNode(treeRoot, rootStr, false, null, false);
@@ -392,7 +390,7 @@ public class AdminService extends BaseService implements AdminRemote{
 
 			// createReport(treeRoot, module.getId(), theUser);
 			TreeControlNode reportNode = new TreeControlNode("ModuleReport"
-					+ module.getId(), "????????????", null, null, false, null,
+					+ module.getId(), "系统报表", null, null, false, null,
 					"content");
 			treeRoot.addChild(reportNode);
 			createReportNode(reportNode, 0, module.getId().toString(), theUser,
@@ -410,9 +408,9 @@ public class AdminService extends BaseService implements AdminRemote{
 
 			logger.debug("menu tree create finish");
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("数据库操作失败", ee);
 		} catch(RemoteException ee){
-			logger.error("?????????????????????", ee);
+			logger.error("数据库操作失败", ee);
 		}
 		return treeControl;
 	}
@@ -431,7 +429,7 @@ public class AdminService extends BaseService implements AdminRemote{
 	private void createReport(TreeControlNode treeRoot, Integer moduleID,
 			SessionUserBean theUser) throws BaseException {
 		TreeControlNode reportNode = new TreeControlNode("ModuleReport"
-				+ moduleID, "????????????", null, null, false, null, "content");
+				+ moduleID, "系统报表", null, null, false, null, "content");
 		treeRoot.addChild(reportNode);
 		try {
 			List list = reportRemote.getReportModuleList(moduleID).getItems();
@@ -457,7 +455,7 @@ public class AdminService extends BaseService implements AdminRemote{
 				reportNode.addChild(childNode);
 			}
 		} catch (RemoteException e) {
-			logger.error("??????REPORT ADMIN???????????????", e);
+			logger.error("调用REPORT ADMIN对象失败", e);
 		}
 
 	}
@@ -483,7 +481,7 @@ public class AdminService extends BaseService implements AdminRemote{
 					node.addChild(childNode);
 				} catch (Exception ee) {
 				}
-				if (containMenu) {// ??????????????????????????????
+				if (containMenu) {// 如果需要包含功能菜单
 					createMenuNode(childNode, 0, module.getId().toString(),
 							theUser, allow, null, false);
 				}
@@ -492,7 +490,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("数据库操作失败", ee);
 		} finally {
 			try {
 				
@@ -536,7 +534,7 @@ public class AdminService extends BaseService implements AdminRemote{
 				Menu menu = (Menu) iterator.next();
 				boolean subAllow = allow;
 				String link = menu.getLink();
-				if (!allow) {// ????????????????????????
+				if (!allow) {//  如果还未授权访问
 					//hibernateSession = HibernateUtil.currentSession();
 					DetachedCriteria criteria2 = DetachedCriteria.forClass(MenuRole.class);
 //					Criteria criteria2 = hibernateSession
@@ -611,7 +609,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("数据库操作失败", ee);
 		} finally {
 			try {
 				
@@ -716,7 +714,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			}
 
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("数据库操作失败", ee);
 		} 
 	}
 
@@ -741,7 +739,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			result = (Integer) subscibe.getId();
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("????????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作错误" + ee.getMessage());
 		}
 		return result;
 	}
@@ -763,7 +761,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("????????IT?????????????????????????" + ee.getMessage());
+			throw new BaseException("�޸�ITϵͳ数据库操作失败" + ee.getMessage());
 
 		} 
 	}
@@ -781,7 +779,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("????????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作错误" + ee.getMessage());
 		} 
 	}
 
@@ -796,7 +794,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
-				system = 0;// ???????????????????????????????????????????????????
+				system = 0;//系统管理模块可以管理所有模块的权限
 			}
 			if (searchVO != null) {
 
@@ -850,7 +848,7 @@ public class AdminService extends BaseService implements AdminRemote{
 //			pageList.setItems(subscibeList);
 			return pageList;
 		} catch (HibernateException ee) {
-			throw new BaseException("?????????????????????", ee);
+			throw new BaseException("数据库操作异常", ee);
 		}
 	}
 
@@ -928,7 +926,7 @@ public class AdminService extends BaseService implements AdminRemote{
 //			pageList.setItems(eventList);
 			return pageList;
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("数据库查询失败", ee);
 			throw new BaseException(ee.getMessage());
 
 		} 
@@ -958,7 +956,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("????????IT?????????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		} 
 	}
@@ -976,7 +974,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 
 			logger.error(ee);
-			throw new BaseException("??????????????????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		}
 	}
@@ -1002,7 +1000,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		}
 		return result;
@@ -1027,7 +1025,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			Integer systemID, String ip, Integer roleID, String token)
 			throws BaseException {
 		if (theUser == null)
-			throw new BaseException("??????????????????");
+			throw new BaseException("参数不能为空");
 		logger.debug("getSeesionUserBeam arg is systemID=" + systemID
 				+ ",roleID=" + roleID + ",token=" + token + ",userCode="
 				+ theUser.getCode() + ",unitid=" + theUser.getDepartment());
@@ -1180,14 +1178,14 @@ public class AdminService extends BaseService implements AdminRemote{
 				helperRemote.switchRole((Integer) theUser.getId(), WEB_USER_ID,
 						module.getName(), roleVO.getName());
 				helperRemote.onMethod((Integer) theUser.getId(), WEB_USER_ID,
-						"?????????");
+						"工作台");
 				helperRemote.cleanSignleModeByKey((Integer) theUser.getId(),
 						this.WEB_USER_ID);
 			}
 
 		} catch (Exception ee) {
-			logger.error("?????????????????????", ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			logger.error("数据库操作失败", ee);
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 		}
 		return currentUser;
 
@@ -1211,7 +1209,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
-				system = 0;// ???????????????????????????????????????????????????
+				system = 0;// 系统管理模块可以管理所有模块的权限
 			}
 			
 			if (searchVO != null) {
@@ -1267,11 +1265,11 @@ public class AdminService extends BaseService implements AdminRemote{
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("????????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		}catch (Exception ee) {
 			logger.error(ee);
-			throw new BaseException("????????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -1303,7 +1301,7 @@ public class AdminService extends BaseService implements AdminRemote{
 	public PageList getUserRoleList(Integer systemID, UsersVO user)
 			throws BaseException {
 		if (user == null || systemID == null)
-			throw new BaseException("??????????????????");
+			throw new BaseException("调用参数有误");
 		//hibernateSession = HibernateUtil.currentSession();
 		//Criteria criteria = hibernateSession.createCriteria(UABinding.class);
 		// if (systemID.intValue() != 0) {
@@ -1346,7 +1344,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
-				system = 0;// ???????????????????????????????????????????????????
+				system = 0;//系统管理模块可以管理所有模块的权限
 			}
 
 			if (searchVO != null) {
@@ -1457,7 +1455,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		}
 		return result;
@@ -1482,7 +1480,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("????????IT?????????????????????????" + ee.getMessage());
+			throw new BaseException("IT数据库操作失败" + ee.getMessage());
 
 		}
 	}
@@ -1499,7 +1497,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("??????????????????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		} 
 	}
@@ -1516,7 +1514,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 
 			logger.error("delete role fail",ee);
-			throw new BaseException("??????????????????????????????????" + ee.getMessage());
+			throw new BaseException("删除角色失败" + ee.getMessage());
 
 		} 
 	}
@@ -1546,7 +1544,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("新增角色失败" + ee.getMessage());
 
 		} 
 		return result;
@@ -1566,7 +1564,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			
 		} catch (HibernateException ee) {
 			
-			throw new BaseException("????????IT?????????????????????????" + ee.getMessage());
+			throw new BaseException("更新角色失败" + ee.getMessage());
 
 		}
 	}
@@ -1637,7 +1635,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("获取菜单角色失败" + ee.getMessage());
 
 		}
 	}
@@ -1683,7 +1681,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("addMenuRole失败" + ee.getMessage());
 
 		}
 		return result;
@@ -1708,7 +1706,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("????????IT?????????????????????????" + ee.getMessage());
+			throw new BaseException("addMenuRole失败" + ee.getMessage());
 
 		}
 	}
@@ -1723,7 +1721,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("??????????????????????????????????" + ee.getMessage());
+			throw new BaseException("addMenuRole失败" + ee.getMessage());
 
 		}
 	}
@@ -1801,7 +1799,7 @@ public class AdminService extends BaseService implements AdminRemote{
 //			pageList.setItems(resultList);
 			return pageList;
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("getNoticeList失败", ee);
 			throw new BaseException(ee.getMessage());
 
 		}
@@ -1827,7 +1825,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("????????IT?????????????????????????" + ee.getMessage());
+			throw new BaseException("getNoticeList失败" + ee.getMessage());
 
 		} 
 	}
@@ -1844,7 +1842,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 
 			logger.error(ee);
-			throw new BaseException("??????????????????????????????????" + ee.getMessage());
+			throw new BaseException("deleteNotice失败" + ee.getMessage());
 
 		} 
 	}
@@ -1876,12 +1874,12 @@ public class AdminService extends BaseService implements AdminRemote{
 			try {
 				helperRemote.addNotice(vo);
 			} catch (RemoteException ee) {
-				logger.error("??????????????????", ee);
+				logger.error("addNotice失败", ee);
 			}
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("addNotice失败" + ee.getMessage());
 
 		}
 		return result;
@@ -1911,7 +1909,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			// if (this.isSystemModule(system)) {
-			// system = 0;// ???????????????????????????????????????????????????
+			// system = 0;// 系统管理模块可以管理所有模块的权限
 			// }
 			if (searchVO != null) {
 			//	logger.debug("name="+searchVO.getName()+"id="+searchVO.getId());
@@ -1969,7 +1967,7 @@ public class AdminService extends BaseService implements AdminRemote{
 //			pageList.setItems(resultList);
 			return pageList;
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("数据库查询失败", ee);
 			throw new BaseException(ee.getMessage());
 
 		} 
@@ -1979,8 +1977,8 @@ public class AdminService extends BaseService implements AdminRemote{
 		try {
 			helperRemote.setPropertiesAndNotices();
 		} catch (RemoteException ee) {
-			logger.error("??????????????????????????????", ee);
-			throw new BaseException("??????????????????????????????", ee);
+			logger.error("更新系统配置参数失败", ee);
+			throw new BaseException("更新系统配置参数失败", ee);
 		}
 	}
 
@@ -1988,8 +1986,8 @@ public class AdminService extends BaseService implements AdminRemote{
 		try {
 			return helperRemote.getProperty(name);
 		} catch (RemoteException ee) {
-			logger.error("????????????[" + name + "]???????????????", ee);
-			throw new BaseException("????????????[" + name + "]???????????????", ee);
+			logger.error("获取变量[" + name + "]属性值失败", ee);
+			throw new BaseException("获取变量[" + name + "]属性值失败", ee);
 		}
 	}
 
@@ -2007,7 +2005,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("数据库操作失败" + ee.getMessage());
 
 		} 
 	}
@@ -2032,7 +2030,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("addPropertyVO失败" + ee.getMessage());
 
 		} 
 		return result;
@@ -2083,7 +2081,7 @@ public class AdminService extends BaseService implements AdminRemote{
 //			pageList.setItems(resultList);
 			return pageList;
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("getFavorites失败", ee);
 			throw new BaseException(ee.getMessage());
 
 		}
@@ -2130,7 +2128,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("addFavorite失败" + ee.getMessage());
 
 		}
 		return result;
@@ -2146,7 +2144,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			int size = fetchSize.intValue();
 			int system = systemID.intValue();
 			if (this.isSystemModule(system)) {
-				system = 0;// ???????????????????????????????????????????????????
+				system = 0;// 系统管理模块可以管理所有模块的权限
 			}
 			if (searchVO != null) {
 				if (searchVO.getModuleID() != null) {
@@ -2193,7 +2191,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("getRaBindingList失败" + ee.getMessage());
 
 		} 
 	}
@@ -2222,7 +2220,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("addRaBinding失败" + ee.getMessage());
 
 		} 
 		return result;
@@ -2248,7 +2246,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			
 			logger.error(ee);
-			throw new BaseException("?????????????????????????" + ee.getMessage());
+			throw new BaseException("updateRaBinding失败" + ee.getMessage());
 
 		}
 	}
@@ -2264,7 +2262,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new BaseException("?????????????????????" + ee.getMessage());
+			throw new BaseException("deleteRaBinding删除失败" + ee.getMessage());
 
 		} 
 	}
@@ -2354,7 +2352,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		try {
 			return (PageList)invokeEjbServices(new Integer(2241), new Serializable[]{parent,rightCode,token,parentID});
 		} catch (BaseBusinessException e) {
-			 throw new BaseException("?????????????????????????????????",e);
+			 throw new BaseException("调用文件服务器服务失败",e);
 		}
 	}
 }

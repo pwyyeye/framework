@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/java/com/xxl/baseService/service/AdminService.java=UTF-8
+encoding//src/main/java/com/xxl/jms/service/JMSTaskService.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/activeMQ.properties=UTF-8
 encoding//src/main/resources/dubboConfig.properties=UTF-8

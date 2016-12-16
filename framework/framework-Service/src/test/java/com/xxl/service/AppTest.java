@@ -138,9 +138,9 @@ public class AppTest
 		}
 		
 		/**
-			?????????filename =  ??????1???"/frameworkWeb/loginController/home";
-							??????2???/frameworkWeb/loginController/
-							??????3???/frameworkWeb/loginController/login.do
+			例如：filename =  情况1、"/frameworkWeb/loginController/home";
+ 							情况2、/frameworkWeb/loginController/
+ 							情况3、/frameworkWeb/loginController/login.do
 			
 		*/
 		

@@ -144,4 +144,200 @@ Caused by: java.lang.ClassNotFoundException: Forbidden class common.value.SemMes
   [DEBUG] [2016-12-14 00:43:44][com.xxl.bussiness.MailSender]MailSender start send mail
   [DEBUG] [2016-12-14 00:43:45][com.xxl.bussiness.MailSender]MailSender end send mail
   [DEBUG] [2016-12-14 00:43:45][com.xxl.bussiness.MailSender]MailSender end send mail
+  [ERROR] [2016-12-16 12:27:34][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2016-12-16 12:27:55][com.alibaba.druid.pool.DruidDataSource]init datasource error
+  com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1127)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:356)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2502)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2539)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2321)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:832)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:46)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:417)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:344)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:146)
+	at com.alibaba.druid.filter.stat.StatFilter.connection_connect(StatFilter.java:211)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:140)
+	at com.alibaba.druid.filter.FilterAdapter.connection_connect(FilterAdapter.java:785)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:140)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1358)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1412)
+	at com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:602)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:876)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:872)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:97)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:139)
+	at org.hibernate.engine.jdbc.internal.JdbcServicesImpl$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcServicesImpl.java:279)
+	at org.hibernate.engine.jdbc.internal.JdbcServicesImpl.configure(JdbcServicesImpl.java:124)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:111)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:234)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:206)
+	at org.hibernate.cfg.Configuration.buildTypeRegistrations(Configuration.java:1887)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1845)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1930)
+	at org.springframework.orm.hibernate4.LocalSessionFactoryBuilder.buildSessionFactory(LocalSessionFactoryBuilder.java:343)
+	at org.springframework.orm.hibernate4.LocalSessionFactoryBean.buildSessionFactory(LocalSessionFactoryBean.java:431)
+	at org.springframework.orm.hibernate4.LocalSessionFactoryBean.afterPropertiesSet(LocalSessionFactoryBean.java:416)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1612)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1549)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:539)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:475)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:304)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:228)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:300)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:195)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:681)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:760)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:482)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:83)
+	at com.xxl.service.Main.main(Main.java:11)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at java.net.Socket.connect(Socket.java:528)
+	at java.net.Socket.<init>(Socket.java:425)
+	at java.net.Socket.<init>(Socket.java:241)
+	at com.mysql.jdbc.StandardSocketFactory.connect(StandardSocketFactory.java:258)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:306)
+	... 49 more
+[ERROR] [2016-12-16 12:27:55][com.alibaba.druid.pool.DruidDataSource]dataSource init error
+  com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.SQLError.createCommunicationsException(SQLError.java:1127)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:356)
+	at com.mysql.jdbc.ConnectionImpl.coreConnect(ConnectionImpl.java:2502)
+	at com.mysql.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:2539)
+	at com.mysql.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:2321)
+	at com.mysql.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:832)
+	at com.mysql.jdbc.JDBC4Connection.<init>(JDBC4Connection.java:46)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:417)
+	at com.mysql.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:344)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:146)
+	at com.alibaba.druid.filter.stat.StatFilter.connection_connect(StatFilter.java:211)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:140)
+	at com.alibaba.druid.filter.FilterAdapter.connection_connect(FilterAdapter.java:785)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:140)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1358)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1412)
+	at com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:602)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:876)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:872)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:97)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:139)
+	at org.hibernate.engine.jdbc.internal.JdbcServicesImpl$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcServicesImpl.java:279)
+	at org.hibernate.engine.jdbc.internal.JdbcServicesImpl.configure(JdbcServicesImpl.java:124)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.configureService(StandardServiceRegistryImpl.java:111)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:234)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:206)
+	at org.hibernate.cfg.Configuration.buildTypeRegistrations(Configuration.java:1887)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1845)
+	at org.hibernate.cfg.Configuration.buildSessionFactory(Configuration.java:1930)
+	at org.springframework.orm.hibernate4.LocalSessionFactoryBuilder.buildSessionFactory(LocalSessionFactoryBuilder.java:343)
+	at org.springframework.orm.hibernate4.LocalSessionFactoryBean.buildSessionFactory(LocalSessionFactoryBean.java:431)
+	at org.springframework.orm.hibernate4.LocalSessionFactoryBean.afterPropertiesSet(LocalSessionFactoryBean.java:416)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1612)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1549)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:539)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:475)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:304)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:228)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:300)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:195)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:681)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:760)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:482)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:83)
+	at com.xxl.service.Main.main(Main.java:11)
+Caused by: java.net.ConnectException: Connection timed out: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:79)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:339)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:200)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:182)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:579)
+	at java.net.Socket.connect(Socket.java:528)
+	at java.net.Socket.<init>(Socket.java:425)
+	at java.net.Socket.<init>(Socket.java:241)
+	at com.mysql.jdbc.StandardSocketFactory.connect(StandardSocketFactory.java:258)
+	at com.mysql.jdbc.MysqlIO.<init>(MysqlIO.java:306)
+	... 49 more
+[ERROR] [2016-12-16 12:29:49][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [DEBUG] [2016-12-16 12:47:44][com.xxl.baseService.service.CommonService]verify user result is 130610
+  [DEBUG] [2016-12-16 12:47:44][com.xxl.baseService.service.CommonService]verify user result is 130610
+  [DEBUG] [2016-12-16 12:47:44][com.xxl.baseService.service.CommonService]{"archAddr":"","birthday":"1990-01-01","bloodType":"1","captchas":"","code":"130610","credentialNo":"","credentialType":0,"department":1,"departmentCode":"","departmentName":"系统管理组","educateLevel":0,"email":"","engineer":"1","fetchSize":0,"firstResult":0,"housetel":"","id":130610,"imUserId":"","isAd":0,"isDirector":1,"isOpen":"","level":0,"loginId":"130610","logoutDate":"","mark":"","mobile":"130610","name":"陈华阳","nameAndTitle":"陈华阳(null)","nationality":"","nativePlace":"","newpassword":"","orderNo":0,"organise":0,"organiseName":"","parentId":0,"party":1,"password":"ZM1p/A9gZqs=","peoples":"","qq":"","registerDate":"2016-01-22","remark":"","searchValue":"","sex":"0","sexStr":"女","status":"","tel":"","timeType":1,"title":"","userTag":[],"wechat":"","wedLock":"","weibo":""}
+  [DEBUG] [2016-12-16 12:47:44][com.xxl.baseService.service.CommonService]{"archAddr":"","birthday":"1990-01-01","bloodType":"1","captchas":"","code":"130610","credentialNo":"","credentialType":0,"department":1,"departmentCode":"","departmentName":"系统管理组","educateLevel":0,"email":"","engineer":"1","fetchSize":0,"firstResult":0,"housetel":"","id":130610,"imUserId":"","isAd":0,"isDirector":1,"isOpen":"","level":0,"loginId":"130610","logoutDate":"","mark":"","mobile":"130610","name":"陈华阳","nameAndTitle":"陈华阳(null)","nationality":"","nativePlace":"","newpassword":"","orderNo":0,"organise":0,"organiseName":"","parentId":0,"party":1,"password":"ZM1p/A9gZqs=","peoples":"","qq":"","registerDate":"2016-01-22","remark":"","searchValue":"","sex":"0","sexStr":"女","status":"","tel":"","timeType":1,"title":"","userTag":[],"wechat":"","wedLock":"","weibo":""}
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]getSeesionUserBeam arg is systemID=10,roleID=null,token=7dx29og4iejtplo7wvqeisd5,userCode=130610,unitid=1
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]getSeesionUserBeam arg is systemID=10,roleID=null,token=7dx29og4iejtplo7wvqeisd5,userCode=130610,unitid=1
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]lase login role is4
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]lase login role is4
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]check user right,module=me代购模块,empID=130610,deptID=1levelID=0
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]check user right,module=me代购模块,empID=130610,deptID=1levelID=0
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]create new role=4
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]create new role=4
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.os.service.StructureService]get for [serialVersionUID:,usId:130610,property:,value:,setDate:,setUser:,timeLimit:,startTime:,endTime:,]
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.os.service.StructureService]get for [serialVersionUID:,usId:130610,property:,value:,setDate:,setUser:,timeLimit:,startTime:,endTime:,]
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]fullImage=http://image.wechatmagic.com/null
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]fullImage=http://image.wechatmagic.com/null
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]update online user info130610,role nameme代购系统管理员organise Name=猎娱网后台管理
+  [DEBUG] [2016-12-16 12:47:45][com.xxl.baseService.service.AdminService]update online user info130610,role nameme代购系统管理员organise Name=猎娱网后台管理
+  [DEBUG] [2016-12-16 12:47:46][com.xxl.os.service.StructureService]add user vo,id=null
+  [DEBUG] [2016-12-16 12:47:46][com.xxl.os.service.StructureService]add user vo,id=null
+  [DEBUG] [2016-12-16 12:47:50][com.xxl.baseService.service.AdminService]menu tree create finish
+  [DEBUG] [2016-12-16 12:47:50][com.xxl.baseService.service.AdminService]menu tree create finish
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.CommonService]verify user result is 130610
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.CommonService]verify user result is 130610
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.CommonService]{"archAddr":"","birthday":"1990-01-01","bloodType":"1","captchas":"","code":"130610","credentialNo":"","credentialType":0,"department":1,"departmentCode":"","departmentName":"系统管理组","educateLevel":0,"email":"","engineer":"1","fetchSize":0,"firstResult":0,"housetel":"","id":130610,"imUserId":"","isAd":0,"isDirector":1,"isOpen":"","level":0,"loginId":"130610","logoutDate":"","mark":"","mobile":"130610","name":"陈华阳","nameAndTitle":"陈华阳(null)","nationality":"","nativePlace":"","newpassword":"","orderNo":0,"organise":0,"organiseName":"","parentId":0,"party":1,"password":"ZM1p/A9gZqs=","peoples":"","qq":"","registerDate":"2016-01-22","remark":"","searchValue":"","sex":"0","sexStr":"女","status":"","tel":"","timeType":1,"title":"","userTag":[],"wechat":"","wedLock":"","weibo":""}
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.CommonService]{"archAddr":"","birthday":"1990-01-01","bloodType":"1","captchas":"","code":"130610","credentialNo":"","credentialType":0,"department":1,"departmentCode":"","departmentName":"系统管理组","educateLevel":0,"email":"","engineer":"1","fetchSize":0,"firstResult":0,"housetel":"","id":130610,"imUserId":"","isAd":0,"isDirector":1,"isOpen":"","level":0,"loginId":"130610","logoutDate":"","mark":"","mobile":"130610","name":"陈华阳","nameAndTitle":"陈华阳(null)","nationality":"","nativePlace":"","newpassword":"","orderNo":0,"organise":0,"organiseName":"","parentId":0,"party":1,"password":"ZM1p/A9gZqs=","peoples":"","qq":"","registerDate":"2016-01-22","remark":"","searchValue":"","sex":"0","sexStr":"女","status":"","tel":"","timeType":1,"title":"","userTag":[],"wechat":"","wedLock":"","weibo":""}
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]getSeesionUserBeam arg is systemID=10,roleID=null,token=7dx29og4iejtplo7wvqeisd5,userCode=130610,unitid=1
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]getSeesionUserBeam arg is systemID=10,roleID=null,token=7dx29og4iejtplo7wvqeisd5,userCode=130610,unitid=1
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]lase login role is4
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]lase login role is4
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]check user right,module=me代购模块,empID=130610,deptID=1levelID=0
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]check user right,module=me代购模块,empID=130610,deptID=1levelID=0
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]create new role=4
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]create new role=4
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.os.service.StructureService]get for [serialVersionUID:,usId:130610,property:,value:,setDate:,setUser:,timeLimit:,startTime:,endTime:,]
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.os.service.StructureService]get for [serialVersionUID:,usId:130610,property:,value:,setDate:,setUser:,timeLimit:,startTime:,endTime:,]
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]fullImage=http://image.wechatmagic.com/null
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]fullImage=http://image.wechatmagic.com/null
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]update online user info130610,role nameme代购系统管理员organise Name=猎娱网后台管理
+  [DEBUG] [2016-12-16 13:35:32][com.xxl.baseService.service.AdminService]update online user info130610,role nameme代购系统管理员organise Name=猎娱网后台管理
+  [DEBUG] [2016-12-16 13:35:33][com.xxl.os.service.StructureService]add user vo,id=null
+  [DEBUG] [2016-12-16 13:35:33][com.xxl.os.service.StructureService]add user vo,id=null
+  [DEBUG] [2016-12-16 13:35:37][com.xxl.baseService.service.AdminService]menu tree create finish
+  [DEBUG] [2016-12-16 13:35:37][com.xxl.baseService.service.AdminService]menu tree create finish
   
