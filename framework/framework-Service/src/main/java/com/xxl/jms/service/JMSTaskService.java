@@ -18,6 +18,7 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
@@ -81,14 +82,37 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
      * @param message 消息内容 
      */  
     public void send(String topicName,final Serializable message)  throws JMSException{  
-    	queueTemplate.send(topicName, new MessageCreator() {
-			@Override
-			public Message createMessage(javax.jms.Session session) throws JMSException {
-				// TODO Auto-generated method stub
-				return session.createObjectMessage(message);
-			}
-		});  
+    	try {
+			queueTemplate.send(topicName, new MessageCreator() {
+				@Override
+				public Message createMessage(javax.jms.Session session) throws JMSException {
+					// TODO Auto-generated method stub
+					return session.createObjectMessage(message);
+				}
+			});
+		} catch (JmsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}  
     }  
+    
+    //配置了默认目的地
+    public void send(final Serializable message)  throws JMSException{  
+    	try {
+			queueTemplate.send(new MessageCreator() {
+				@Override
+				public Message createMessage(javax.jms.Session session) throws JMSException {
+					// TODO Auto-generated method stub
+					return session.createObjectMessage(message);
+				}
+			});
+		} catch (JmsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		}  
+    } 
     
     public void sendAppMessage(Integer type, String users, String title,
 			String message,Integer bzId) throws JMSException {
@@ -570,9 +594,9 @@ public class JMSTaskService extends BaseService implements JMSTaskRemote {
 		SemMessageObject messageObject = new SemMessageObject(null, message,
 				new Integer(SemAppConstants.MAIL_QUEUE));
 		try {
-			this.send("com.xxl.queue", messageObject);
+			this.send(messageObject);
 		} catch (JMSException e) {
-			logger.error("????????????????????????", e);
+			logger.error("发送邮件失败", e);
 			throw new CommException(e);
 		}
 		logger.debug("start send mail end");

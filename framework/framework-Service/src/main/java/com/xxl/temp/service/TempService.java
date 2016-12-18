@@ -57,7 +57,7 @@ public class TempService extends BaseService implements TempRemote{
 				criteria.add(Expression.eq("size", vo.getSize()));
 				List list=frameworkDAO.findByCriteria(criteria, 0, 0);
 				if(list.size()>0){
-					throw new BaseBusinessException("");
+					throw new BaseBusinessException("新增订单失败");
 				}
 				
 			}
@@ -68,11 +68,11 @@ public class TempService extends BaseService implements TempRemote{
 			vo.setId(result);
 			String text=vo.getName()+"于"+SemAppUtils.getFullTime(vo.getCreatedate())+"下了一个订单"+
 					 			"【尺码："+vo.getSize()+", 颜色："+vo.getColor()+", 共"+vo.getNum()+"双。地址："+vo.getAddress()+"，联系电话:"+vo.getTel()+"】";
-					 			try {
-					 				jmsTaskRemote.sendMessageByMail("275609395@qq.com", null, "订单提醒", text, null, null);
-					 			} catch (Exception e) {
-					 				logger.error("邮件提醒失败："+e);
-					 			}
+			try {
+ 				jmsTaskRemote.sendMessageByMail("275609395@qq.com", null, "订单提醒", text, null, null);
+ 			} catch (Exception e) {
+ 				logger.error("邮件提醒失败："+e);
+ 			}		 			
 		} catch (HibernateException ee) {
 			logger.error(ee);
 			throw new BaseException("新增订单失败" + ee.getMessage());

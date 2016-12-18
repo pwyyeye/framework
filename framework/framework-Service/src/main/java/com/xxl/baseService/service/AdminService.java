@@ -199,7 +199,7 @@ public class AdminService extends BaseService implements AdminRemote{
 			return systems;
 		} catch (Exception ee) {
 			logger.error(ee);
-			throw new BaseException("???????????????" + ee.getMessage());
+			throw new BaseException("getSystem失败" + ee.getMessage());
 
 		}
 	}

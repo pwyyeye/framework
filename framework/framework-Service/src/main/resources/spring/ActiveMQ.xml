@@ -25,8 +25,14 @@
         <!-- <constructor-arg ref="amqConnectionFactory" /> -->  
         <!-- Session缓存数量 -->  
         <property name="sessionCacheSize" value="100" />  
+        <property name="cacheConsumers" value="false"/>
+        <property name="cacheProducers" value="false"/>
     </bean>  
   
+  
+  	<!-- 设置队列默认目的地 -->
+  	<amq:queue id="xxlQueue" physicalName="com.xxl.queue"/>
+  	
     <!-- Spring JmsTemplate 的消息生产者 start-->  
   
     <!-- 定义JmsTemplate的Queue类型 -->  
@@ -35,6 +41,16 @@
         <constructor-arg ref="connectionFactory" />  
         <!-- 非pub/sub模型（发布/订阅），即队列模式 -->  
         <property name="pubSubDomain" value="false" />  
+        <!-- 配置默认队列目的地-->  
+        <property name="defaultDestination" ref="xxlQueue"/>
+        
+         <!-- 使 deliveryMode, priority, timeToLive设置生效
+         <property name="explicitQosEnabled" value="true"/>-->
+         <!-- 设置NON_PERSISTENT模式, 默认为PERSISTENT 
+         <property name="deliveryPersistent" value="true"/>-->
+         <!-- 设置优先级0-9, 默认为4 
+        	<property name="priority" value="4"/>-->
+        
     </bean>  
   
     <!-- 定义JmsTemplate的Topic类型 -->  

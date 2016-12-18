@@ -31,7 +31,7 @@ public class QueueReceiver  implements MessageListener {
 
 //	private TaskRemote taskRemote;
 	@Autowired
-	private JMSTaskRemote jMSTaskRemote;
+	private JMSTaskRemote jmsTaskRemote;
 
 	public void onMessage(Message msg) {
 		ObjectMessage message = (javax.jms.ObjectMessage) msg;
@@ -48,7 +48,7 @@ public class QueueReceiver  implements MessageListener {
 			try {
 				MailMessage mailMessage = (MailMessage) messageObject
 						.getContentObj();
-				jMSTaskRemote.sendMessageByMail(mailMessage);
+				jmsTaskRemote.sendMessageByMail(mailMessage);
 			} catch (Exception e) {
 				logger.error("异步发送邮件失败", e);
 			}
