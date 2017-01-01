@@ -236,9 +236,11 @@ public class CommonService extends BaseService implements CommonRemote {
 						getCheckActive(), getCheckActive());
 				return vo;
 			} else {
+				System.out.println(1);
 				UsersVO vo = structureRemote.getEofficeLoginUser(rowid, ip,
 						authKey, getExpiredTime(), 0, isTest || systemAuth,
 						getCheckActive());
+				System.out.println(3);
 				return vo;
 			}
 		} catch (Exception e) {

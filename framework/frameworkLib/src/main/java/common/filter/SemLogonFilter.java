@@ -2,6 +2,9 @@ package common.filter;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.naming.InitialContext;
 import javax.servlet.Filter;
@@ -24,6 +27,7 @@ import common.exception.BaseException;
 import common.os.vo.UsersVO;
 import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;
+import common.utils.SpringUtils;
 import common.value.JsonResult;
 import common.web.bean.SessionUserBean;
 import common.web.utils.SemWebAppConstants;
@@ -60,7 +64,6 @@ public class SemLogonFilter implements Filter {
 
 	private String system;
 
-	@Autowired
 	private CommonRemote  commonRemote;
 	
 	
@@ -107,12 +110,19 @@ public class SemLogonFilter implements Filter {
 			}
 		}
 		Object userInstance = hSession.getAttribute(login_name);
-		String token = (String) request
+		Map map =req.getParameterMap();
+		Set keys=map.keySet();
+		for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+			Object object = (Object) iterator.next();
+			logger.debug("object====="+object);
+			
+		}
+		String token = (String) req
 				.getParameter(SemWebAppConstants.SEM_LOGIN_TOKEN);
-		String username = (String) request.getParameter(usernameField);
-		String password = (String) request.getParameter(passwordField);
-		String openId = (String) request.getParameter("currentSessionId");
-
+		String username = (String) req.getParameter(usernameField);
+		String password = (String) req.getParameter(passwordField);
+		String openId = (String) req.getParameter("currentSessionId");
+		logger.debug("SEM_LOGIN_TOKEN="+token+"=============="+req.getParameter("SEM_LOGIN_TOKEN"));
 		if ((SemWebAppUtils.isNotEmpty(token)
 				|| SemWebAppUtils.isNotEmpty(username) || SemWebAppUtils
 				.isNotEmpty(openId))
@@ -164,9 +174,11 @@ public class SemLogonFilter implements Filter {
 					logger
 							.debug("start sso token[" + token + "]ip[" + ip
 									+ "]");
+					commonRemote = (CommonRemote) SpringUtils.servletGetBean(req.getSession().getServletContext(), "commonRemote");
 					if (token != null) {
 						errorMessage = "连接超时，请重新登录!";
 						notLogin = false;
+						
 						loginUser = commonRemote.getEofficeLoginUserVO(token, ip);
 
 					} else if (username != null) {
