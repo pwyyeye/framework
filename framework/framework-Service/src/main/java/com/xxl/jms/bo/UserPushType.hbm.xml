@@ -13,7 +13,7 @@
   <property  name="remark" type="string">
    <column  name="remark"/>
   </property>
-  <many-to-one name="module" class="common.businessObject.ItModule"
+  <many-to-one name="module" class="com.xxl.baseService.bo.ItModule"
   	column="SYSTEMID" />
  </class>
 </hibernate-mapping>

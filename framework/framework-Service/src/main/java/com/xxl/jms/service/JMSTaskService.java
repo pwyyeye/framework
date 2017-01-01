@@ -23,6 +23,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
+import com.xxl.baseService.bo.ItModule;
 import com.xxl.bussiness.MailSender;
 import com.xxl.bussiness.MessageObservable;
 import com.xxl.facade.JMSTaskRemote;
@@ -32,8 +33,6 @@ import com.xxl.jms.bo.UserPushLog;
 import com.xxl.jms.bo.UserPushType;
 import com.xxl.jms.dao.UserPushDAO;
 import com.xxl.jms.dao.UserPushLogDAO;
-
-import common.businessObject.ItModule;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.exception.CommException;

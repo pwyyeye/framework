@@ -3,7 +3,6 @@ package com.xxl.baseService.bo;
 import java.util.Calendar;
 
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 
 public class UserLogin extends BaseBusinessObject {
 	private ItModule module;

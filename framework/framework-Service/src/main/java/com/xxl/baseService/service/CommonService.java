@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.xxl.baseService.dao.IFrameworkDao;
 import com.xxl.bussiness.LdapAuth;
-import com.xxl.bussiness.NewEofficeDB;
 import com.xxl.facade.AdminRemote;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
@@ -86,8 +85,8 @@ public class CommonService extends BaseService implements CommonRemote {
 
 	public Department getDepartmentInfo(Integer deptID) throws Exception,
 			RemoteException {
-		NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-		DepartmentVO vo = eofficeDB.getDepartmentInfo("" + deptID);
+
+		DepartmentVO vo = frameworkDAO.getDepartmentInfo("" + deptID);
 		return SemAppUtils.vo2Dept(vo);
 	}
 
@@ -105,23 +104,12 @@ public class CommonService extends BaseService implements CommonRemote {
 	}
 
 	public DepartmentVO getDepartmentInfoVO(String deptID) throws Exception {
-		if (userExternalOS) {
-			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-			return eofficeDB.getDepartmentInfo("" + deptID);
-		} else {
-			return structureRemote.getDepartment(deptID);
-		}
-
+		return structureRemote.getDepartment(deptID);
 	}
 
 
 	public String getUserToken(Integer empID) throws Exception {
-		if (userExternalOS) {
-			NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-			return eofficeDB.getUserToken("" + empID);
-		} else {
-			return structureRemote.getUserToken(empID);
-		}
+		return structureRemote.getUserToken(empID);
 	}
 
 	public String getUserToken(String empID) throws Exception, RemoteException {
@@ -229,20 +217,10 @@ public class CommonService extends BaseService implements CommonRemote {
 			logger.error("系统配置错误", ee);
 		}
 		try {
-			if (userExternalOS) {
-				NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-				UsersVO vo = eofficeDB.getEofficeLoginUser(rowid, ip, authKey,
-						getExpiredTime(), 0, isTest || systemAuth,
-						getCheckActive(), getCheckActive());
-				return vo;
-			} else {
-				System.out.println(1);
-				UsersVO vo = structureRemote.getEofficeLoginUser(rowid, ip,
-						authKey, getExpiredTime(), 0, isTest || systemAuth,
-						getCheckActive());
-				System.out.println(3);
-				return vo;
-			}
+			UsersVO vo = structureRemote.getEofficeLoginUser(rowid, ip,
+					authKey, getExpiredTime(), 0, isTest || systemAuth,
+					getCheckActive());
+			return vo;
 		} catch (Exception e) {
 			throw new CommException("获取用户token失败", e);
 		}
@@ -256,10 +234,11 @@ public class CommonService extends BaseService implements CommonRemote {
 
 	public List getUserOfDept(String deptID) throws Exception {
 		if (userExternalOS) {
-			return NewEofficeDB.getTheInstance().getUserOfDept(deptID);
+//			return NewEofficeDB.getTheInstance().getUserOfDept(deptID);
 		} else {
-			return null;
+			
 		}
+		return null;
 	}
 
 	public SessionUserBean getSemSessionUser(UsersVO theUser, Integer systemID,
@@ -287,12 +266,7 @@ public class CommonService extends BaseService implements CommonRemote {
 	public void logonOASystem(Integer empID, String ip) throws CommException {
 
 		try {
-			if (userExternalOS) {
-				NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-				eofficeDB.logonOASystem("" + empID, ip);
-			} else {
-				structureRemote.logonOASystem(empID, ip);
-			}
+			structureRemote.logonOASystem(empID, ip);
 		} catch (Exception e) {
 			throw new CommException(e);
 		}
@@ -301,12 +275,7 @@ public class CommonService extends BaseService implements CommonRemote {
 	public void logonOASystem(String empID, String ip) throws CommException {
 
 		try {
-			if (userExternalOS) {
-				NewEofficeDB eofficeDB = NewEofficeDB.getTheInstance();
-				eofficeDB.logonOASystem(empID, ip);
-			} else {
-				structureRemote.logonOASystem(new Integer(empID), ip);
-			}
+			structureRemote.logonOASystem(new Integer(empID), ip);
 		} catch (Exception e) {
 			throw new CommException(e);
 		}

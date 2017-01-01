@@ -9,7 +9,7 @@ import javax.naming.directory.*;
  * <p>Title:域登陆 </p>
  * <p>Description:公司域验证和一些公用方法，以下对公有和私有的变量或方法做了简单的注释</p>
  * <p>Copyright: Copyright (c) 2005</p>
- * <p>Company:http://soueast-motor.com </p>
+ * <p>Company:http://www.ccc.com </p>
  * @author zzq
  * @version 1.0
  */
@@ -30,9 +30,9 @@ public class LdapAuth {
   private DirContext ctx = null;
 
   /**
-   * 默认主机地址：LDAP://soueast-motor.local/
+   * 默认主机地址：LDAP://www.ccc.local/
    */
-  private final String LDAPHOST = "LDAP://soueast-motor.local/";
+  private final String LDAPHOST = "LDAP://www.ccc.local/";
 
   /**
    * 默认过滤条件：工号
@@ -50,9 +50,9 @@ public class LdapAuth {
   private final String DISTINGUISHED_NAME = "distinguishedName";
 
   /**
-   * 默认查询目录：dc=soueast-motor,dc=local
+   * 默认查询目录：dc=www.ccc,dc=local
    */
-  private final String SCOPE = "dc=soueast-motor,dc=local";
+  private final String SCOPE = "dc=www.ccc,dc=local";
 
   private final String adminDN = "createuser";
 
@@ -107,7 +107,7 @@ public class LdapAuth {
   }
 
   /**
-   * 登陆到默认的Server（LDAP://soueast-motor.local/）
+   * 登陆到默认的Server（LDAP://www.ccc.local/）
    * @param DN String  DN
    * @param PS String  密码
    * @throws NamingException  登陆不成功时发生异常

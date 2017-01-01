@@ -1,7 +1,8 @@
-package common.businessObject;
+package com.xxl.baseService.bo;
 
 import java.util.*;
 
+import common.businessObject.BaseBusinessObject;
 import common.value.EventVO;
 
 public class MessageEvent

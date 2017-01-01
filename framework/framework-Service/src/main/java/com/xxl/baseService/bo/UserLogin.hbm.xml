@@ -14,7 +14,7 @@
         <property name="lastLoginDate">
         <column name="LASTLOGINDATE" sql-type="Date" />
         </property>
-         <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+         <many-to-one name="module" class="com.xxl.baseService.bo.ItModule" column="SYSTEMID"/>
          <many-to-one name="lastRole" class="com.xxl.baseService.bo.Role" column="LASTROLEID"/>
      </class>
   </hibernate-mapping>

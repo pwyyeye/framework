@@ -13,8 +13,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import com.xxl.HibernateUtil;
-import common.businessObject.MessageEvent;
-import common.businessObject.MessageSubscibe;
+import com.xxl.baseService.bo.MessageEvent;
+import com.xxl.baseService.bo.MessageSubscibe;
 import common.bussiness.Message;
 import common.os.vo.UsersVO;
 import common.utils.SemAppUtils;

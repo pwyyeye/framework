@@ -27,8 +27,6 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.xxl.baseService.dao.IFrameworkDao;
-import com.xxl.bussiness.NewEofficeDB;
-
 import common.dao.impl.BaseDAOImpl;
 import common.exception.CommException;
 import common.os.vo.DepartmentVO;
@@ -370,5 +368,8 @@ public class FrameworkDaoImpl extends BaseDAOImpl<Object, java.lang.String> impl
 	private String formatEmpID(String empID) {
 		return (empID.length() == 5) ? "0" + empID : empID;
 	}
+
+	
+
 
 }

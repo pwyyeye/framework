@@ -19,13 +19,12 @@ import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Service;
 
 import com.xxl.HibernateUtil;
+import com.xxl.baseService.bo.ItModule;
 import com.xxl.baseService.bo.ReportModule;
 import com.xxl.baseService.bo.ReportSchedule;
 import com.xxl.facade.CommonRemote;
 import com.xxl.facade.HelperRemote;
 import com.xxl.facade.ReportRemote;
-
-import common.businessObject.ItModule;
 import common.exception.CommException;
 import common.exception.CommonException;
 import common.utils.SemAppConstants;

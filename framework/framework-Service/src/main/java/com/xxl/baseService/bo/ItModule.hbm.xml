@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
 
   <hibernate-mapping>
-     <class name="common.businessObject.ItModule" table="eia_system">
+     <class name="com.xxl.baseService.bo.ItModule" table="eia_system">
         <id name="id" type="int" >
          <column name="SYSTEMID" sql-type="int" not-null="true"/>
             <generator class="identity"/>

@@ -1,7 +1,6 @@
 package com.xxl.baseService.bo;
 
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.value.ReportModuleVO;
 
 public class ReportModule extends BaseBusinessObject {

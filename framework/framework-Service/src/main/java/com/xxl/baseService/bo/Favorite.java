@@ -2,11 +2,7 @@ package com.xxl.baseService.bo;
 
 import java.util.Calendar;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.value.FavoriteVO;
 
 public class Favorite  extends BaseBusinessObject{

@@ -2,7 +2,6 @@ package common.jms.vo;
 
 import java.util.Calendar;
 
-import common.businessObject.ItModule;
 import common.os.vo.UsersVO;
 import common.utils.SemAppUtils;
 import common.value.BaseVO;

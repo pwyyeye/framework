@@ -2,10 +2,9 @@ package com.xxl.jms.bo;
 
 import java.util.Calendar;
 
+import com.xxl.baseService.bo.ItModule;
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.jms.vo.JMSTaskVO;
-import common.utils.SemAppConstants;
 
 public class JMSTask extends BaseBusinessObject {
 	private String messageID;

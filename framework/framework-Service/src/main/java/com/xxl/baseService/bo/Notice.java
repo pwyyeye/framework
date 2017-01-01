@@ -3,9 +3,7 @@ package com.xxl.baseService.bo;
 import java.util.Calendar;
 
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.value.NoticeVO;
-import common.value.RoleVO;
 
 public class Notice extends BaseBusinessObject {
 	private ItModule module;

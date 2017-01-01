@@ -2,7 +2,6 @@ package com.xxl.baseService.bo;
 
 import com.xxl.os.bo.SyOrganise;
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.value.UABindingVO;
 
 public class UABinding extends BaseBusinessObject {

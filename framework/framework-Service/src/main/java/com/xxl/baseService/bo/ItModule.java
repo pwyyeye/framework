@@ -1,8 +1,9 @@
-package common.businessObject;
+package com.xxl.baseService.bo;
 
 import java.io.Serializable;
 import java.util.*;
 
+import common.businessObject.BaseAbstractBo;
 import common.value.ItModuleVO;
 
 public class ItModule extends BaseAbstractBo{

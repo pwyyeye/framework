@@ -1,9 +1,9 @@
 package com.xxl.jms.bo;
 
+import com.xxl.baseService.bo.ItModule;
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.jms.vo.UserPushVO;
-import common.utils.SemAppUtils; 
+import common.utils.SemAppUtils;
 
 public class UserPush extends BaseBusinessObject {
 

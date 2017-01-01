@@ -3,7 +3,6 @@ package com.xxl.baseService.bo;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import common.businessObject.ItModule;
 import common.value.SystemPropertyVO;
 
 public class SystemProperties extends

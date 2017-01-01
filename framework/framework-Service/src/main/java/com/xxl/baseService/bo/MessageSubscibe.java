@@ -1,8 +1,8 @@
-package common.businessObject;
+package com.xxl.baseService.bo;
 
 import java.util.*;
 
-
+import common.businessObject.BaseBusinessObject;
 import common.os.vo.UsersVO;
 import common.utils.SemAppUtils;
 import common.value.ObserverVO;

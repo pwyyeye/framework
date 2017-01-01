@@ -39,8 +39,8 @@ public abstract class BaseService implements Serializable{
 
 //	protected AlphaUddi alpha;
 
-//	@Autowired
-//	protected HelperRemote helperRemote;
+	@Autowired
+	protected HelperRemote helperRemote;
 	
 //	@Autowired
 //	@Qualifier("jmsQueueTemplate")
@@ -180,204 +180,35 @@ public abstract class BaseService implements Serializable{
 //		SemAppUtils.sendAppBroadcast(title, message);
 //	}
 
-//	protected Properties getProperties() {
-//		Properties properties = null;
-//		try {
-//		
-//			properties = helperRemote.getProperties();
+	protected Properties getProperties() {
+		Properties properties = null;
+		try {
+		
+			properties = helperRemote.getProperties();
+
+		} catch (Exception e) {
+			doException("创建Helper对象失败", e);
+		}
+		return properties;
+	}
 //
-//		} catch (Exception e) {
-//			doException("创建Helper对象失败", e);
-//		}
-//		return properties;
-//	}
-//
-//	public String getProperty(String name) {
-//		String property = null;
-//		try {
-//			
-//			property = helperRemote.getProperty(name);
-//
-//		} catch (Exception e) {
-//			doException("创建Helper对象失败", e);
-//		}
-//		return property;
-//	}
+	public String getProperty(String name) {
+		String property = null;
+		try {
+			
+			property = helperRemote.getProperty(name);
+
+		} catch (Exception e) {
+			doException("创建Helper对象失败", e);
+		}
+		return property;
+	}
 
 	protected void doException(String errorMsg, Exception e)
 			throws CommonException {
 		logger.error(errorMsg, e);
 		throw new CommonException(errorMsg);
 	}
-
-	/**
-	 * 打开�?个session并绑定到当前线程.
-	 * 
-	 * @deprecated 该方法存在事务管理漏�?,建议改用doInTransaction方法.
-	 */
-//	public Session openHibernateSession() {
-//		logger.debug("open session before dao operation");
-//		SessionFactory sessionFactory = (SessionFactory) getBeanFactory()
-//				.getBean("sessionFactory");
-//		if (!TransactionSynchronizationManager.hasResource(sessionFactory)) {
-//			Session session = getSession(sessionFactory);
-//			logger
-//					.debug("open a new session and bind to current thread, session's hashcode is "
-//							+ session.hashCode());
-//			TransactionSynchronizationManager.bindResource(sessionFactory,
-//					new SessionHolder(session));
-//			Transaction tx = session.beginTransaction();
-//			TransactionSynchronizationManager.bindResource(
-//					TRANSACTION_BINDED_THREAD, tx);
-//			TransactionSynchronizationManager.bindResource(
-//					SESSION_CALLED_TIMES, new Integer(1));
-//			return session;
-//		} else {
-//			logger.debug("fetch a thread binded session");
-//			Integer calledTimes = (Integer) unbindObjectFromTransactionSynchronizationManager(SESSION_CALLED_TIMES);
-//			if (calledTimes != null)
-//				TransactionSynchronizationManager.bindResource(
-//						SESSION_CALLED_TIMES, new Integer(calledTimes
-//								.intValue() + 1));
-//			else
-//				logger
-//						.warn("add session called times failed, for the lost of the callTimes binded with this session");
-//		}
-//		return getSession(sessionFactory);
-//	}
-
-	/**
-	 * 关闭当前线程中的session
-	 * 
-	 * @deprecated 该方法存在事务管理漏�?,建议改用doInTransaction方法.
-	 */
-//	public void closeHibernateSession() {
-//		try {
-//			Integer calledTimes = (Integer) unbindObjectFromTransactionSynchronizationManager(SESSION_CALLED_TIMES);
-//			if (calledTimes != null && calledTimes.intValue() == 1) {
-//				logger
-//						.debug("session created by current thread, commit the transaction");
-//				SessionFactory sessionFactory = (SessionFactory) getBeanFactory()
-//						.getBean("sessionFactory");
-//				logger.debug("execute releaseHibernateSession()");
-//				Session session = getSession(sessionFactory);
-//				unbindObjectFromTransactionSynchronizationManager(sessionFactory);
-//				if (session != null && session.isOpen()) {
-//					logger.debug("Closing single Hibernate Session");
-//					Transaction tx = (Transaction) unbindObjectFromTransactionSynchronizationManager(TRANSACTION_BINDED_THREAD);
-//					tx.commit();
-//					closeSession(session, sessionFactory);
-//					logger.debug("Session " + session.hashCode()
-//							+ " has been close, current session status is "
-//							+ session);
-//				}
-//			} else {
-//				logger
-//						.debug("current thread fetch a existed session, defer transaction commit to thread which session binded");
-//				if (calledTimes != null)
-//					TransactionSynchronizationManager.bindResource(
-//							SESSION_CALLED_TIMES, new Integer(calledTimes
-//									.intValue() - 1));
-//			}
-//		} catch (RuntimeException e) {
-//			Transaction tx = (Transaction) unbindObjectFromTransactionSynchronizationManager(TRANSACTION_BINDED_THREAD);
-//			if (tx != null) {
-//				logger.debug("start to rollback transaction");
-//				tx.rollback();
-//			} else {
-//				logger
-//						.warn("the transaction has lost, so commit transaction action haven't complete.");
-//			}
-//			throw e;
-//		}
-//	}
-
-	private Object unbindObjectFromTransactionSynchronizationManager(Object id) {
-		Object o = TransactionSynchronizationManager.getResource(id);
-		if (o != null)
-			return TransactionSynchronizationManager.unbindResource(id);
-		else
-			return o;
-	}
-
-	private void closeSession(Session session, SessionFactory sessionFactory) {
-		SessionFactoryUtils.releaseSession(session, null);
-	}
-
-	private Session getSession(SessionFactory sessionFactory)
-			throws DataAccessResourceFailureException {
-		Session session = SessionFactoryUtils.getSession(sessionFactory, true);
-		return session;
-	}
-
-	/**
-	 * 事务管理功能,callback中的方法doInHibernate内所有的数据库操作被看做�?个事�?,发生异常回滚�?有数据库操作.
-	 */
-//	public Object doInTransaction(HibernateCallback callback) throws Exception {
-//		Transaction tx = null;
-//		Session session = null;
-//		SessionFactory sessionFactory = (SessionFactory) getBeanFactory()
-//				.getBean("sessionFactory");
-//		boolean sessionBindedToThread = false;
-//		try {
-//			if (!TransactionSynchronizationManager.hasResource(sessionFactory)
-//					&& !sessionCreated.booleanValue()) {
-//				session = getSession(sessionFactory);
-//				sessionCreated = Boolean.TRUE;
-//				logger
-//						.debug("open a new session and bind to current thread, session's hashcode is "
-//								+ session.hashCode());
-//				TransactionSynchronizationManager.bindResource(sessionFactory,
-//						new SessionHolder(session));
-//				tx = session.beginTransaction();
-//			} else {
-//				logger.debug("fetch a thread binded session");
-//				sessionBindedToThread = true;
-//			}
-//
-//			Object result = callback.doInHibernate(session);
-//
-//			if (!sessionBindedToThread) {
-//				logger.debug("Closing single Hibernate Session");
-//				tx.commit();
-//
-//				unbindObjectFromTransactionSynchronizationManager(sessionFactory);
-//				Connection conn = session.connection();
-//				closeSession(session, sessionFactory);
-//				sessionCreated = Boolean.FALSE;
-//				logger.debug("Session " + session.hashCode()
-//						+ "  has been close, current session status is "
-//						+ session + ", connection status is " + conn
-//						+ ", connection close is " + conn.isClosed());
-//			} else {
-//				logger
-//						.debug("current thread fetch a existed session, defer transaction commit to thread which session binded");
-//			}
-//			return result;
-//		} catch (Exception e) {
-//			if (!sessionBindedToThread && tx != null) {
-//				logger.debug("start to rollback transaction");
-//				tx.rollback();
-//				logger.debug("rollback transaction success");
-//			} else {
-//				logger
-//						.debug("session binded by parent thread, defer to rollback in parent thread");
-//			}
-//			throw e;
-//		} finally {
-//			if (!sessionBindedToThread && session != null && session.isOpen()) {
-//				unbindObjectFromTransactionSynchronizationManager(sessionFactory);
-//				if (tx != null && !tx.wasCommitted() && !tx.wasRolledBack()) {
-//					tx.rollback();
-//				}
-//				closeSession(session, sessionFactory);
-//				sessionCreated = Boolean.FALSE;
-//				logger.debug("Session " + session.hashCode()
-//						+ "  has been close, current session status is "
-//						+ session);
-//			}
-//		}
-//	}
 
 	public void handleException(Exception ee) throws BaseException,
 			BaseBusinessException {

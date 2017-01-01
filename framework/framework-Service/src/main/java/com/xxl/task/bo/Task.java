@@ -2,8 +2,8 @@ package com.xxl.task.bo;
 
 import java.util.Calendar;
 
+import com.xxl.baseService.bo.ItModule;
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.task.vo.TaskVO;
 
 public class Task extends BaseBusinessObject {

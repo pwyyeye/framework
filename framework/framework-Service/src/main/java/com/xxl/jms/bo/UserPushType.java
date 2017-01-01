@@ -1,7 +1,7 @@
 package com.xxl.jms.bo;
 
+import com.xxl.baseService.bo.ItModule;
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 
 public class UserPushType extends BaseBusinessObject{
 	private String name;

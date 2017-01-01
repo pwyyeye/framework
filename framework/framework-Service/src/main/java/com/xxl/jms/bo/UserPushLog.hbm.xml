@@ -36,7 +36,7 @@
       <property  name="remark" type="string">
    <column  name="remark"  sql-type="varchar(1024)" />
   </property>
-    <many-to-one name="module" class="common.businessObject.ItModule"
+    <many-to-one name="module" class="com.xxl.baseService.bo.ItModule"
   	column="SYSTEMID" /> 
   <property  name="bzId" type="integer">
    <column length="7" name="bzId"/>

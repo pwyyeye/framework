@@ -10,21 +10,19 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xxl.HibernateUtil;
 import com.xxl.baseService.bo.Favorite;
+import com.xxl.baseService.bo.ItModule;
 import com.xxl.baseService.bo.Menu;
 import com.xxl.baseService.bo.MenuRole;
+import com.xxl.baseService.bo.MessageEvent;
+import com.xxl.baseService.bo.MessageSubscibe;
 import com.xxl.baseService.bo.Notice;
 import com.xxl.baseService.bo.RaBinding;
 import com.xxl.baseService.bo.ReportModule;
@@ -39,12 +37,10 @@ import com.xxl.facade.HelperRemote;
 import com.xxl.facade.ReportRemote;
 import com.xxl.facade.StructureRemote;
 import com.xxl.os.bo.SyOrganise;
-import common.businessObject.ItModule;
-import common.businessObject.MessageEvent;
-import common.businessObject.MessageSubscibe;
 import common.bussiness.User;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
+import common.exception.CommonException;
 import common.os.vo.OrganiseVO;
 import common.os.vo.UsersVO;
 import common.os.vo.exception.OSBussinessException;
@@ -317,7 +313,6 @@ public class AdminService extends BaseService implements AdminRemote{
 
 	public void updateMenu(MenuVO vo) throws BaseException {
 		logger.debug("update it system" + vo);
-		System.out.println(vo.getName());
 		try {
 			//hibernateSession = HibernateUtil.currentSession();
 			Menu menu = (Menu)frameworkDAO.loadBoById(Menu.class, vo.getId());
@@ -1099,7 +1094,6 @@ public class AdminService extends BaseService implements AdminRemote{
 					hasFoundRole = true;
 					UABinding ua = (UABinding) iter.next();
 					Role role = ua.getRole();
-					System.out.println(role.getId()+"------------------------------");
 					roleVO = (RoleVO) role.toVO();
 					logger.debug("create new role=" + roleVO.getId());
 					if (login != null) {

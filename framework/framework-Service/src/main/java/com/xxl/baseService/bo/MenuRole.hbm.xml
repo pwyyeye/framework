@@ -12,7 +12,7 @@
         </property>
         <many-to-one name="menu" class="com.xxl.baseService.bo.Menu" column="ACTIONID"/>
         <many-to-one name="role" class="com.xxl.baseService.bo.Role" column="ROLEID"/>
-        <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+        <many-to-one name="module" class="com.xxl.baseService.bo.ItModule" column="SYSTEMID"/>
         <many-to-one name="organise" class="com.xxl.os.bo.SyOrganise" column="OR_ID"/>
      </class>
   </hibernate-mapping>

@@ -3,12 +3,12 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
 
   <hibernate-mapping>
-     <class name="common.businessObject.MessageEvent" table="EIA_SUBSCIBE_EVENT" dynamic-update="true">
+     <class name="com.xxl.baseService.bo.MessageEvent" table="EIA_SUBSCIBE_EVENT" dynamic-update="true">
         <id name="id" type="int" >
          <column name="SE_ID" sql-type="int" not-null="true"/>
         <generator class="identity"/>
         </id>
-        <many-to-one name="module" class="common.businessObject.ItModule" column="IS_ID"/>
+        <many-to-one name="module" class="com.xxl.baseService.bo.ItModule" column="IS_ID"/>
 
         <property name="name">
         <column name="SE_NAME" sql-type="varchar(20)"/>
@@ -25,7 +25,7 @@
             lazy="false"
             cascade="none">
             <key column="SE_ID"/>
-            <one-to-many class="common.businessObject.MessageSubscibe" />
+            <one-to-many class="com.xxl.baseService.bo.MessageSubscibe" />
         </bag>
      </class>
   </hibernate-mapping>

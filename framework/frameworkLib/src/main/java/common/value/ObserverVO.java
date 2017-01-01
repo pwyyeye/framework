@@ -2,7 +2,6 @@ package common.value;
 
 import java.util.Calendar;
 
-import common.businessObject.MessageEvent;
 import common.os.vo.UsersVO;
 import common.utils.SemAppUtils;
 import common.web.utils.SemWebAppConstants;

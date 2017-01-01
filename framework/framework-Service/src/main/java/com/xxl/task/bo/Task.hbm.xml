@@ -36,7 +36,7 @@
         <property name="remark">
         <column name="REMARK" sql-type="varchar(64)" />
         </property>      
-       <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
+       <many-to-one name="module" class="com.xxl.baseService.bo.ItModule" column="SYSTEMID"/>
 
      </class>
   </hibernate-mapping>

@@ -1,10 +1,9 @@
 package com.xxl.baseService.bo;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import common.businessObject.BaseBusinessObject;
-import common.businessObject.ItModule;
 import common.value.MenuVO;
 
 public class Menu extends BaseBusinessObject {

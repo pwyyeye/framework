@@ -11,21 +11,15 @@ import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xxl.baseService.bo.Favorite;
 import com.xxl.baseService.dao.IFrameworkDao;
 import com.xxl.facade.JMSTaskRemote;
 import com.xxl.facade.TempRemote;
 import com.xxl.temp.bo.TempOrder;
-
-import common.businessObject.ItModule;
-import common.businessObject.MessageEvent;
-import common.businessObject.MessageSubscibe;
 import common.exception.BaseBusinessException;
 import common.exception.BaseException;
 import common.service.BaseService;
 import common.temp.vo.TempOrderVo;
 import common.utils.SemAppUtils;
-import common.value.ObserverVO;
 import common.value.PageList;
 
 @Service("tempRemote")

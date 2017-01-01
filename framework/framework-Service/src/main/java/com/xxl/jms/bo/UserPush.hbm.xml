@@ -14,7 +14,7 @@
   <property name="on" type="integer">
   	<column length="7" name="onFlag" />
   </property>
-  <many-to-one name="module" class="common.businessObject.ItModule"
+  <many-to-one name="module" class="com.xxl.baseService.bo.ItModule"
   	column="SYSTEMID" />
   <many-to-one name="type" class="com.xxl.jms.bo.UserPushType"
   	column="type" />

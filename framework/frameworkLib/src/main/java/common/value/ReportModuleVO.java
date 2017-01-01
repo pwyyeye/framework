@@ -1,7 +1,5 @@
 package common.value;
 
-import common.businessObject.ItModule;
-
 public class ReportModuleVO extends BaseVO {
 	/**
 	 * 

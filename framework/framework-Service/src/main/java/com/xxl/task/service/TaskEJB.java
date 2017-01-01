@@ -1,19 +1,12 @@
 package com.xxl.task.service;
 
-import java.lang.reflect.Method;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.ejb.CreateException;
 import javax.ejb.SessionContext;
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 
@@ -27,20 +20,17 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
-import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
 
 import com.xxl.HibernateUtil;
+import com.xxl.baseService.bo.ItModule;
 import com.xxl.task.bo.Task;
 import com.xxl.task.bo.TaskLog;
-
-import common.businessObject.ItModule;
 import common.exception.BaseBusinessException;
 import common.exception.CommonException;
 import common.service.BaseService;
 import common.task.vo.TaskLogVO;
 import common.task.vo.TaskVO;
 import common.utils.SemAppConstants;
-import common.utils.SemAppUtils;
 import common.value.PageList;
 import common.value.SemMessageObject;
 

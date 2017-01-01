@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
 
   <hibernate-mapping>
-     <class name="common.businessObject.MessageSubscibe" table="EIA_SUBSCIBE" dynamic-update="true">
+     <class name="com.xxl.baseService.bo.MessageSubscibe" table="EIA_SUBSCIBE" dynamic-update="true">
         <id name="id" type="int" >
          <column name="SU_ID" sql-type="int" not-null="true"/>
           <generator class="identity"/>
@@ -23,8 +23,8 @@
          <property name="status">
         <column name="SU_STATUS" sql-type="int" />
         </property>
-      <many-to-one name="module" class="common.businessObject.ItModule" column="SYSTEMID"/>
-      <many-to-one name="event" class="common.businessObject.MessageEvent" column="SE_ID"/>
+      <many-to-one name="module" class="com.xxl.baseService.bo.ItModule" column="SYSTEMID"/>
+      <many-to-one name="event" class="com.xxl.baseService.bo.MessageEvent" column="SE_ID"/>
      </class>
   </hibernate-mapping>
 
