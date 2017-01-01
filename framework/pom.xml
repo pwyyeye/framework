@@ -519,7 +519,7 @@
 		        
 		    </exclusions>  
 		</dependency>
-		
+
 		<!-- jedis -->
 		<dependency>
 		    <groupId>redis.clients</groupId>
