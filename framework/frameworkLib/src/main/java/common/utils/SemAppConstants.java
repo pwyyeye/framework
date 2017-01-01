@@ -7,20 +7,6 @@ public class SemAppConstants {
 	public static final int COMMON_MODULE_ID=6;
 	public static final int ALPHA_MODULE_ID=99;
 	
-	//与ALPHA维护数据相关
-	public final static String ALPHA_ADD_PREFIX="A";
-	public final static String ALPHA_DELETE_PREFIX="D";
-	public final static String ALPHA_UPDATE_PREFIX="U";
-	public final static String ALPHA_TEST_PREFIX="T";
-	public final static int ALPHA_ADD_OPERATION=0;
-	public final static int ALPHA_UPDATE_OPERATION=1;
-	public final static int ALPHA_DELETE_OPERATION=2;
-	public final static int ALPHA_Test_OPERATION=99;
-	
-	public final static String ALPHA_MAILBOX_RECEIVE_PROGRAM="MAILBOXRECEIVE";
-	
-	public final static String ALPHA_PROGRAM_EXECUTE_SUCCESS="0";
-	public final static String ALPHA_PROGRAM_EXECUTE_FAIL="1";
 	public final static int STATUS_OPEN=1;
 	public final static int TYPE_ASYNCH=1;
 	

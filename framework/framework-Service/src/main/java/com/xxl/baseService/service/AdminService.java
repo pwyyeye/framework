@@ -276,13 +276,7 @@ public class AdminService extends BaseService implements AdminRemote{
 		} catch (HibernateException ee) {
 			logger.error(ee);
 			throw new BaseException("数据库异常" + ee.getMessage());
-
-		} finally {
-			try {
-				
-			} catch (HibernateException e) {
-			}
-		}
+		} 
 		return menuVO;
 	}
 
@@ -2307,7 +2301,6 @@ public class AdminService extends BaseService implements AdminRemote{
 	public void onMethod(Integer empId, Integer method) throws BaseException,
 			RemoteException {
 		// refresh online user
-		// this.getMenuByID(method)
 		String name = "";
 		if (method.intValue() >= 0) {
 			MenuVO mvo = this.getMenuByID(method);

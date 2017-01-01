@@ -115,6 +115,8 @@
             <tx:method name="verify*" propagation="REQUIRED" read-only="true" />  
             <tx:method name="log*" propagation="REQUIRED" read-only="true" />   
             <tx:method name="getEofficeLoginUserVO" propagation="NEVER" read-only="true" />   
+            <tx:method name="onMethod" propagation="REQUIRED" read-only="true" /> 
+            
             
             <!-- <tx:method name="*" propagation="REQUIRED" read-only="true" /> -->
         </tx:attributes>  

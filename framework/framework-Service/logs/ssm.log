@@ -1899,4 +1899,20 @@ Caused by: java.net.ConnectException: Connection timed out: connect
   [ERROR] [2017-01-01 20:20:48][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
   [ERROR] [2017-01-01 20:20:48][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
   [ERROR] [2017-01-01 20:20:48][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:33:10][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:33:10][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:33:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:33:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:33:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:33:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:40:35][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 20:40:56][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:40:56][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:41:05][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:41:05][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 20:46:04][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 21:20:43][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2017-01-01 21:20:43][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2017-01-01 21:20:46][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
+  [ERROR] [2017-01-01 21:20:46][com.xxl.baseService.service.AdminService]org.hibernate.ObjectNotFoundException: No row with the given identifier exists: [com.xxl.baseService.bo.Menu#0]
   
