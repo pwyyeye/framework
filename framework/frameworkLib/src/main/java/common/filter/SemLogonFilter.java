@@ -25,6 +25,7 @@ import com.xxl.facade.CommonRemote;
 
 import common.exception.BaseException;
 import common.os.vo.UsersVO;
+import common.redis.RedisUtil;
 import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;
 import common.utils.SpringUtils;

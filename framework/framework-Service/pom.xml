@@ -20,7 +20,7 @@
     	<artifactId>frameworkLib</artifactId>
     	<version>${project.version}</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient -->
+    <!--httpclient -->
 	<dependency>
 	    <groupId>commons-httpclient</groupId>
 	    <artifactId>commons-httpclient</artifactId>
