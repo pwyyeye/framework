@@ -166,7 +166,7 @@ public class SemLogonFilter implements Filter {
 			if (token != null || username != null || openId != null) {
 				// token = token.replaceAll("-", "+");
 				try {
-					InitialContext context = new InitialContext();
+//					InitialContext context = new InitialContext();
 //					CommonHome home = (CommonHome) javax.rmi.PortableRemoteObject
 //							.narrow(context.lookup("ejb/CommonEJB"),
 //									CommonHome.class);

@@ -564,16 +564,16 @@ public class SemAppUtils {
 		return LogFactory.getLog("db." + theClass.getName());
 	}
 	
-	public static String getLogonToken(Integer empID) {
-		try {
-			return commonRemote.getUserToken(empID);
-			// home.remove(common);
-		}  catch (Exception ex2) {
-			ex2.printStackTrace();
-			return null;
-
-		}
-	}
+//	public static String getLogonToken(Integer empID) {
+//		try {
+//			return commonRemote.getUserToken(empID);
+//			// home.remove(common);
+//		}  catch (Exception ex2) {
+//			ex2.printStackTrace();
+//			return null;
+//
+//		}
+//	}
 	
 	public static String getProperty(String name) throws Exception {
 		String property = null;

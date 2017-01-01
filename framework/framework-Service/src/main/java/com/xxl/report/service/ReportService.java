@@ -86,7 +86,7 @@ public class ReportService implements ReportRemote {
 			return reports;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new CommonException("?????????????????????", ee);
+			throw new CommonException("数据库操作失败", ee);
 
 		} finally {
 			try {
@@ -157,7 +157,7 @@ public class ReportService implements ReportRemote {
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new CommonException("?????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -186,8 +186,8 @@ public class ReportService implements ReportRemote {
 					ReportModule.class, reportModuleID);
 			reportVO = (ReportModuleVO) reportModule.toVO();
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
-			throw new CommonException("?????????????????????" + ee.getMessage());
+			logger.error("数据库操作异常", ee);
+			throw new CommonException("数据库操作异常" + ee.getMessage());
 
 		} finally {
 			try {
@@ -201,7 +201,7 @@ public class ReportService implements ReportRemote {
 	public void updateReportModule(ReportModuleVO vo) throws CommonException {
 		logger.debug("update  reportModule" + vo);
 		if (((Integer)vo.getId()).intValue() == vo.getParent().intValue()) {
-			throw new CommonException("????????????????????????ID???????????????ID?????????");
+			throw new CommonException("父报表选择有误，ID号与子报表ID号一样");
 		}
 		Transaction tx = null;
 		try {
@@ -239,7 +239,7 @@ public class ReportService implements ReportRemote {
 		} catch (HibernateException ee) {
 			tx.rollback();
 			logger.error(ee);
-			throw new CommonException("????????IT?????????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -262,7 +262,7 @@ public class ReportService implements ReportRemote {
 		} catch (HibernateException ee) {
 
 			logger.error(ee);
-			throw new CommonException("??????????????????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			if (tx != null)
@@ -344,7 +344,7 @@ public class ReportService implements ReportRemote {
 		} catch (HibernateException ee) {
 			tx.rollback();
 			logger.error(ee);
-			throw new CommonException("?????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -498,10 +498,10 @@ public class ReportService implements ReportRemote {
 							.getRecipientsImplementMethod();
 					if (SemAppUtils.isEmpty(home) || SemAppUtils.isEmpty(jndi)
 							|| SemAppUtils.isEmpty(remoteClass)) {
-						throw new CommonException("?????????EJB?????????????????????,method["
+						throw new CommonException("调用的EJB服务配置不存在,method["
 								+ method + "]jndi[" + jndi + "]servicesHome["
 								+ home + "]servicesRemote[" + remoteClass
-								+ "]????????????");
+								+ "]不能为空");
 					}
 					Object remote = null;
 //					try {
@@ -567,10 +567,10 @@ public class ReportService implements ReportRemote {
 			hibernateSession.update(reportSchedule);
 			tx.commit();
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
+			logger.error("数据库操作失败", ee);
 			if (tx != null)
 				tx.rollback();
-			throw new CommonException("?????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -743,7 +743,7 @@ public class ReportService implements ReportRemote {
 			return pageList;
 		} catch (HibernateException ee) {
 			logger.error(ee);
-			throw new CommonException("?????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -772,8 +772,8 @@ public class ReportService implements ReportRemote {
 					.load(ReportSchedule.class, reportScheduleID);
 			reportVO = (ReportModuleVO) reportSchedule.toVO();
 		} catch (HibernateException ee) {
-			logger.error("?????????????????????", ee);
-			throw new CommonException("?????????????????????" + ee.getMessage());
+			logger.error("数据库操作失败", ee);
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -819,7 +819,7 @@ public class ReportService implements ReportRemote {
 		} catch (HibernateException ee) {
 			tx.rollback();
 			logger.error(ee);
-			throw new CommonException("????????IT?????????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {
@@ -842,7 +842,7 @@ public class ReportService implements ReportRemote {
 		} catch (HibernateException ee) {
 
 			logger.error(ee);
-			throw new CommonException("???????????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			if (tx != null)
@@ -895,7 +895,7 @@ public class ReportService implements ReportRemote {
 		} catch (HibernateException ee) {
 			tx.rollback();
 			logger.error(ee);
-			throw new CommonException("?????????????????????" + ee.getMessage());
+			throw new CommonException("数据库操作失败" + ee.getMessage());
 
 		} finally {
 			try {

@@ -14,12 +14,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.xxl.facade.AdminRemote;
+import com.xxl.facade.CommonRemote;
 
 import common.bussiness.CommonLogger;
 import common.filter.SemLogonInterface;
 import common.os.vo.UsersVO;
 import common.utils.SemAppConstants;
 import common.utils.SemAppUtils;
+import common.utils.SpringUtils;
 import common.value.ItModuleVO;
 import common.web.bean.SessionUserBean;
 import common.web.utils.SemWebAppConstants;
@@ -30,10 +32,12 @@ public class LogonImpl implements SemLogonInterface{
 	public static Log sysLogger = LogFactory.getLog("sys");
 	protected InitialContext context = null;
 	private AdminRemote adminSession;
+	
 	public boolean performLogon(UsersVO user, HttpServletRequest request,Integer roleID) {
 		logger.debug("start perform logon...");
 		try {
-			String token=SemAppUtils.getLogonToken((Integer)user.getId());
+			CommonRemote commonRemote = (CommonRemote) SpringUtils.servletGetBean(request.getSession().getServletContext(), "commonRemote");
+			String token=commonRemote.getUserToken((Integer)user.getId());
 			String moduleStr=(String)request.getSession().getAttribute(SemWebAppConstants.SESSION_MODULE_ID);
 			Integer moduleID=null;
 			try{
@@ -44,6 +48,7 @@ public class LogonImpl implements SemLogonInterface{
 				logger.debug("logon default module");
 				request.getSession().setAttribute(SemWebAppConstants.SESSION_MODULE_ID, "" + moduleID);
 			}
+			adminSession = (AdminRemote) SpringUtils.servletGetBean(request.getSession().getServletContext(), "adminSession");
 			SessionUserBean userBean = adminSession.getSessionUserBean(user,
 					moduleID, "",roleID,token);
 			ItModuleVO module = adminSession.getSystemByID(moduleID);

@@ -1782,4 +1782,78 @@ Caused by: java.net.ConnectException: Connection timed out: connect
   [ERROR] [2016-12-27 23:55:10][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
   [ERROR] [2016-12-27 23:55:10][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
   [ERROR] [2016-12-27 23:55:10][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 17:14:16][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 17:31:33][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 17:37:20][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 17:40:22][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 17:59:07][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 17:59:07][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 17:59:08][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 17:59:08][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:20][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:20][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:24][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:26][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:26][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:28][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:28][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:28][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:28][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:29][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:29][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:33][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:33][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:37][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:37][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:37][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:37][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:38][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:00:38][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:53][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:53][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:54][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:54][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:54][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:54][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:55][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:55][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:56][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:56][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:56][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:56][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:57][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:57][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:58][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:58][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:58][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:58][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:59][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:59][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:59][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:05:59][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:21:51][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:21:51][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:21:53][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:21:53][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:21:53][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:21:53][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:45:32][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 18:45:32][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:18:11][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 19:19:42][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:19:42][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:19:43][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:19:43][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:19:54][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:19:54][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:21:05][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:21:05][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:22:31][com.alibaba.druid.pool.DruidAbstractDataSource]maxIdle is deprecated
+  [ERROR] [2017-01-01 19:23:39][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:23:39][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:23:42][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
+  [ERROR] [2017-01-01 19:23:42][com.xxl.baseService.service.AdminService]org.hibernate.HibernateException: No Session found for current thread
   
